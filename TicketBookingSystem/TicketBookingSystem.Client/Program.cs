@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using TicketBookingSystem.Client;
+using MudBlazor.Services;
 
 namespace TicketBookingSystem.Client
 {
@@ -20,6 +21,8 @@ namespace TicketBookingSystem.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TicketBookingSystem.ServerAPI"));
 
             builder.Services.AddApiAuthorization();
+
+            builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();
         }
