@@ -6,7 +6,7 @@
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 
-<MudThemeProvider />
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -14,13 +14,13 @@
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudSpacer />
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Filled.LightMode : Icons.Filled.DarkMode)" Color="Color.Inherit" OnClick="@((e) => DarkModeToggle())" />
         <AuthorizeView>
             <Authorized>
                 <MudText>Cześć, <MudLink href="authentication/profile" Typo="Typo.subtitle2" Color="Color.Inherit">@context.User.Identity?.Name</MudLink>!</MudText>
                 <MudIconButton Icon="@Icons.Filled.Logout" Color="Color.Inherit" @onclick="BeginSignOut" />
             </Authorized>
             <NotAuthorized>
-                <MudIconButton Icon="@Icons.Filled.AppRegistration" Color="Color.Inherit" href="authentication/register" />
                 <MudIconButton Icon="@Icons.Filled.Login" Color="Color.Inherit" href="authentication/login" />
             </NotAuthorized>
         </AuthorizeView>
@@ -41,10 +41,17 @@
 
 @code {
     bool _drawerOpen = true;
+    private MudTheme _theme = new();
+    private bool _isDarkMode;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    void DarkModeToggle()
+    {
+        _isDarkMode = !_isDarkMode;
     }
 
     private async Task BeginSignOut(MouseEventArgs args)

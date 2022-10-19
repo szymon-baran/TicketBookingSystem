@@ -18,8 +18,4 @@
     <ProjectReference Include="..\TicketBookingSystem.Shared\TicketBookingSystem.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\css\" />
-  </ItemGroup>
-
 </Project>
