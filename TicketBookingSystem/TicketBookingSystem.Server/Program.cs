@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using TicketBookingSystem.Shared.Domain;
 using Microsoft.Extensions.Hosting;
 using TicketBookingSystem.Server.Domain;
 using TicketBookingSystem.Server.EntityFramework;
