@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TicketBookingSystem.Client\TicketBookingSystem.Client.csproj" />
-    <ProjectReference Include="..\TicketBookingSystem.Server.Domain\TicketBookingSystem.Server.Domain.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Shared\TicketBookingSystem.Shared.csproj" />
   </ItemGroup>

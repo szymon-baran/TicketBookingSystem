@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client", "TicketBookingSystem\TicketBookingSystem.Client\TicketBookingSystem.Client.csproj", "{96364040-F983-4353-B548-72D4418A905E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.Domain", "TicketBookingSystem\TicketBookingSystem.Server.Domain\TicketBookingSystem.Server.Domain.csproj", "{7BE31E40-536B-4110-9DD5-EF38F22EDA5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared.Domain", "TicketBookingSystem\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj", "{7BE31E40-536B-4110-9DD5-EF38F22EDA5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.EntityFramework", "TicketBookingSystem\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj", "{14349FB8-B53F-4EAF-B1DC-2C6BA92BAB15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared", "TicketBookingSystem\TicketBookingSystem.Shared\TicketBookingSystem.Shared.csproj", "{7CC162B9-B7A8-4516-BF92-3138DE22D723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7CC162B9-B7A8-4516-BF92-3138DE22D723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CC162B9-B7A8-4516-BF92-3138DE22D723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CC162B9-B7A8-4516-BF92-3138DE22D723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

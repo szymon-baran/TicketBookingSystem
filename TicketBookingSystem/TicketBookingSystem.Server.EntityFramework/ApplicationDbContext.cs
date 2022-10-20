@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using TicketBookingSystem.Server.Domain;
+using System.Net.Sockets;
+using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Server.EntityFramework
 {
@@ -13,5 +14,11 @@ namespace TicketBookingSystem.Server.EntityFramework
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
+
+        DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        DbSet<Artist> Artists { get; set; }
+        DbSet<Event> Events { get; set; }
+        DbSet<Place> Places { get; set; }
+        DbSet<Ticket> Tickets { get; set; }
     }
 }

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TicketBookingSystem.Server.Domain\TicketBookingSystem.Server.Domain.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
   </ItemGroup>
 
 </Project>
