@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using TicketBookingSystem.Server.Domain;
 using TicketBookingSystem.Server.EntityFramework;
 
@@ -29,8 +30,15 @@ namespace TicketBookingSystem
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
-
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
