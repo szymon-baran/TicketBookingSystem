@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared", "TicketBookingSystem\TicketBookingSystem.Shared\TicketBookingSystem.Shared.csproj", "{7CC162B9-B7A8-4516-BF92-3138DE22D723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem\TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
