@@ -8,4 +8,18 @@
     <NotAuthorized>
         <MudAlert Severity="Severity.Info">Aby uzyskać dostęp do pełnej wersji serwisu, zaloguj się <MudLink href="authentication/login" Typo="Typo.subtitle2" Color="Color.Inherit">tutaj</MudLink>.</MudAlert>
     </NotAuthorized>
+    
 </AuthorizeView>
+<MudCarousel Class="mud-width-full" Style="height:400px;" ItemsSource="@_source" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+    <ItemTemplate>
+        <div class="d-flex" style="height:100%">
+            <MudImage Src="@_source[selectedIndex]"></MudImage>
+            <MudText Align="@Align.Center" Class="mx-auto">@context</MudText>
+        </div>
+    </ItemTemplate>
+    
+</MudCarousel>
+@code {
+    private int selectedIndex = 0;
+    IList<string> _source = new List<string>() { @"https://s-trojmiasto.pl/zdj/c/n/9/3037/750x0/3037678-Kizo-podbija-listy-przebojow-swoja-nowa-plyta-pt-Jeszcze-piec__c_0_31_640_515.jpg", "https://pikio.pl/s/i/201902/big/Malik-Montana-Wiki-Instagram-ile-ma-lat-pochodzenie-zarobki-auto-gdzie-mieszka.jpg" };
+}
