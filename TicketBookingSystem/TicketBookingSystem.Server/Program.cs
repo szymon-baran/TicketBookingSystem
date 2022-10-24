@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TicketBookingSystem.Shared.Domain;
 using Microsoft.Extensions.Hosting;
 using TicketBookingSystem.Server.EntityFramework;
+using Microsoft.AspNetCore.Identity;
 
 namespace TicketBookingSystem
 {
@@ -20,6 +21,7 @@ namespace TicketBookingSystem
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()
@@ -32,12 +34,14 @@ namespace TicketBookingSystem
             builder.Services.AddRazorPages();
             var app = builder.Build();
 
-            using (var scope = app.Services.CreateScope())
+            using var scope = app.Services.CreateScope();
             {
                 var services = scope.ServiceProvider;
 
                 var context = services.GetRequiredService<ApplicationDbContext>();
                 context.Database.Migrate();
+
+                CreateRoles(services);
             }
 
             // Configure the HTTP request pipeline.
@@ -64,12 +68,68 @@ namespace TicketBookingSystem
             app.UseAuthentication();
             app.UseAuthorization();
 
-
             app.MapRazorPages();
             app.MapControllers();
             app.MapFallbackToFile("index.html");
 
             app.Run();
         }
+
+        private static void CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            Task<IdentityResult> roleResult;
+            string email = "admin@admin.com";
+
+            Task<bool> hasAdminRole = roleManager.RoleExistsAsync("Administrator");
+            hasAdminRole.Wait();
+
+            if (!hasAdminRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("Administrator"));
+                roleResult.Wait();
+            }
+
+            Task<ApplicationUser> adminUser = userManager.FindByEmailAsync(email);
+            adminUser.Wait();
+
+            if (adminUser.Result == null)
+            {
+                ApplicationUser administrator = new ApplicationUser();
+                administrator.Email = email;
+                administrator.UserName = "admin@admin.com";
+                administrator.EmailConfirmed = true;
+
+                Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "Admin1!");
+                newUser.Wait();
+
+                if (newUser.Result.Succeeded)
+                {
+                    Task<IdentityResult> newUserRole = userManager.AddToRoleAsync(administrator, "Administrator");
+                    newUserRole.Wait();
+                }
+            }
+
+            Task<bool> hasUserRole = roleManager.RoleExistsAsync("User");
+            hasUserRole.Wait();
+
+            if (!hasUserRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("User"));
+                roleResult.Wait();
+            }
+
+            Task<bool> hasEventManagerRole = roleManager.RoleExistsAsync("EventManager");
+            hasEventManagerRole.Wait();
+
+            if (!hasEventManagerRole.Result)
+            {
+                roleResult = roleManager.CreateAsync(new IdentityRole("EventManager"));
+                roleResult.Wait();
+            }
+
+        }
+
     }
 }

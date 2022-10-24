@@ -105,7 +105,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasIndex("Use");
 
-                    b.ToTable("Keys");
+                    b.ToTable("Keys", (string)null);
                 });
 
             modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
@@ -408,7 +408,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasKey("Id");
 
-                    b.ToTable("Artists");
+                    b.ToTable("Artists", (string)null);
                 });
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Event", b =>
@@ -449,7 +449,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasIndex("PlaceId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Place", b =>
@@ -478,7 +478,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasKey("Id");
 
-                    b.ToTable("Places");
+                    b.ToTable("Places", (string)null);
                 });
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Ticket", b =>
@@ -499,7 +499,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
