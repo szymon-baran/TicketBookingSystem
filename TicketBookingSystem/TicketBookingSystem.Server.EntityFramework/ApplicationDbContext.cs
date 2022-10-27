@@ -9,6 +9,10 @@ namespace TicketBookingSystem.Server.EntityFramework
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
+        // Add-Migration -Context ApplicationDbContext -o Migrations <Nazwa migracji>
+        // Update-Database -Context ApplicationDbContext
+        // Remove-Migration -Context ApplicationDbContext
+
         public ApplicationDbContext(
             DbContextOptions options,
             IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)

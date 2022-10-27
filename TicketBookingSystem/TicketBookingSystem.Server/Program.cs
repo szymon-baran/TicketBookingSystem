@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.EntityFrameworkCore;
-using TicketBookingSystem.Shared.Domain;
-using Microsoft.Extensions.Hosting;
-using TicketBookingSystem.Server.EntityFramework;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using TicketBookingSystem.Server.EntityFramework;
+using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem
 {
@@ -20,7 +18,7 @@ namespace TicketBookingSystem
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -32,17 +30,19 @@ namespace TicketBookingSystem
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+
+
             var app = builder.Build();
 
             using var scope = app.Services.CreateScope();
-            {
-                var services = scope.ServiceProvider;
+            
+            var services = scope.ServiceProvider;
 
-                var context = services.GetRequiredService<ApplicationDbContext>();
-                context.Database.Migrate();
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            context.Database.Migrate();
 
-                CreateRoles(services);
-            }
+            CreateRoles(services);
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
