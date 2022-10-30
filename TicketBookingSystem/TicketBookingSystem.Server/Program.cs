@@ -1,6 +1,10 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Application.Services;
+using TicketBookingSystem.Data.Abstraction;
+using TicketBookingSystem.Data.Repositories;
 using TicketBookingSystem.Server.EntityFramework;
 using TicketBookingSystem.Shared.Domain;
 
@@ -30,7 +34,10 @@ namespace TicketBookingSystem
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+            builder.Services.AddHttpClient();
 
+            builder.Services.AddScoped<IArtistService, ArtistService>();
+            builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 
             var app = builder.Build();
 
@@ -40,6 +47,7 @@ namespace TicketBookingSystem
 
             var context = services.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
+
 
             CreateRoles(services);
             

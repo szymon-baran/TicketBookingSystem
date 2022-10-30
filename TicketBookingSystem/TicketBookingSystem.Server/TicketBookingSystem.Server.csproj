@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TicketBookingSystem.Application.Services\TicketBookingSystem.Application.Services.csproj" />
+    <ProjectReference Include="..\..\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Client\TicketBookingSystem.Client.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj" />

@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketBookingSystem.Application.Abstraction\TicketBookingSystem.Application.Abstraction.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -19,10 +19,10 @@ namespace TicketBookingSystem.Server.EntityFramework
         {
         }
 
-        DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        DbSet<Artist> Artists { get; set; }
-        DbSet<Event> Events { get; set; }
-        DbSet<Place> Places { get; set; }
-        DbSet<Ticket> Tickets { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Place> Places { get; set; }
+        public DbSet<Ticket> Tickets { get; set; }
     }
 }

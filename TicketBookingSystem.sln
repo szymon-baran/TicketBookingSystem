@@ -13,7 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared", "TicketBookingSystem\TicketBookingSystem.Shared\TicketBookingSystem.Shared.csproj", "{7CC162B9-B7A8-4516-BF92-3138DE22D723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem\TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem\TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Application.Abstraction", "TicketBookingSystem.Application.Abstraction\TicketBookingSystem.Application.Abstraction.csproj", "{FD3F2373-87D0-4FAB-9D6E-57070E2DA50A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Application.Services", "TicketBookingSystem.Application.Services\TicketBookingSystem.Application.Services.csproj", "{2934529C-E304-4825-85DC-FFD4F9FDA0DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Data.Repositories", "TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj", "{E385D56D-5563-43F6-AB15-C45BA83C7A2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Data.Abstraction", "TicketBookingSystem.Data.Abstraction\TicketBookingSystem.Data.Abstraction.csproj", "{CC3768A3-3770-4A9B-A63D-2672831AD55E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +53,22 @@ Global
 		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16228C1A-838A-4DDE-9DB1-95094797DFF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD3F2373-87D0-4FAB-9D6E-57070E2DA50A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD3F2373-87D0-4FAB-9D6E-57070E2DA50A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD3F2373-87D0-4FAB-9D6E-57070E2DA50A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD3F2373-87D0-4FAB-9D6E-57070E2DA50A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2934529C-E304-4825-85DC-FFD4F9FDA0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2934529C-E304-4825-85DC-FFD4F9FDA0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2934529C-E304-4825-85DC-FFD4F9FDA0DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2934529C-E304-4825-85DC-FFD4F9FDA0DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E385D56D-5563-43F6-AB15-C45BA83C7A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E385D56D-5563-43F6-AB15-C45BA83C7A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E385D56D-5563-43F6-AB15-C45BA83C7A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E385D56D-5563-43F6-AB15-C45BA83C7A2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3768A3-3770-4A9B-A63D-2672831AD55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3768A3-3770-4A9B-A63D-2672831AD55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3768A3-3770-4A9B-A63D-2672831AD55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3768A3-3770-4A9B-A63D-2672831AD55E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
