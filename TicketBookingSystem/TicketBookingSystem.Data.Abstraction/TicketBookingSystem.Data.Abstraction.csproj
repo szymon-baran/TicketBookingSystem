@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TicketBookingSystem\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
   </ItemGroup>
 
 </Project>

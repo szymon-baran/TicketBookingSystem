@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TicketBookingSystem.Data.Abstraction\TicketBookingSystem.Data.Abstraction.csproj" />
-    <ProjectReference Include="..\TicketBookingSystem\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
