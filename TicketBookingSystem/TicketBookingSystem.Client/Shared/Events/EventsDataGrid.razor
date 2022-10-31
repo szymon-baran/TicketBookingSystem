@@ -1,0 +1,39 @@
+﻿@using TicketBookingSystem.Shared.Domain
+@inject IEventService EventService
+
+@if (EventService.Events == null)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+}
+else if (EventService.Events.Count == 0) {
+    <MudText>Brak wydarzeń.</MudText>
+}
+else
+{
+    <MudDataGrid Items="@EventService.Events">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Wydarzenia</MudText>
+        </ToolBarContent>
+
+        <Columns>
+            @*
+        miniatura (jpg)?
+        <Column T="Event" />
+        *@
+            <Column T="Event" Field="Name" Title="Nazwa" />
+            <Column T="Event" Field="EventTime" Title="Data" />
+            <Column T="Event" Field="ArtistId" Title="Artysta" />
+            <Column T="Event" Field="PlaceId" Title="Miejsce" />
+            @*
+        WOLNE BILETY:
+        <Column T="Event" />
+        *@
+        </Columns>
+    </MudDataGrid>
+}
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await EventService.GetEventsList();
+    }
+}

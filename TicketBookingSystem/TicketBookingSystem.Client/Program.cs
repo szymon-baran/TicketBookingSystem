@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using TicketBookingSystem.Client;
 using MudBlazor.Services;
+using TicketBookingSystem.Client;
+using TicketBookingSystem.Client.Abstraction;
+using TicketBookingSystem.Client.Services;
 
 namespace TicketBookingSystem.Client
 {
@@ -19,6 +21,8 @@ namespace TicketBookingSystem.Client
 
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TicketBookingSystem.ServerAPI"));
+
+            builder.Services.AddScoped<IEventService, EventService>();
 
             builder.Services.AddApiAuthorization();
 

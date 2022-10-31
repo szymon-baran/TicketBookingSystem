@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Application.Services;
 using TicketBookingSystem.Data.Abstraction;
@@ -35,22 +38,31 @@ namespace TicketBookingSystem
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
             builder.Services.AddHttpClient();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             builder.Services.AddScoped<IArtistService, ArtistService>();
             builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+            builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<IEventRepository, EventRepository>();
 
             var app = builder.Build();
 
             using var scope = app.Services.CreateScope();
-            
+
             var services = scope.ServiceProvider;
+
 
             var context = services.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
 
 
             CreateRoles(services);
-            
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

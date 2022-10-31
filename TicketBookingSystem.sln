@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Data.Ab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Data.Repositories", "TicketBookingSystem\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj", "{B8FA50EC-CBEC-4784-B767-90EF79E441A2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client.Services", "TicketBookingSystem\TicketBookingSystem.Client.Services\TicketBookingSystem.Client.Services.csproj", "{214C347A-552E-4264-B930-687EA50A5E21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client.Abstraction", "TicketBookingSystem\TicketBookingSystem.Client.Abstraction\TicketBookingSystem.Client.Abstraction.csproj", "{CC9677D9-9577-447B-8B24-CC26338FF8B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{B8FA50EC-CBEC-4784-B767-90EF79E441A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8FA50EC-CBEC-4784-B767-90EF79E441A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8FA50EC-CBEC-4784-B767-90EF79E441A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214C347A-552E-4264-B930-687EA50A5E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214C347A-552E-4264-B930-687EA50A5E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214C347A-552E-4264-B930-687EA50A5E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214C347A-552E-4264-B930-687EA50A5E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9677D9-9577-447B-8B24-CC26338FF8B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9677D9-9577-447B-8B24-CC26338FF8B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9677D9-9577-447B-8B24-CC26338FF8B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9677D9-9577-447B-8B24-CC26338FF8B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
