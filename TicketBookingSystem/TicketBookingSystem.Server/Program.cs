@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Configuration;
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Application.Services;
@@ -38,21 +40,28 @@ namespace TicketBookingSystem
             builder.Services.AddRazorPages();
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             builder.Services.AddHttpClient();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
             CoreBindings.Load(builder.Services);
 
             var app = builder.Build();
 
             using var scope = app.Services.CreateScope();
-            
+
             var services = scope.ServiceProvider;
+
 
             var context = services.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
 
 
             CreateRoles(services);
-            
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
