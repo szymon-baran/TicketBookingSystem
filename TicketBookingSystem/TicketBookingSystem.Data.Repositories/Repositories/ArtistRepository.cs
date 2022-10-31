@@ -10,12 +10,5 @@ namespace TicketBookingSystem.Data.Repositories
         public ArtistRepository(ApplicationDbContext context) : base(context)
         {
         }
-
-        public async Task<List<Artist>> GetArtists()
-        {
-            List<Artist> artists = await _context.Artists.ToListAsync();
-
-            return artists;
-        }
     }
 }

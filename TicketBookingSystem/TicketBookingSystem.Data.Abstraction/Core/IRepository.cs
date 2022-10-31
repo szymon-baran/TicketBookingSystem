@@ -5,6 +5,7 @@ namespace TicketBookingSystem.Data.Abstraction
     public interface IRepository<T> where T : class
     {
         T? GetById(int id);
+        Task<T?> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         IEnumerable<T> GetAll();
         T? Find(int id);
@@ -17,7 +18,7 @@ namespace TicketBookingSystem.Data.Abstraction
         void EditRange(List<T> entities);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
-        int Save();
-        Task<int> SaveAsync();
+        bool Save();
+        Task<bool> SaveAsync();
     }
 }

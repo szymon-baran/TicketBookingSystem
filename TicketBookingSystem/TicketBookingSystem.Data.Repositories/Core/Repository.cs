@@ -67,6 +67,12 @@ namespace TicketBookingSystem.Data.Repositories
         {
             return _context.Set<T>().Find(id);
         }
+
+        public async Task<T?> GetByIdAsync(int id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
         public void Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
@@ -75,14 +81,16 @@ namespace TicketBookingSystem.Data.Repositories
         {
             _context.Set<T>().RemoveRange(entities);
         }
-        public int Save()
+        public bool Save()
         {
-            return _context.SaveChanges();
+            return _context.SaveChanges() > 0;
         }
 
-        public Task<int> SaveAsync()
+        public async Task<bool> SaveAsync()
         {
-            return _context.SaveChangesAsync();
+            int result = await _context.SaveChangesAsync();
+
+            return result > 0;
         }
     }
 }
