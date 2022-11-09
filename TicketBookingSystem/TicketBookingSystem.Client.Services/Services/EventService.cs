@@ -1,6 +1,8 @@
 ﻿using TicketBookingSystem.Client.Abstraction;
 using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
+using TicketBookingSystem.Shared.Application;
+using Microsoft.AspNetCore.Components;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -8,6 +10,7 @@ namespace TicketBookingSystem.Client.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _api = "api/event";
+        private readonly NavigationManager _navigationManager;
 
         public EventService(HttpClient httpClient)
         {
@@ -15,6 +18,7 @@ namespace TicketBookingSystem.Client.Services
         }
 
         public List<Event>? Events { get; set; } = null;
+        public EventAddEditVM Event { get; set; }
 
         public async Task GetEventsList()
         {
@@ -23,6 +27,40 @@ namespace TicketBookingSystem.Client.Services
             {
                 Events = events;
             }
+        }
+
+        public async Task AddEvent(EventAddEditVM model)
+        {
+            var result = await _httpClient.PostAsJsonAsync(_api, model);
+            var response = await result.Content.ReadFromJsonAsync<EventAddEditVM>();
+            Event = response;
+            await GetEventsList();
+            _navigationManager.NavigateTo("events");
+        }
+
+        public async Task<EventAddEditVM> GetEventDetails(int id)
+        {
+            EventAddEditVM? model = await _httpClient.GetFromJsonAsync<EventAddEditVM>($"{_api}/{id}");
+            if (model != null)
+                return model;
+            throw new Exception("Nie znaleziono wydarzenia");
+        }
+
+        public async Task EditEvent(EventAddEditVM model)
+        {
+            var result = await _httpClient.PutAsJsonAsync(_api, model);
+            var response = await result.Content.ReadFromJsonAsync<EventAddEditVM>();
+            Event = response;
+            await GetEventsList();
+            _navigationManager.NavigateTo("events");
+        }
+
+        public async Task DeleteEvent(int id)
+        {
+            var result = await _httpClient.DeleteAsync($"{_api}/{id}");
+            var response = await result.Content.ReadFromJsonAsync<int>();
+            await GetEventsList();
+            _navigationManager.NavigateTo("events");
         }
 
     }

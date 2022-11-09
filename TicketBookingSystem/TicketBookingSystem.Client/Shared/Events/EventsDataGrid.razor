@@ -1,21 +1,24 @@
 ﻿@using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
+@inject NavigationManager NavigationManager
 
 @if (EventService.Events == null)
 {
     <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
 }
-else if (EventService.Events.Count == 0) {
+else if (EventService.Events.Count == 0)
+{
     <MudText>Brak wydarzeń.</MudText>
 }
 else
 {
-    <MudDataGrid Items="@EventService.Events">
+    <MudDataGrid T="Event" Items="@EventService.Events">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Wydarzenia</MudText>
         </ToolBarContent>
 
         <Columns>
+            <HierarchyColumn T="Event" />
             @*
         miniatura (jpg)?
         <Column T="Event" />
@@ -29,11 +32,55 @@ else
         <Column T="Event" />
         *@
         </Columns>
-    </MudDataGrid>
+        <ChildRowContent>
+            <MudCard>
+                <MudCardContent Class="mt-3">
+                    <MudGrid Class="d-flex flex-grow-1 gap-4">
+                        <MudItem xs="4" Class="align-self-center py-4 flex-1">
+                            <MudText Typo="Typo.h6">@context.Item.Name</MudText>
+                            <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height=230 Elevation="50" Class="rounded-lg mt-2" />
+                        </MudItem>
+                        <MudItem xs="5" Class="align-self-center py-4 flex-1">
+                            <MudText Typo="Typo.h6">@context.Item.Artist.NickName</MudText>
+                            <MudText Typo="Typo.body1" Class="mb-2">(@context.Item.Artist.FirstName @context.Item.Artist.LastName)</MudText>
+                            <MudIcon Icon="@Icons.Filled.LocationCity" Title="Lokalizacja" />
+                            <MudText Typo="Typo.body2" Class="ml-1"> @context.Item.Place.Name - @context.Item.Place.City (@context.Item.Place.Country)</MudText>
+                            <MudIcon Icon="@Icons.Filled.Description" Title="Opis" Class="mt-2" />
+                            <MudText Typo="Typo.body2" Class="ml-1"> @(string.IsNullOrEmpty(context.Item.Description) ? "Brak informacji o koncercie, ale z pewnością jest interesujący!" : context.Item.Description)</MudText>
+                                <MudIcon Icon="@Icons.Filled.AccessTime" Title="Już za" Class="mt-2" />
+                                <MudText Typo="Typo.body2" Class="ml-1"> @GetFormattedDateTimeStringLeft(context.Item.EventTime)</MudText>
+                            </MudItem>
+                            <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
+                                <div>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth>Kup bilet</MudButton>
+                                </div>
+                                <div>
+                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth>Edytuj</MudButton>
+                                </div>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCardContent>
+                </MudCard>
+            </ChildRowContent>
+        </MudDataGrid>
 }
 @code {
     protected override async Task OnInitializedAsync()
     {
         await EventService.GetEventsList();
     }
+
+    string GetFormattedDateTimeStringLeft(DateTime dateTime)
+    {
+        TimeSpan timeSpan = dateTime - DateTime.Now;
+        int days = timeSpan.Days;
+        int hours = timeSpan.Hours;
+        int minutes = timeSpan.Minutes;
+        return $"Już za {days} dni, {hours} godzin i {minutes} minut!";
+    }
 }
+<style>
+    .text-align {
+        text-align: center;
+    }
+</style>
