@@ -12,9 +12,10 @@ namespace TicketBookingSystem.Client.Services
         private readonly string _api = "api/event";
         private readonly NavigationManager _navigationManager;
 
-        public EventService(HttpClient httpClient)
+        public EventService(HttpClient httpClient, NavigationManager navigationManager)
         {
             _httpClient = httpClient;
+            _navigationManager = navigationManager;
         }
 
         public List<Event>? Events { get; set; } = null;
@@ -32,10 +33,12 @@ namespace TicketBookingSystem.Client.Services
         public async Task AddEvent(EventAddEditVM model)
         {
             var result = await _httpClient.PostAsJsonAsync(_api, model);
-            var response = await result.Content.ReadFromJsonAsync<EventAddEditVM>();
-            Event = response;
-            await GetEventsList();
-            _navigationManager.NavigateTo("events");
+            var response = await result.Content.ReadFromJsonAsync<Event>();
+            if (response != null)
+            {
+                await GetEventsList();
+                _navigationManager.NavigateTo("events");
+            }
         }
 
         public async Task<EventAddEditVM> GetEventDetails(int id)
@@ -49,10 +52,12 @@ namespace TicketBookingSystem.Client.Services
         public async Task EditEvent(EventAddEditVM model)
         {
             var result = await _httpClient.PutAsJsonAsync(_api, model);
-            var response = await result.Content.ReadFromJsonAsync<EventAddEditVM>();
-            Event = response;
-            await GetEventsList();
-            _navigationManager.NavigateTo("events");
+            var response = await result.Content.ReadFromJsonAsync<Event>();
+            if (response != null)
+            {
+                await GetEventsList();
+                _navigationManager.NavigateTo("events");
+            }
         }
 
         public async Task DeleteEvent(int id)

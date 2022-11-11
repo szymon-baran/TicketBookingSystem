@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TicketBookingSystem.Application.Abstraction\TicketBookingSystem.Application.Abstraction.csproj" />
     <ProjectReference Include="..\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Application\TicketBookingSystem.Shared.Application.csproj" />
   </ItemGroup>
 
 </Project>

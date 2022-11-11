@@ -17,21 +17,25 @@ else
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
             <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
-                <MudTextField T="string" Label="Nazwa zdarzenia" Required="true" RequiredError="Nazwa zdarzenia jest wymagana!" />
-                <MudDatePicker Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
-                <MudTimePicker Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
-               <MudSelect T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
-                   @*@foreach (var artist in ArtistService.Artists) 
-                   {
+                <MudTextField @bind-Value="selectedEvent.Name" T="string" Label="Nazwa zdarzenia" Required="true" RequiredError="Nazwa zdarzenia jest wymagana!" />
+@*                <MudDatePicker @bind-Value="selectedEvent.EventTime" Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
+                <MudTimePicker @bind-Value="selectedEvent.EventTime" Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
+*@                <MudSelect @bind-Value="selectedEvent.ArtistId" T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
+                    @*@foreach (var artist in ArtistService.Artists)
+                    {
                     <MudSelectItem Value="@artist.Value">@artist.Text</MudSelectItem>
-                   }*@
+                    }*@
                     <MudSelectItem Value="1">Test1</MudSelectItem>
                     <MudSelectItem Value="2">Test2</MudSelectItem>
                 </MudSelect>
-                    <div class="d-flex align-center justify-space-between mt-5">
-                        <MudCheckBox T="bool" Required="true" RequiredError="Potwierdź wprowadzone dane" Label="Potwierdzam wprowadzone dane"  />
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@Submit">@submitBtnText</MudButton>
-                    </div>
+                <div class="d-flex align-center justify-space-between mt-5">
+                    <MudCheckBox T="bool" Required="true" RequiredError="Potwierdź wprowadzone dane" Label="Potwierdzam wprowadzone dane" />
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-1" @onclick="(() => Submit())">@submitBtnText</MudButton>
+                    @if (Id != null)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="(() => DeleteEvent())" Class="mt-1">Usuń</MudButton>
+                    }
+                </div>
             </MudForm>
         </MudPaper>
     </MudItem>
@@ -46,11 +50,6 @@ else
     </MudItem>
 </MudGrid>
 
-@if (Id != null)
-{
-    <MudButton Variant="Variant.Filled" Color="Color.Secondary" onclick="DeleteEvent">Usuń</MudButton>
-}
-
 @code {
     [Parameter]
     public int? Id { get; set; }
@@ -60,9 +59,8 @@ else
     bool success;
     string[] errors = { };
 
-    MudForm form;
-
     EventAddEditVM selectedEvent = new();
+    MudForm form;
 
     protected async override Task OnInitializedAsync()
     {
@@ -81,7 +79,7 @@ else
         }
         else
         {
-             if (Id.HasValue)
+            if (Id.HasValue)
                 selectedEvent = await EventService.GetEventDetails(Id.Value);
         }
     }
@@ -90,13 +88,16 @@ else
     {
         await form.Validate();
 
-        if (Id == null)
+        if (form.IsValid)
         {
-            await EventService.AddEvent(selectedEvent);
-        }
-        else
-        {
-            await EventService.EditEvent(selectedEvent);
+            if (Id == null)
+            {
+                await EventService.AddEvent(selectedEvent);
+            }
+            else
+            {
+                await EventService.EditEvent(selectedEvent);
+            }
         }
     }
 

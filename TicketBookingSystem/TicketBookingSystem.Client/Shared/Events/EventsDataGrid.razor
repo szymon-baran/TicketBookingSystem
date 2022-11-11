@@ -55,7 +55,7 @@ else
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth>Kup bilet</MudButton>
                                 </div>
                                 <div>
-                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth>Edytuj</MudButton>
+                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth @onclick="@(() => RouteToEdit(context.Item.Id))">Edytuj</MudButton>
                                 </div>
                             </MudItem>
                         </MudGrid>
@@ -77,6 +77,11 @@ else
         int hours = timeSpan.Hours;
         int minutes = timeSpan.Minutes;
         return $"Już za {days} dni, {hours} godzin i {minutes} minut!";
+    }
+
+    void RouteToEdit(int id)
+    {
+        NavigationManager.NavigateTo($"/event/edit/{id}");
     }
 }
 <style>

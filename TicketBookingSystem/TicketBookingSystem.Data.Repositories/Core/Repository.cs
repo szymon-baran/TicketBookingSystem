@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityModel;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TicketBookingSystem.Data.Abstraction;
 using TicketBookingSystem.Server.EntityFramework;
@@ -25,12 +26,12 @@ namespace TicketBookingSystem.Data.Repositories
 
         public void Edit(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Update(entity);
         }
 
         public void EditRange(List<T> entities)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().UpdateRange(entities);
         }
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
