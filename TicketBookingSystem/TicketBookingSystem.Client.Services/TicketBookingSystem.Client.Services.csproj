@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TicketBookingSystem.Client.Abstraction\TicketBookingSystem.Client.Abstraction.csproj" />
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Application\TicketBookingSystem.Shared.Application.csproj" />
   </ItemGroup>
 
 </Project>
