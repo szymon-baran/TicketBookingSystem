@@ -1,0 +1,35 @@
+﻿@using TicketBookingSystem.Shared.Domain
+@inject IArtistService ArtistService
+
+
+    <MudGrid>
+        @foreach(Artist artist in ArtistService.Artists)
+        {
+        <MudItem xs="3">
+            <MudCard>
+                    <MudCardMedia Image="@(artist.PhotoUrl == "" ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" : artist.PhotoUrl)" Height="200" />
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">@artist.NickName</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                        <MudText Typo="Typo.body1">@artist.FirstName @artist.LastName</MudText>
+                        <MudText Typo="Typo.body1">@artist.PrimaryMusicGenre</MudText>
+                        <MudText Typo="Typo.body1">@artist.SecondaryMusicGenre</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary">Zobacz szczegóły</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        }
+    </MudGrid>
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await ArtistService.GetArtistsList();
+    }
+}

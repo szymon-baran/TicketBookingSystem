@@ -23,6 +23,7 @@ namespace TicketBookingSystem.Client
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TicketBookingSystem.ServerAPI"));
 
             builder.Services.AddScoped<IEventService, EventService>();
+            builder.Services.AddScoped<IArtistService, ArtistService>();
 
             builder.Services.AddApiAuthorization();
 
