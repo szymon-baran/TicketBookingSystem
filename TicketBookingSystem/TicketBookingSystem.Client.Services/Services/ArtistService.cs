@@ -1,6 +1,7 @@
 ﻿using TicketBookingSystem.Client.Abstraction;
 using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
+using Microsoft.AspNetCore.Components;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -14,7 +15,9 @@ namespace TicketBookingSystem.Client.Services
             _httpClient = httpClient;
         }
 
-        public List<Artist>? Artists { get; set; } = new List<Artist>();
+        public List<Artist>? Artists { get; set; } = new();
+
+        public Artist Artist = new();
 
         public async Task GetArtistsList()
         {
@@ -23,6 +26,17 @@ namespace TicketBookingSystem.Client.Services
             {
                 Artists = artists;
             }
+        }
+
+        public async Task<Artist?> GetArtistById(int id)
+        {
+            Artist? artist = await _httpClient.GetFromJsonAsync<Artist?>(_api + $"/getArtistById?id={id}");
+            if (artist != null)
+            {
+                return artist;
+            }
+
+            return null;
         }
 
     }

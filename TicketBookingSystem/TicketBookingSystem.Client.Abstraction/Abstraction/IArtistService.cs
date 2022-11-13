@@ -6,5 +6,6 @@ namespace TicketBookingSystem.Client.Abstraction
     {
         List<Artist> Artists { get; set; }
         Task GetArtistsList();
+        Task<Artist?> GetArtistById(int id);
     }
 }

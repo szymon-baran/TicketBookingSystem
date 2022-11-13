@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client.Abstraction", "TicketBookingSystem\TicketBookingSystem.Client.Abstraction\TicketBookingSystem.Client.Abstraction.csproj", "{CC9677D9-9577-447B-8B24-CC26338FF8B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketBookingSystem.Shared.Application", "TicketBookingSystem\TicketBookingSystem.Shared.Application\TicketBookingSystem.Shared.Application.csproj", "{42FEE0E4-649D-4681-8FB0-CB027B5C5914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared.Application", "TicketBookingSystem\TicketBookingSystem.Shared.Application\TicketBookingSystem.Shared.Application.csproj", "{42FEE0E4-649D-4681-8FB0-CB027B5C5914}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

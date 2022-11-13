@@ -1,6 +1,6 @@
 ﻿@using TicketBookingSystem.Shared.Domain
 @inject IArtistService ArtistService
-
+@inject NavigationManager NavigationManager
 
     <MudGrid>
         @foreach(Artist artist in ArtistService.Artists)
@@ -8,18 +8,14 @@
         <MudItem xs="3">
             <MudCard>
                     <MudCardMedia Image="@(artist.PhotoUrl == "" ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" : artist.PhotoUrl)" Height="200" />
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5">@artist.NickName</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
                 <MudCardContent>
-                        <MudText Typo="Typo.body1">@artist.FirstName @artist.LastName</MudText>
-                        <MudText Typo="Typo.body1">@artist.PrimaryMusicGenre</MudText>
-                        <MudText Typo="Typo.body1">@artist.SecondaryMusicGenre</MudText>
+                    <MudText Typo="Typo.h5">@artist.NickName</MudText>
+                    <MudText Typo="Typo.caption">@artist.FirstName @artist.LastName</MudText>
+                    <MudText Class="mt-4" Typo="Typo.body1">@artist.PrimaryMusicGenre</MudText>
+                    <MudText Typo="Typo.body1">@artist.SecondaryMusicGenre</MudText>
                 </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary">Zobacz szczegóły</MudButton>
+                <MudCardActions Class="mt-n3">
+                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(() => RouteToEdit(@artist.Id))">Zobacz szczegóły</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -31,5 +27,10 @@
     protected override async Task OnInitializedAsync()
     {
         await ArtistService.GetArtistsList();
+    }
+
+    void RouteToEdit(int id)
+    {
+        NavigationManager.NavigateTo($"/artist/{id}");
     }
 }

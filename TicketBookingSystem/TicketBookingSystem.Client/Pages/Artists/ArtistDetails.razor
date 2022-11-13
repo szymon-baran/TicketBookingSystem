@@ -1,0 +1,49 @@
+﻿@page "/artist/{id:int}"
+@using TicketBookingSystem.Shared.Domain
+@inject IArtistService ArtistService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Artyści - @artist.NickName</PageTitle>
+
+@if (@artist.NickName == "" || @artist.LastName == "")
+{
+    <MudText Typo="Typo.h3">Brak artysty o podanym ID</MudText>
+}
+else 
+{
+<MudGrid>
+    <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName</MudText>
+        <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
+        <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudImage Src="@artist.PhotoUrl" Alt="Zdjęcie artysty" Class="rounded-lg mt-1" Fluid="true"></MudImage>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudText Typo="Typo.body1" GutterBottom="true">@artist.Description</MudText>
+    </MudItem>
+    <MudItem xs="12"></MudItem>
+</MudGrid>
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    static Artist? artist = new();
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Artyści", href: "/artists"),
+    };
+
+    protected override async Task OnParametersSetAsync()
+    {
+        artist = await ArtistService.GetArtistById(Id);
+
+
+        _items.Add(new BreadcrumbItem($"{artist.NickName}", href: null, disabled: true));
+    }
+}
