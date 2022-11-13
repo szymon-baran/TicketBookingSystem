@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj" />
+  </ItemGroup>
+
 </Project>

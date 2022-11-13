@@ -1,9 +1,10 @@
 ﻿using TicketBookingSystem.Shared.Dictionaries;
 
-namespace TicketBookingSystem.Application.Abstraction
+namespace TicketBookingSystem.Shared.Application
 {
     public class EditArtistVM
     {
+        public int Id { get; set; }
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string NickName { get; set; } = "";

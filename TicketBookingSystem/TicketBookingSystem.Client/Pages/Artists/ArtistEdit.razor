@@ -1,0 +1,94 @@
+﻿@page "/artist/edit/{id:int}"
+@using TicketBookingSystem.Shared.Dictionaries
+@using TicketBookingSystem.Shared.Domain
+@using TicketBookingSystem.Shared.Application
+@inject IArtistService ArtistService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Artyści - @artistToEdit.NickName</PageTitle>
+
+@if (artistToEdit.NickName == "" || artistToEdit.LastName == "")
+{
+    <MudText Typo="Typo.h3">Brak artysty o podanym ID</MudText>
+}
+else
+{
+    <PageTitle>Edytuj artystę</PageTitle>
+    <MudText Typo="Typo.h3" GutterBottom="true">Edytuj artystę</MudText>
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudPaper Class="pa-4">
+                <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                    <MudTextField @bind-Value="artistToEdit.FirstName" T="string" Label="Imię" Required="false" />
+                    <MudTextField @bind-Value="artistToEdit.LastName" T="string" Label="Nazwisko" Required="false" />
+                    <MudTextField @bind-Value="artistToEdit.NickName" T="string" Label="Pseudonim artystyczny" Required="false" />
+                    <MudTextField @bind-Value="artistToEdit.Description" T="string" Label="Opis" Lines="8" Required="false" />
+                    <MudTextField @bind-Value="artistToEdit.PhotoUrl" T="string" Label="Url zdjęcia" Required="false" />
+                    <MudTextField @bind-Value="artistToEdit.SpotifyUrl" T="string" Label="Url Spotify" Required="false" />
+                    <MudSelect @bind-Value="artistToEdit.PrimaryMusicGenre" Label="Główny gatunek muzyczny" AnchorOrigin="Origin.BottomCenter">
+                        @foreach (MusicGenre item in Enum.GetValues(typeof(MusicGenre)))
+                        {
+                            <MudSelectItem Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudSelect @bind-Value="secondaryMusicGenreValue" Clearable="true" Label="Poboczny gatunek muzyczny" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="-1">Brak</MudSelectItem>
+                        @foreach (int item in Enum.GetValues(typeof(MusicGenre)))
+                        {
+                            <MudSelectItem Value="@item">@Enum.GetName(typeof(MusicGenre), item)</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <div class="d-flex align-center justify-space-between">
+                        <MudCheckBox T="bool" Required="true" RequiredError="Potwierdź wprowadzone dane" Label="Potwierdzam wprowadzone dane" />
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto mt-1" @onclick="(() => Submit())">Edytuj</MudButton>
+                    </div>
+                </MudForm>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private bool success; 
+    private string[] errors = { };
+    private MudForm form;
+    private EditArtistVM? artistToEdit = new();
+    private int secondaryMusicGenreValue;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        artistToEdit = await ArtistService.GetArtistToEdit(Id);
+
+        if (artistToEdit.SecondaryMusicGenre.HasValue)
+        {
+            secondaryMusicGenreValue = (int)artistToEdit.SecondaryMusicGenre.Value;
+        }
+        else 
+        {
+            secondaryMusicGenreValue = -1;
+        }
+    }
+
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            if (secondaryMusicGenreValue == -1)
+            {
+                artistToEdit.SecondaryMusicGenre = null;
+            }
+            else
+            {
+                artistToEdit.SecondaryMusicGenre = (MusicGenre)secondaryMusicGenreValue;
+            }
+            await ArtistService.EditArtist(artistToEdit);
+        }
+    }
+
+}

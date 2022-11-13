@@ -2,17 +2,20 @@
 using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
 using Microsoft.AspNetCore.Components;
+using TicketBookingSystem.Shared.Application;
 
 namespace TicketBookingSystem.Client.Services
 {
     public class ArtistService : IArtistService
     {
         private readonly HttpClient _httpClient;
+        private readonly NavigationManager _navigationManager;
         private readonly string _api = "api/artist";
 
-        public ArtistService(HttpClient httpClient)
+        public ArtistService(HttpClient httpClient, NavigationManager navigationManager)
         {
             _httpClient = httpClient;
+            _navigationManager = navigationManager;
         }
 
         public List<Artist>? Artists { get; set; } = new();
@@ -39,5 +42,24 @@ namespace TicketBookingSystem.Client.Services
             return null;
         }
 
+        public async Task<EditArtistVM?> GetArtistToEdit(int id)
+        {
+            EditArtistVM? artist = await _httpClient.GetFromJsonAsync<EditArtistVM?>(_api + $"/getArtistById?id={id}");
+            if (artist != null)
+            {
+                return artist;
+            }
+
+            return null;
+        }
+
+        public async Task EditArtist(EditArtistVM model)
+        {
+            var result = await _httpClient.PutAsJsonAsync(_api + $"/editArtist", model);
+            if (result.IsSuccessStatusCode)
+            {
+                _navigationManager.NavigateTo("artists");
+            }
+        }
     }
 }

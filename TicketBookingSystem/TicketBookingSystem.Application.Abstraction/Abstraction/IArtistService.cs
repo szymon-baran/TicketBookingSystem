@@ -7,7 +7,7 @@ namespace TicketBookingSystem.Application.Abstraction
         Task<Artist> GetArtistById(int id);
         Task<List<Artist>> GetArtists();
         Task<int> AddArtist(Artist artist);
-        Task<bool> EditArtist(Artist artist, int id);
+        Task<bool> EditArtist(Artist artist);
         Task<bool> DeleteArtist(int id);
     }
 }

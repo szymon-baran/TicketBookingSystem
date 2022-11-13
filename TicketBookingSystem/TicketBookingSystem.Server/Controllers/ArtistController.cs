@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Server.Controllers
@@ -47,11 +48,11 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpPut("editArtist")]
-        public async Task<IActionResult> EditArtist(EditArtistVM model, int id)
+        public async Task<IActionResult> EditArtist(EditArtistVM model)
         {
             Artist artist = _mapper.Map<Artist>(model);
 
-            bool result = await _artistService.EditArtist(artist, id);
+            bool result = await _artistService.EditArtist(artist);
             if (!result)
             {
                 return BadRequest("Błąd przy próbie zaktualizowania danych");

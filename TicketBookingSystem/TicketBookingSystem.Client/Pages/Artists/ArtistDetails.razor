@@ -3,7 +3,7 @@
 @inject IArtistService ArtistService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Artyści - @artist.NickName</PageTitle>
+<PageTitle>@artist.NickName</PageTitle>
 
 @if (@artist.NickName == "" || @artist.LastName == "")
 {
@@ -14,7 +14,7 @@ else
 <MudGrid>
     <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
     <MudItem xs="12">
-        <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName</MudText>
+            <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName</MudText>
         <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
         <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
     </MudItem>

@@ -37,9 +37,9 @@ namespace TicketBookingSystem.Application.Services
             return addedArtistId;
         }
 
-        public async Task<bool> EditArtist(Artist artist, int id)
+        public async Task<bool> EditArtist(Artist artist)
         {
-            Artist artistToUpdate = await _artistRepository.GetByIdAsync(id);
+            Artist artistToUpdate = await _artistRepository.GetByIdAsync(artist.Id);
 
             artistToUpdate.FirstName = artist.FirstName;
             artistToUpdate.LastName = artist.LastName;
