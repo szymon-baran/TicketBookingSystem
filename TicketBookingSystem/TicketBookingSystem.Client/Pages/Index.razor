@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using TicketBookingSystem.Shared.Domain
+@inject IEventService EventService
 
 <PageTitle>Strona główna</PageTitle>
 
@@ -10,16 +12,28 @@
     </NotAuthorized>
     
 </AuthorizeView>
-<MudCarousel Class="mud-width-full" Style="height:400px;" ItemsSource="@_source" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+<MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
     <ItemTemplate>
-        <div class="d-flex" style="height:100%">
-            <MudImage Src="@_source[selectedIndex]"></MudImage>
-            <MudText Align="@Align.Center" Class="mx-auto">@context</MudText>
+        <div class="d-flex flex-column flex-column" style="height:100%">
+            <MudText Align="Align.Center" Style="font-size:20px;">@eventNames[selectedIndex]</MudText>
+            <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" Src="@eventPhotoUrls[selectedIndex]" Fluid="true"></MudImage>
         </div>
     </ItemTemplate>
     
 </MudCarousel>
 @code {
     private int selectedIndex = 0;
-    IList<string> _source = new List<string>() { @"https://s-trojmiasto.pl/zdj/c/n/9/3037/750x0/3037678-Kizo-podbija-listy-przebojow-swoja-nowa-plyta-pt-Jeszcze-piec__c_0_31_640_515.jpg", "https://pikio.pl/s/i/201902/big/Malik-Montana-Wiki-Instagram-ile-ma-lat-pochodzenie-zarobki-auto-gdzie-mieszka.jpg" };
+    List<string> eventPhotoUrls = new();
+    List<string> eventNames = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await EventService.GetEventsList();
+
+        foreach (var item in EventService.Events)
+        {
+            eventPhotoUrls.Add(item.PhotoUrl);
+            eventNames.Add(item.Name);
+        }
+    }
 }
