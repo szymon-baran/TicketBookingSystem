@@ -54,14 +54,18 @@ namespace TicketBookingSystem
             using var scope = app.Services.CreateScope();
 
             var services = scope.ServiceProvider;
-
-
-            var context = services.GetRequiredService<ApplicationDbContext>();
-            context.Database.Migrate();
-
+            try
+            {
+                var context = services.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+                Seed.LoadInitialData(context);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred during migration");
+            }
 
             CreateRoles(services);
-
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

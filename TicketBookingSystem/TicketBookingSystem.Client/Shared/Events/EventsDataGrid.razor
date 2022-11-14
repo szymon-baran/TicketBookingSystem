@@ -40,7 +40,7 @@ else
                             <MudText Typo="Typo.h6">@context.Item.Name</MudText>
                             @if (!string.IsNullOrEmpty(context.Item.PhotoUrl))
                             {
-                                <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height=230 Elevation="50" Class="rounded-lg mt-2" />
+                                <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height="230" Elevation="50" Fluid="true" Class="rounded-lg mt-2" />
                             }
                         </MudItem>
                         <MudItem xs="5" Class="align-self-center py-4 flex-1">
