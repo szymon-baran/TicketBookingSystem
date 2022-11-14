@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Shared.Dictionaries", "TicketBookingSystem\TicketBookingSystem.Shared.Dictionaries\TicketBookingSystem.Shared.Dictionaries.csproj", "{16228C1A-838A-4DDE-9DB1-95094797DFF1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Application.Abstraction", "TicketBookingSystem\TicketBookingSystem.Application.Abstraction\TicketBookingSystem.Application.Abstraction.csproj", "{349A3261-DA67-4AC7-B7B7-A19E5320A020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.Application.Abstraction", "TicketBookingSystem\TicketBookingSystem.Application.Abstraction\TicketBookingSystem.Server.Application.Abstraction.csproj", "{349A3261-DA67-4AC7-B7B7-A19E5320A020}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Application.Services", "TicketBookingSystem\TicketBookingSystem.Application.Services\TicketBookingSystem.Application.Services.csproj", "{813AA738-9A8F-40F1-9542-5D686659B21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.Application.Services", "TicketBookingSystem\TicketBookingSystem.Application.Services\TicketBookingSystem.Server.Application.Services.csproj", "{813AA738-9A8F-40F1-9542-5D686659B21E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Data.Abstraction", "TicketBookingSystem\TicketBookingSystem.Data.Abstraction\TicketBookingSystem.Data.Abstraction.csproj", "{471EE4FD-72C1-44EF-A4AA-0D2312D92786}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.Data.Abstraction", "TicketBookingSystem\TicketBookingSystem.Data.Abstraction\TicketBookingSystem.Server.Data.Abstraction.csproj", "{471EE4FD-72C1-44EF-A4AA-0D2312D92786}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Data.Repositories", "TicketBookingSystem\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Data.Repositories.csproj", "{B8FA50EC-CBEC-4784-B767-90EF79E441A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Server.Data.Repositories", "TicketBookingSystem\TicketBookingSystem.Data.Repositories\TicketBookingSystem.Server.Data.Repositories.csproj", "{B8FA50EC-CBEC-4784-B767-90EF79E441A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketBookingSystem.Client.Services", "TicketBookingSystem\TicketBookingSystem.Client.Services\TicketBookingSystem.Client.Services.csproj", "{214C347A-552E-4264-B930-687EA50A5E21}"
 EndProject
