@@ -9,23 +9,30 @@
 {
     <MudText Typo="Typo.h3">Brak artysty o podanym ID</MudText>
 }
-else 
+else
 {
-<MudGrid>
-    <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
-    <MudItem xs="12">
-            <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName</MudText>
-        <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
-        <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
-    </MudItem>
-    <MudItem md="6" xs="12">
-        <MudImage Src="@artist.PhotoUrl" Alt="Zdjęcie artysty" Class="rounded-lg mt-1" Fluid="true"></MudImage>
-    </MudItem>
-    <MudItem md="6" xs="12">
-        <MudText Typo="Typo.body1" GutterBottom="true">@artist.Description</MudText>
-    </MudItem>
-    <MudItem xs="12"></MudItem>
-</MudGrid>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+        </MudItem>
+        <MudItem xs="8">
+            <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName </MudText>
+            <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
+            <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
+        </MudItem>
+        <MudItem xs="4">
+            @if (!string.IsNullOrEmpty(artist.SpotifyUrl))
+            {
+                <iframe class="rounded-lg" src="@($"https://open.spotify.com/embed/artist/{artist.SpotifyUrl}?utm_source=generator")" style="height: 80px !important;" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            }
+        </MudItem>
+        <MudItem md="6" xs="12">
+            <MudImage Src="@artist.PhotoUrl" Alt="Zdjęcie artysty" Class="rounded-lg mt-1 image" Fluid="true"></MudImage>
+        </MudItem>
+        <MudItem md="6" xs="12">
+            <MudText Typo="Typo.body1" GutterBottom="true">@artist.Description</MudText>
+        </MudItem>
+    </MudGrid>
 }
 
 
@@ -33,6 +40,7 @@ else
     [Parameter]
     public int Id { get; set; }
     static Artist? artist = new();
+
     private List<BreadcrumbItem> _items = new()
     {
         new BreadcrumbItem("Strona główna", href: "#"),
@@ -47,3 +55,9 @@ else
         _items.Add(new BreadcrumbItem($"{artist.NickName}", href: null, disabled: true));
     }
 }
+
+<style>
+    .image {
+        max-height: 32em;
+    }
+</style>
