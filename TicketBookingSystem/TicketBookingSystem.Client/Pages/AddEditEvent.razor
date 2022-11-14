@@ -80,7 +80,11 @@ else
         else
         {
             if (Id.HasValue)
+            {
                 selectedEvent = await EventService.GetEventDetails(Id.Value);
+                dateTime = selectedEvent.EventTime.Date;
+                timeSpan = selectedEvent.EventTime.TimeOfDay;
+            }
         }
     }
 
