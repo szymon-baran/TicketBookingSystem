@@ -1,13 +1,30 @@
 ﻿@page "/events"
 @using TicketBookingSystem.Client.Shared.Events
+@inject NavigationManager NavigationManager
 
 <PageTitle>Wydarzenia</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Wydarzenia</MudText>
-<MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
+<MudGrid>
+    <MudItem xs="10">
+        <MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
+    </MudItem>
+    <MudItem xs="2" Class="right-align mb-2">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>
+    </MudItem>
+</MudGrid>
 
 <EventsDataGrid></EventsDataGrid>
 
 @code {
-
+    void RouteToAdd()
+    {
+        NavigationManager.NavigateTo($"/event/add");
+    }
 }
+
+<style>
+    .right-align {
+        text-align: right;
+    }
+</style>

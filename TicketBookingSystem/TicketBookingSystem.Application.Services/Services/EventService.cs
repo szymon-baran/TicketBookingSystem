@@ -26,7 +26,7 @@ namespace TicketBookingSystem.Application.Services
                 EventTime = model.EventTime,
                 PhotoUrl = model.PhotoUrl,
                 ArtistId = model.ArtistId,
-                PlaceId = model.PlaceId
+                PlaceId = 1
             };
             _eventRepository.Add(@event);
             await _eventRepository.SaveAsync();

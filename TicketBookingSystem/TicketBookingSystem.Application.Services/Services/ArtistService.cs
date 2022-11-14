@@ -65,5 +65,11 @@ namespace TicketBookingSystem.Application.Services
 
             return result;
         }
+
+        public async Task<Dictionary<int, string>> GetArtistsToSelectList()
+        {
+            IEnumerable<Artist> artists = await _artistRepository.GetAllAsync();
+            return artists.ToDictionary(x => x.Id, x => x.NickName);
+        }
     }
 }

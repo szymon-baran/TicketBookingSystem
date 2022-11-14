@@ -25,9 +25,9 @@ else
         *@
             <Column T="Event" Field="Name" Title="Nazwa" />
             <Column T="Event" Field="EventTime" Title="Data" />
-            <Column T="Event" Field="ArtistId" Title="Artysta" />
+@*            <Column T="Event" Field="ArtistId" Title="Artysta" />
             <Column T="Event" Field="PlaceId" Title="Miejsce" />
-            @*
+*@            @*
         WOLNE BILETY:
         <Column T="Event" />
         *@
@@ -38,7 +38,10 @@ else
                     <MudGrid Class="d-flex flex-grow-1 gap-4">
                         <MudItem xs="4" Class="align-self-center py-4 flex-1">
                             <MudText Typo="Typo.h6">@context.Item.Name</MudText>
-                            <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height=230 Elevation="50" Class="rounded-lg mt-2" />
+                            @if (!string.IsNullOrEmpty(context.Item.PhotoUrl))
+                            {
+                                <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height=230 Elevation="50" Class="rounded-lg mt-2" />
+                            }
                         </MudItem>
                         <MudItem xs="5" Class="align-self-center py-4 flex-1">
                             <MudText Typo="Typo.h6">@context.Item.Artist.NickName</MudText>

@@ -19,6 +19,7 @@ namespace TicketBookingSystem.Client.Services
         }
 
         public List<Artist>? Artists { get; set; } = new();
+        public Dictionary<int, string>? ArtistsToSelectList { get; set; } = new();
 
         public Artist Artist = new();
 
@@ -60,6 +61,13 @@ namespace TicketBookingSystem.Client.Services
             {
                 _navigationManager.NavigateTo("artists");
             }
+        }
+
+        public async Task GetArtistsToSelectList()
+        {
+            Dictionary<int, string> dictionary = await _httpClient.GetFromJsonAsync<Dictionary<int, string>>(_api + "/getArtistsToSelectList");
+            if (dictionary != null)
+                ArtistsToSelectList = dictionary;
         }
     }
 }

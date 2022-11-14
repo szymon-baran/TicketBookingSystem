@@ -2,6 +2,7 @@
 @page "/event/edit/{id:int}"
 @using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
+@inject IArtistService ArtistService
 
 @if (Id == null)
 {
@@ -18,15 +19,13 @@ else
         <MudPaper Class="pa-4">
             <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
                 <MudTextField @bind-Value="selectedEvent.Name" T="string" Label="Nazwa zdarzenia" Required="true" RequiredError="Nazwa zdarzenia jest wymagana!" />
-@*                <MudDatePicker @bind-Value="selectedEvent.EventTime" Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
-                <MudTimePicker @bind-Value="selectedEvent.EventTime" Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
-*@                <MudSelect @bind-Value="selectedEvent.ArtistId" T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
-                    @*@foreach (var artist in ArtistService.Artists)
+                <MudDatePicker @bind-Date="dateTime" Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
+                <MudTimePicker @bind-Time="timeSpan" Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
+                <MudSelect @bind-Value="selectedEvent.ArtistId" T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
+                    @foreach (var artist in ArtistService.ArtistsToSelectList)
                     {
-                    <MudSelectItem Value="@artist.Value">@artist.Text</MudSelectItem>
-                    }*@
-                    <MudSelectItem Value="1">Test1</MudSelectItem>
-                    <MudSelectItem Value="2">Test2</MudSelectItem>
+                    <MudSelectItem Value="@artist.Key">@artist.Value</MudSelectItem>
+                    }
                 </MudSelect>
                 <div class="d-flex align-center justify-space-between mt-5">
                     <MudCheckBox T="bool" Required="true" RequiredError="Potwierdź wprowadzone dane" Label="Potwierdzam wprowadzone dane" />
@@ -60,15 +59,16 @@ else
     string[] errors = { };
 
     EventAddEditVM selectedEvent = new();
+
+    DateTime? dateTime = DateTime.Today;
+    TimeSpan? timeSpan = DateTime.Now.TimeOfDay;
+
     MudForm form;
 
     protected async override Task OnInitializedAsync()
     {
+        ArtistService.GetArtistsToSelectList();
         submitBtnText = Id == null ? "Dodaj" : "Edytuj";
-        // await ArtistService.GetArtistsToSelectList();
-        // toy.ArtistId ??= ArtistService.ArtistsToSelectList.FirstOrDefault().Key;
-        // await PlaceService.GetPlacesToSelectList();
-        // toy.PlaceId ??= PlaceService.PlacesToSelectList.FirstOrDefault().Key;
     }
 
     protected async override Task OnParametersSetAsync()
@@ -90,6 +90,7 @@ else
 
         if (form.IsValid)
         {
+            selectedEvent.EventTime = new DateTime(dateTime.Value.Year, dateTime.Value.Month, dateTime.Value.Day, timeSpan.Value.Hours, timeSpan.Value.Minutes, 0);
             if (Id == null)
             {
                 await EventService.AddEvent(selectedEvent);

@@ -72,5 +72,11 @@ namespace TicketBookingSystem.Server.Controllers
 
             return Ok();
         }
+
+        [HttpGet("getArtistsToSelectList")]
+        public async Task<ActionResult<Dictionary<int, string>>> GetArtistsToSelectList()
+        {
+            return Ok(await _artistService.GetArtistsToSelectList());
+        }
     }
 }
