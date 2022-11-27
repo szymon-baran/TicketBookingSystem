@@ -1,13 +1,30 @@
-﻿@using TicketBookingSystem.Client.Shared.Artists
-@page "/artists"
+﻿@page "/artists"
+@using TicketBookingSystem.Client.Shared.Artists
+@inject NavigationManager NavigationManager
 
 <PageTitle>Artyści</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Artyści</MudText>
-<MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej.</MudText>
+<MudGrid>
+    <MudItem xs="10">
+        <MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej!</MudText>
+    </MudItem>
+    <MudItem xs="2" Class="right-align mb-2">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>
+    </MudItem>
+</MudGrid>
 
 <ArtistsDataGrid></ArtistsDataGrid>
 
 @code {
-
+    void RouteToAdd()
+    {
+        NavigationManager.NavigateTo($"/artist/add");
+    }
 }
+
+<style>
+    .right-align {
+        text-align: right;
+    }
+</style>

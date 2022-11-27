@@ -9,8 +9,7 @@ namespace TicketBookingSystem.Server
     {
         public AutoMapperProfiles()
         {
-            CreateMap<AddArtistVM, Artist>();
-            CreateMap<EditArtistVM, Artist>();
+            CreateMap<ArtistAddEditVM, Artist>();
         }
     }
 }

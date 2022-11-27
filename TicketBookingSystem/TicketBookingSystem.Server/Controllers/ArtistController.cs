@@ -38,7 +38,7 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpPost("addArtist")]
-        public async Task<IActionResult> AddArtist(AddArtistVM model)
+        public async Task<IActionResult> AddArtist(ArtistAddEditVM model)
         {
             Artist artist = _mapper.Map<Artist>(model);
 
@@ -48,7 +48,7 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpPut("editArtist")]
-        public async Task<IActionResult> EditArtist(EditArtistVM model)
+        public async Task<IActionResult> EditArtist(ArtistAddEditVM model)
         {
             Artist artist = _mapper.Map<Artist>(model);
 

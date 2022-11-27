@@ -10,4 +10,8 @@
     <ProjectReference Include="..\TicketBookingSystem.Shared.Domain\TicketBookingSystem.Shared.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

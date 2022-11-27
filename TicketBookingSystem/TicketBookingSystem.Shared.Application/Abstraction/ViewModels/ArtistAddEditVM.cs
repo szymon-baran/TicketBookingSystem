@@ -2,7 +2,7 @@
 
 namespace TicketBookingSystem.Shared.Application
 {
-    public class EditArtistVM
+    public class ArtistAddEditVM
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = "";

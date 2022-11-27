@@ -43,9 +43,9 @@ namespace TicketBookingSystem.Client.Services
             return null;
         }
 
-        public async Task<EditArtistVM?> GetArtistToEdit(int id)
+        public async Task<ArtistAddEditVM?> GetArtistToEdit(int id)
         {
-            EditArtistVM? artist = await _httpClient.GetFromJsonAsync<EditArtistVM?>(_api + $"/getArtistById?id={id}");
+            ArtistAddEditVM? artist = await _httpClient.GetFromJsonAsync<ArtistAddEditVM?>(_api + $"/getArtistById?id={id}");
             if (artist != null)
             {
                 return artist;
@@ -54,7 +54,7 @@ namespace TicketBookingSystem.Client.Services
             return null;
         }
 
-        public async Task EditArtist(EditArtistVM model)
+        public async Task EditArtist(ArtistAddEditVM model)
         {
             var result = await _httpClient.PutAsJsonAsync(_api + $"/editArtist", model);
             if (result.IsSuccessStatusCode)
@@ -69,5 +69,19 @@ namespace TicketBookingSystem.Client.Services
             if (dictionary != null)
                 ArtistsToSelectList = dictionary;
         }
+
+        public async Task AddArtist(ArtistAddEditVM model)
+        {
+            var result = await _httpClient.PostAsJsonAsync(_api + "/addArtist", model);
+            var response = await result.Content.ReadFromJsonAsync<int?>();
+
+            if (response != null)
+            {
+                await GetArtistsList();
+                _navigationManager.NavigateTo("artists");
+            }
+
+        }
+
     }
 }

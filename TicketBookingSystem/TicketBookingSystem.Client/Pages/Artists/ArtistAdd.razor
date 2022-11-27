@@ -1,0 +1,75 @@
+﻿@page "/artist/add"
+@using TicketBookingSystem.Shared.Dictionaries
+@using TicketBookingSystem.Shared.Domain
+@using TicketBookingSystem.Shared.Application
+@inject IArtistService ArtistService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Dodaj artystę</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Dodaj artystę</MudText>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudTextField @bind-Value="artistToAdd.FirstName" T="string" Label="Imię" Required="true" />
+                <MudTextField @bind-Value="artistToAdd.LastName" T="string" Label="Nazwisko" Required="true" />
+                <MudTextField @bind-Value="artistToAdd.NickName" T="string" Label="Pseudonim artystyczny" Required="false" />
+                <MudTextField @bind-Value="artistToAdd.Description" T="string" Label="Opis" Lines="8" Required="false" />
+                <MudTextField @bind-Value="artistToAdd.PhotoUrl" T="string" Label="Url zdjęcia" Required="false" />
+                <MudTextField @bind-Value="artistToAdd.SpotifyUrl" T="string" Label="Url Spotify" Required="false" />
+                <MudSelect @bind-Value="artistToAdd.PrimaryMusicGenre" Label="Główny gatunek muzyczny" AnchorOrigin="Origin.BottomCenter">
+                    @foreach (MusicGenre item in Enum.GetValues(typeof(MusicGenre)))
+                    {
+                        <MudSelectItem Value="@item">@item</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudSelect @bind-Value="secondaryMusicGenreValue" Clearable="true" Label="Poboczny gatunek muzyczny" AnchorOrigin="Origin.BottomCenter">
+                    <MudSelectItem Value="-1">Brak</MudSelectItem>
+                    @foreach (int item in Enum.GetValues(typeof(MusicGenre)))
+                    {
+                        <MudSelectItem Value="@item">@Enum.GetName(typeof(MusicGenre), item)</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudNumericField @bind-Value="artistToAdd.AverageFanbaseAge" Label="Średni wiek słuchacza" Variant="Variant.Text" Min="3" Max="100" />
+                <div class="d-flex align-center justify-space-between">
+                    <MudCheckBox T="bool" Required="true" RequiredError="Potwierdź wprowadzone dane" Label="Potwierdzam wprowadzone dane" />
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!success)" Class="ml-auto mt-1" @onclick="(() => Submit())">Dodaj</MudButton>
+                </div>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private bool success;
+    private string[] errors = { };
+    private MudForm form;
+    private ArtistAddEditVM? artistToAdd = new();
+    private int secondaryMusicGenreValue;
+
+
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            if (secondaryMusicGenreValue == -1)
+            {
+                artistToAdd.SecondaryMusicGenre = null;
+            }
+            else
+            {
+                artistToAdd.SecondaryMusicGenre = (MusicGenre)secondaryMusicGenreValue;
+            }
+            await ArtistService.AddArtist(artistToAdd);
+        }
+    }
+
+}
