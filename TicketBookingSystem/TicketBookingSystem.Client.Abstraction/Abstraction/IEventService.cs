@@ -10,6 +10,7 @@ namespace TicketBookingSystem.Client.Abstraction
         Task GetEventsList();
         Task AddEvent(EventAddEditVM model);
         Task<EventAddEditVM> GetEventDetails(int id);
+        Task<TicketPurchaseEventDetailsVM> GetEventDetailsForTicketPurchase(int id);
         Task EditEvent(EventAddEditVM model);
         Task DeleteEvent(int id);
     }

@@ -1,0 +1,95 @@
+﻿@using TicketBookingSystem.Shared.Domain
+@inject IEventService EventService
+@inject ITicketService TicketService
+@inject NavigationManager NavigationManager
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 600px; overflow-y: scroll">
+            @if (_isLoading)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body1">@_model.ArtistNickName</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body1">@_model.PlaceName - @_model.PlaceCity (@_model.PlaceCountry)</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">@_model.Description</MudText>
+                    </MudItem>
+                    <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" aria-label="add" @onclick="AddNewTicket"></MudIconButton>
+                    <MudForm @ref="_form" @bind-IsValid="@_success">
+                        @foreach (var item in model) 
+                        {
+                            <MudItem xs="4" Class="mt-2">
+                                <MudTextField @bind-Value="item.OwnerFirstName" Label="Imię" Variant="Variant.Text" Required="true" RequiredError="Imię jest wymagane!" />
+                            </MudItem>
+                            <MudItem xs="4" Class="mt-2">
+                                <MudTextField @bind-Value="item.OwnerLastName" Label="Nazwisko" Variant="Variant.Text" Required="true" RequiredError="Nazwisko jest wymagane!" />
+                            </MudItem>
+                            <MudItem xs="4" Class="mt-2">
+                                <MudNumericField @bind-Value="item.OwnerPESEL" Label="Nazwisko" Variant="Variant.Text" Required="true" RequiredError="PESEL jest wymagany!" />
+                            </MudItem>
+                            <MudItem xs="6" Class="mt-1">
+                                tickettype
+                            </MudItem>
+                            <MudItem xs="6" Class="mt-1">
+                                issittingspot
+                            </MudItem>
+                        }
+                  </MudForm>
+                </MudGrid>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Potwierdź zakup</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [CascadingParameter] 
+    MudDialogInstance MudDialog { get; set; }
+
+    private bool _isLoading = true;
+    private TicketPurchaseEventDetailsVM _model;
+    private MudForm _form;
+    private bool _success;
+    public List<BuyTicketVM> model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        model.Add(new BuyTicketVM());
+        _model = await EventService.GetEventDetailsForTicketPurchase(Id);
+        _isLoading = false;
+    }
+
+    void AddNewTicket() 
+    {
+        var lastItem = model.Last();
+        if (!string.IsNullOrWhiteSpace(lastItem.OwnerFirstName) && !string.IsNullOrWhiteSpace(lastItem.OwnerLastName) && lastItem.OwnerPESEL != null) 
+        {
+            model.Add(new BuyTicketVM());
+        }
+    }
+
+    async Task Submit()
+    {
+        if (_form.IsValid)
+        {
+            await TicketService.BuyTicket(model);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

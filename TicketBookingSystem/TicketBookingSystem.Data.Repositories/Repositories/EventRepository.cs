@@ -18,5 +18,14 @@ namespace TicketBookingSystem.Data.Repositories
                                         .ToListAsync();
             return events;
         }
+
+        public async Task<Event> GetEventDetailsForTicketPurchase(int id)
+        {
+            Event @event = await _context.Events.Where(x => x.Id == id)
+                                        .Include(x => x.Artist)
+                                        .Include(x => x.Place)
+                                        .FirstOrDefaultAsync();
+            return @event;
+        }
     }
 }

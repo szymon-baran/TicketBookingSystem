@@ -49,6 +49,14 @@ namespace TicketBookingSystem.Client.Services
             throw new Exception("Nie znaleziono wydarzenia");
         }
 
+        public async Task<TicketPurchaseEventDetailsVM> GetEventDetailsForTicketPurchase(int id)
+        {
+            TicketPurchaseEventDetailsVM? model = await _httpClient.GetFromJsonAsync<TicketPurchaseEventDetailsVM>($"{_api}/purchaseDetails/{id}");
+            if (model != null)
+                return model;
+            throw new Exception("Nie znaleziono wydarzenia");
+        }
+
         public async Task EditEvent(EventAddEditVM model)
         {
             var result = await _httpClient.PutAsJsonAsync(_api, model);

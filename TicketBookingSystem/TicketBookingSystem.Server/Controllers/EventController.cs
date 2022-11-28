@@ -25,6 +25,9 @@ namespace TicketBookingSystem.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<EventAddEditVM>> GetEventDetails(int id) => Ok(await _eventService.GetEventDetailsVM(id));
 
+        [HttpGet("purchaseDetails/{id}")]
+        public async Task<ActionResult<TicketPurchaseEventDetailsVM>> GetEventDetailsForTicketPurchase(int id) => Ok(await _eventService.GetEventDetailsVMForTicketPurchase(id));
+
         [HttpPut]
         public async Task<ActionResult<Event>> EditEvent(EventAddEditVM model) => Ok(await _eventService.EditEvent(model));
 
