@@ -488,14 +488,14 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BuyerId1")
+                    b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsSittingSpot")
+                        .HasColumnType("bit");
 
                     b.Property<string>("OwnerFirstName")
                         .HasColumnType("nvarchar(max)");
@@ -511,7 +511,7 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BuyerId1");
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("EventId");
 
@@ -590,9 +590,9 @@ namespace TicketBookingSystem.Server.EntityFramework
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Ticket", b =>
                 {
-                    b.HasOne("TicketBookingSystem.Shared.Domain.ApplicationUser", "Buyer")
-                        .WithMany()
-                        .HasForeignKey("BuyerId1");
+                    b.HasOne("TicketBookingSystem.Shared.Domain.ApplicationUser", "ApplicationUser")
+                        .WithMany("Tickets")
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("TicketBookingSystem.Shared.Domain.Event", "Event")
                         .WithMany("Tickets")
@@ -600,9 +600,14 @@ namespace TicketBookingSystem.Server.EntityFramework
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Buyer");
+                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Event");
+                });
+
+            modelBuilder.Entity("TicketBookingSystem.Shared.Domain.ApplicationUser", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Artist", b =>

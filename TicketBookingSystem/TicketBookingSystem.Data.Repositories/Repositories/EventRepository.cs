@@ -27,5 +27,14 @@ namespace TicketBookingSystem.Data.Repositories
                                         .FirstOrDefaultAsync();
             return @event;
         }
+
+        public async Task SynchronizeTicketsNums(int eventId, int boughtSitting, int boughtStanding)
+        {
+            Event @event = _context.Events.FirstOrDefault(x => x.Id == eventId) ?? throw new Exception("No data");
+            @event.AvailableSittingTickets -= boughtSitting;
+            @event.AvailableStandingTickets -= boughtStanding;
+            _context.Update(@event);
+            await _context.SaveChangesAsync();
+        }
     }
 }

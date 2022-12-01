@@ -8,18 +8,18 @@ namespace TicketBookingSystem.Server.EntityFramework.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "BuyerId",
-                table: "Tickets",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.AddColumn<string>(
-                name: "BuyerId1",
+                name: "ApplicationUserId",
                 table: "Tickets",
                 type: "nvarchar(450)",
                 nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsSittingSpot",
+                table: "Tickets",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
                 name: "OwnerFirstName",
@@ -41,14 +41,14 @@ namespace TicketBookingSystem.Server.EntityFramework.Migrations
                 defaultValue: 0L);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_BuyerId1",
+                name: "IX_Tickets_ApplicationUserId",
                 table: "Tickets",
-                column: "BuyerId1");
+                column: "ApplicationUserId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Tickets_AspNetUsers_BuyerId1",
+                name: "FK_Tickets_AspNetUsers_ApplicationUserId",
                 table: "Tickets",
-                column: "BuyerId1",
+                column: "ApplicationUserId",
                 principalTable: "AspNetUsers",
                 principalColumn: "Id");
         }
@@ -56,19 +56,19 @@ namespace TicketBookingSystem.Server.EntityFramework.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Tickets_AspNetUsers_BuyerId1",
+                name: "FK_Tickets_AspNetUsers_ApplicationUserId",
                 table: "Tickets");
 
             migrationBuilder.DropIndex(
-                name: "IX_Tickets_BuyerId1",
+                name: "IX_Tickets_ApplicationUserId",
                 table: "Tickets");
 
             migrationBuilder.DropColumn(
-                name: "BuyerId",
+                name: "ApplicationUserId",
                 table: "Tickets");
 
             migrationBuilder.DropColumn(
-                name: "BuyerId1",
+                name: "IsSittingSpot",
                 table: "Tickets");
 
             migrationBuilder.DropColumn(

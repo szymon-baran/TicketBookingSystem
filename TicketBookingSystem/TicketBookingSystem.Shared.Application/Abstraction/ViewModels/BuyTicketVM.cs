@@ -7,7 +7,7 @@ namespace TicketBookingSystem.Shared.Application
         public string OwnerFirstName { get; set; }
         public string OwnerLastName { get; set; }
         public long OwnerPESEL { get; set; }
-        public TicketType TicketType { get; set; }
-        public bool IsSittingSpot { get; set; }
+        public TicketType TicketType { get; set; } = TicketType.Normal;
+        public bool IsSittingSpot { get; set; } = false;
     }
 }

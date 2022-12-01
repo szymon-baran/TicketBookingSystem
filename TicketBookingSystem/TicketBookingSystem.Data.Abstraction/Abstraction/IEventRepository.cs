@@ -6,5 +6,6 @@ namespace TicketBookingSystem.Data.Abstraction
     {
         Task<List<Event>> GetEventsAsync();
         Task<Event> GetEventDetailsForTicketPurchase(int id);
+        Task SynchronizeTicketsNums(int eventId, int boughtSitting, int boughtStanding);
     }
 }

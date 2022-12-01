@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
 using TicketBookingSystem.Shared.Application;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -20,7 +21,7 @@ namespace TicketBookingSystem.Client.Services
 
         public List<Ticket>? Tickets { get; set; } = null;
 
-        public async Task BuyTicket(List<BuyTicketVM> model)
+        public async Task BuyTicket(BuyOperationVM model)
         {
             var result = await _httpClient.PostAsJsonAsync(_api, model);
             var response = await result.Content.ReadFromJsonAsync<int>();

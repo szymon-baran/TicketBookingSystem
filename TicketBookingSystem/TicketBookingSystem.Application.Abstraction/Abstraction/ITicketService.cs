@@ -5,6 +5,6 @@ namespace TicketBookingSystem.Application.Abstraction
 {
     public interface ITicketService
     {
-        Task<int> BuyTicket(BuyTicketVM model);
+        Task<int> BuyTicket(BuyOperationVM model, string userId);
     }
 }

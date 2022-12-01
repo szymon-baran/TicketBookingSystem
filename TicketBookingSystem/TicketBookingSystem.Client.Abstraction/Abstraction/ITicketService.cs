@@ -1,4 +1,5 @@
-﻿using TicketBookingSystem.Shared.Application;
+﻿using System.Threading.Tasks;
+using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Client.Abstraction
@@ -6,6 +7,6 @@ namespace TicketBookingSystem.Client.Abstraction
     public interface ITicketService
     {
         List<Ticket> Tickets { get; set; }
-        Task BuyTicket(List<BuyTicketVM> model);
+        Task BuyTicket(BuyOperationVM model);
     }
 }

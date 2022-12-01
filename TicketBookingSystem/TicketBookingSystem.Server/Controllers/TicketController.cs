@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
@@ -7,7 +9,7 @@ namespace TicketBookingSystem.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TicketController : Controller
+    public class TicketController : ControllerBase
     {
         private readonly ITicketService _ticketService;
 
@@ -17,6 +19,10 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> BuyTicket(BuyTicketVM model) => Ok(await _ticketService.BuyTicket(model));
+        public async Task<ActionResult<int>> BuyTicket(BuyOperationVM model)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok(await _ticketService.BuyTicket(model, userId));
+        }
     }
 }

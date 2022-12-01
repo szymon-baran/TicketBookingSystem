@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
@@ -11,6 +12,7 @@ namespace TicketBookingSystem.Server
         {
             CreateMap<AddArtistVM, Artist>();
             CreateMap<EditArtistVM, Artist>();
+            CreateMap<BuyTicketVM, Ticket>();
         }
     }
 }
