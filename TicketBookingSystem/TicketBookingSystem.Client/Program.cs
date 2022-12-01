@@ -1,8 +1,10 @@
+using App.Client.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 using MudBlazor.Services;
-using TicketBookingSystem.Client;
 using TicketBookingSystem.Client.Abstraction;
 using TicketBookingSystem.Client.Services;
 
@@ -25,7 +27,13 @@ namespace TicketBookingSystem.Client
             builder.Services.AddScoped<IEventService, EventService>();
             builder.Services.AddScoped<IArtistService, ArtistService>();
 
+            builder.Services.AddAuthorizationCore();
             builder.Services.AddApiAuthorization();
+            builder.Services.TryAddEnumerable(
+                ServiceDescriptor.Singleton<
+                    IPostConfigureOptions<RemoteAuthenticationOptions<ApiAuthorizationProviderOptions>>,
+                    ApiAuthorizationOptionsConfiguration>());
+
 
             builder.Services.AddMudServices();
 

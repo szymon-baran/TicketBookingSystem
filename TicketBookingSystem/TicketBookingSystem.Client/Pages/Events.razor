@@ -9,9 +9,11 @@
     <MudItem xs="10">
         <MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
     </MudItem>
+    <AuthorizeView Roles="Administrator">
     <MudItem xs="2" Class="right-align mb-2">
         <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>
     </MudItem>
+    </AuthorizeView>
 </MudGrid>
 
 <EventsDataGrid></EventsDataGrid>

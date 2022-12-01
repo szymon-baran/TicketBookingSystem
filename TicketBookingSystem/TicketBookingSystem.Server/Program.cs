@@ -11,6 +11,7 @@ using TicketBookingSystem.Data.Repositories;
 using TicketBookingSystem.Server;
 using TicketBookingSystem.Server.EntityFramework;
 using TicketBookingSystem.Shared.Domain;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace TicketBookingSystem
 {
@@ -31,7 +32,11 @@ namespace TicketBookingSystem
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options => {
+                    options.IdentityResources["openid"].UserClaims.Add("role");
+                    options.ApiResources.Single().UserClaims.Add("role");
+                });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("role");
 
             builder.Services.AddAuthentication()
                 .AddIdentityServerJwt();
@@ -46,6 +51,8 @@ namespace TicketBookingSystem
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
+
+            builder.Services.AddAuthorization();
 
             CoreBindings.Load(builder.Services);
 
@@ -90,6 +97,7 @@ namespace TicketBookingSystem
             app.UseIdentityServer();
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.MapRazorPages();
             app.MapControllers();
