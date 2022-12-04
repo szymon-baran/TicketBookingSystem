@@ -15,7 +15,9 @@
                 </MudCardContent>
                 <MudCardActions Class="mt-n3">
                     <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(() => RouteToDetails(@artist.Id))">Szczegóły</MudButton>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(() => RouteToEdit(@artist.Id))">Edytuj</MudButton>
+                    <AuthorizeView Roles="Administrator">
+                        <MudButton Variant="Variant.Text" Color="Color.Primary" @onclick="@(() => RouteToEdit(@artist.Id))">Edytuj</MudButton>
+                    </AuthorizeView>
                 </MudCardActions>
             </MudCard>
         </MudItem>

@@ -10,7 +10,6 @@
     <NotAuthorized>
         <MudAlert Severity="Severity.Info">Aby uzyskać dostęp do pełnej wersji serwisu, zaloguj się <MudLink href="authentication/login" Typo="Typo.subtitle2" Color="Color.Inherit">tutaj</MudLink>.</MudAlert>
     </NotAuthorized>
-    
 </AuthorizeView>
 <MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
     <ItemTemplate>
@@ -19,7 +18,6 @@
             <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" Src="@eventPhotoUrls[selectedIndex]" Fluid="true"></MudImage>
         </div>
     </ItemTemplate>
-    
 </MudCarousel>
 @code {
     private int selectedIndex = 0;

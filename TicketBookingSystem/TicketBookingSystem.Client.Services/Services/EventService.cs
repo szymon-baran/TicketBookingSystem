@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
 using TicketBookingSystem.Shared.Application;
 using Microsoft.AspNetCore.Components;
+using System.Net.Http;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -11,11 +12,13 @@ namespace TicketBookingSystem.Client.Services
         private readonly HttpClient _httpClient;
         private readonly string _api = "api/event";
         private readonly NavigationManager _navigationManager;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public EventService(HttpClient httpClient, NavigationManager navigationManager)
+        public EventService(HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory httpClientFactory)
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
+            _httpClientFactory = httpClientFactory;
         }
 
         public List<Event>? Events { get; set; } = null;
@@ -23,7 +26,8 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task GetEventsList()
         {
-            List<Event>? events = await _httpClient.GetFromJsonAsync<List<Event>>(_api);
+            var client = _httpClientFactory.CreateClient("TicketBookingSystem.PublicServerAPI");
+            List<Event>? events = await client.GetFromJsonAsync<List<Event>>(_api);
             if (events != null)
             {
                 Events = events;

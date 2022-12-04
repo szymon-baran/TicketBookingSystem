@@ -25,9 +25,9 @@ else
         *@
             <Column T="Event" Field="Name" Title="Nazwa" />
             <Column T="Event" Field="EventTime" Title="Data" />
-@*            <Column T="Event" Field="ArtistId" Title="Artysta" />
-            <Column T="Event" Field="PlaceId" Title="Miejsce" />
-*@            @*
+            @*            <Column T="Event" Field="ArtistId" Title="Artysta" />
+        <Column T="Event" Field="PlaceId" Title="Miejsce" />
+        *@            @*
         WOLNE BILETY:
         <Column T="Event" />
         *@
@@ -57,9 +57,11 @@ else
                                 <div>
                                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth>Kup bilet</MudButton>
                                 </div>
-                                <div>
-                                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth @onclick="@(() => RouteToEdit(context.Item.Id))">Edytuj</MudButton>
-                                </div>
+                                <AuthorizeView Context="authorizeContext" Roles="Administrator">
+                                    <div>
+                                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth @onclick="@(() => RouteToEdit(context.Item.Id))">Edytuj</MudButton>
+                                    </div>
+                                </AuthorizeView>
                             </MudItem>
                         </MudGrid>
                     </MudCardContent>
