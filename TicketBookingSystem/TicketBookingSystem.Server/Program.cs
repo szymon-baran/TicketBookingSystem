@@ -41,6 +41,15 @@ namespace TicketBookingSystem
             builder.Services.AddAuthentication()
                 .AddIdentityServerJwt();
 
+            builder.Services.AddCors(policy =>
+            {
+                policy.AddPolicy("CorsPolicy", opt => opt
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .WithExposedHeaders("X-Pagination"));
+            });
+
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);

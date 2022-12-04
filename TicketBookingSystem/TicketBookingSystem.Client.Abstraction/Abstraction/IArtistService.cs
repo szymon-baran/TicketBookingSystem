@@ -1,13 +1,14 @@
-﻿using TicketBookingSystem.Shared.Application;
+﻿using TicketBookingSystem.Client.Abstraction.Helpers;
+using TicketBookingSystem.Shared;
+using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Client.Abstraction
 {
     public interface IArtistService
     {
-        List<Artist> Artists { get; set; }
         Dictionary<int, string>? ArtistsToSelectList { get; set; }
-        Task GetArtistsList();
+        Task<PagingResponse<Artist>> GetArtistsList(PaginationParameters paginationParameters);
         Task<Artist?> GetArtistById(int id);
         Task<ArtistAddEditVM?> GetArtistToEdit(int id);
         Task EditArtist(ArtistAddEditVM model);

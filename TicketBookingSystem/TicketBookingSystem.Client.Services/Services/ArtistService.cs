@@ -3,6 +3,9 @@ using System.Net.Http.Json;
 using TicketBookingSystem.Shared.Domain;
 using Microsoft.AspNetCore.Components;
 using TicketBookingSystem.Shared.Application;
+using TicketBookingSystem.Shared;
+using TicketBookingSystem.Client.Abstraction.Helpers;
+using System.Text.Json;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -18,18 +21,27 @@ namespace TicketBookingSystem.Client.Services
             _navigationManager = navigationManager;
         }
 
-        public List<Artist>? Artists { get; set; } = new();
         public Dictionary<int, string>? ArtistsToSelectList { get; set; } = new();
 
         public Artist Artist = new();
 
-        public async Task GetArtistsList()
+        public async Task<PagingResponse<Artist>> GetArtistsList(PaginationParameters paginationParameters)
         {
-            List<Artist>? artists = await _httpClient.GetFromJsonAsync<List<Artist>>(_api + "/getArtists");
-            if (artists != null)
+            var response = await _httpClient.GetAsync(_api + $"/getArtists?pageNumber={paginationParameters.PageNumber}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
             {
-                Artists = artists;
+                throw new ApplicationException(content);
             }
+
+            var pagingResponse = new PagingResponse<Artist>
+            {
+                Items = JsonSerializer.Deserialize<List<Artist>>(content),
+                MetaData = JsonSerializer.Deserialize<PaginationMetaData>(response.Headers.GetValues("X-Pagination").First())
+            };
+
+            return pagingResponse;
+            
         }
 
         public async Task<Artist?> GetArtistById(int id)
@@ -77,7 +89,7 @@ namespace TicketBookingSystem.Client.Services
 
             if (response != null)
             {
-                await GetArtistsList();
+                await GetArtistsList(new PaginationParameters());
                 _navigationManager.NavigateTo("artists");
             }
 

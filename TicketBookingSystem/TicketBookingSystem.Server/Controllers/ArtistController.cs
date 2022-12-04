@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Shared;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 
@@ -30,9 +32,11 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpGet("getArtists")]
-        public async Task<IActionResult> GetArtists()
+        public async Task<IActionResult> GetArtists([FromQuery] PaginationParameters paginationParameters)
         {
-            List<Artist> artists = await _artistService.GetArtists();
+            var artists = await _artistService.GetArtists(paginationParameters);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(artists.MetaData));
 
             return Ok(artists);
         }
