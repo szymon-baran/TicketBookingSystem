@@ -24,8 +24,8 @@ namespace TicketBookingSystem.Shared.Application
         {
             return TicketType switch
             {
-                TicketType.Normal => IsSittingSpot ? StandingTicketPrice : SittingTicketPrice,
-                TicketType.Reduced => ReducedDiscount * (IsSittingSpot ? StandingTicketPrice : SittingTicketPrice),
+                TicketType.Normal => IsSittingSpot ? SittingTicketPrice : StandingTicketPrice,
+                TicketType.Reduced => ReducedDiscount * (IsSittingSpot ? SittingTicketPrice : StandingTicketPrice),
                 TicketType.Free => 0
             };
         }

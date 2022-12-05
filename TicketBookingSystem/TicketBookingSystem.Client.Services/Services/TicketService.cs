@@ -19,7 +19,16 @@ namespace TicketBookingSystem.Client.Services
             _navigationManager = navigationManager;
         }
 
-        public List<Ticket>? Tickets { get; set; } = null;
+        public List<ReservedTicketVM>? Tickets { get; set; } = null;
+
+        public async Task GetTicketsList()
+        {
+            List<ReservedTicketVM>? tickets = await _httpClient.GetFromJsonAsync<List<ReservedTicketVM>>(_api);
+            if (tickets != null)
+            {
+                Tickets = tickets;
+            }
+        }
 
         public async Task BuyTicket(BuyOperationVM model)
         {

@@ -18,6 +18,14 @@ namespace TicketBookingSystem.Server.Controllers
             _ticketService = ticketService;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<List<ReservedTicketVM>>> GetTickets()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok(await _ticketService.GetReservedTicketsVMAsync(userId));
+        }
+
+
         [HttpPost]
         public async Task<ActionResult<int>> BuyTicket(BuyOperationVM model)
         {

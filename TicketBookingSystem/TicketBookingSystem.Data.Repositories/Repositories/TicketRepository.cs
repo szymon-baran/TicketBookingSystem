@@ -10,5 +10,12 @@ namespace TicketBookingSystem.Data.Repositories
         public TicketRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public async Task<List<Ticket>> GetTicketsAsync(string userId)
+        {
+            return await _context.Tickets.Where(x => x.ApplicationUserId == userId)
+                                        .Include(x => x.Event)
+                                        .ToListAsync();
+        }
     }
 }

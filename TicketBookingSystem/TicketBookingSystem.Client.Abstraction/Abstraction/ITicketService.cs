@@ -6,7 +6,8 @@ namespace TicketBookingSystem.Client.Abstraction
 {
     public interface ITicketService
     {
-        List<Ticket> Tickets { get; set; }
+        List<ReservedTicketVM> Tickets { get; set; }
+        Task GetTicketsList();
         Task BuyTicket(BuyOperationVM model);
     }
 }
