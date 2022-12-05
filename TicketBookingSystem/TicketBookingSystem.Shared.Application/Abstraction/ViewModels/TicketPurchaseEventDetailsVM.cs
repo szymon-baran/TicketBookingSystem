@@ -15,5 +15,8 @@
         public int AvailableStandingTickets { get; set; }
         public int MaxSittingTicketsForPlace { get; set; }
         public int MaxStandingTicketsForPlace { get; set; }
+        public double SittingTicketPrice { get; set; }
+        public double StandingTicketPrice { get; set; }
+        public double ReducedDiscount { get; set; }
     }
 }

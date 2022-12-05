@@ -152,7 +152,10 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Description = "Koncert Kizo w Warszawie rozpoczynający jego nową trasę koncertową!",
                     PhotoUrl = "https://gfx.dlastudenta.pl/photo_new/5b1/c8e/d5a/cfb/1565355",
                     AvailableSittingTickets = 1,
-                    AvailableStandingTickets = 6
+                    AvailableStandingTickets = 6,
+                    SittingTicketPrice = 200,
+                    StandingTicketPrice = 100,
+                    ReducedDiscount = 0.5
                 },
                 new Event
                 {
@@ -164,7 +167,10 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Description = "To wyjątkowy koncert, zarówno pod względem muzycznym, jak i wizualnym, podczas którego Artystce towarzyszyć będzie 10-osobowa orkiestra smyczkowa POLISH SOLOISTS oraz jeden z jej muzycznych idoli.",
                     PhotoUrl = "https://bi.im-g.pl/im/51/33/1a/z27472977IER,sanah.jpg",
                     AvailableSittingTickets = 100,
-                    AvailableStandingTickets = 0
+                    AvailableStandingTickets = 0,
+                    SittingTicketPrice = 80,
+                    StandingTicketPrice = 60.50,
+                    ReducedDiscount = 0.25
                 },
                 new Event
                 {
@@ -176,7 +182,10 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Description = "Zobacz na własne oczy artystę, który po od wielu latach powraca do Polski!",
                     PhotoUrl = "https://rytmy.pl/wp-content/uploads/2022/07/kanye-west-koncert-e1657092428108.jpg",
                     AvailableSittingTickets = 200,
-                    AvailableStandingTickets = 50
+                    AvailableStandingTickets = 50,
+                    SittingTicketPrice = 2000,
+                    StandingTicketPrice = 1900,
+                    ReducedDiscount = 0
                 }
             };
 

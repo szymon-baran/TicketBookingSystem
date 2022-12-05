@@ -65,7 +65,10 @@ namespace TicketBookingSystem.Application.Services
                 AvailableSittingTickets = @event.AvailableSittingTickets,
                 AvailableStandingTickets = @event.AvailableStandingTickets,
                 MaxSittingTicketsForPlace = @event.Place.MaxSittingCapacity,
-                MaxStandingTicketsForPlace = @event.Place.MaxStandingCapacity
+                MaxStandingTicketsForPlace = @event.Place.MaxStandingCapacity,
+                SittingTicketPrice = @event.SittingTicketPrice,
+                StandingTicketPrice = @event.StandingTicketPrice,
+                ReducedDiscount = @event.ReducedDiscount,
             };
         }
 

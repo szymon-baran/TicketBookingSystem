@@ -43,7 +43,7 @@
                                     <MudItem xs="4" Class="mt-2">
                                         <MudNumericField HideSpinButtons="true" @bind-Value="item.OwnerPESEL" Label="PESEL" Variant="Variant.Text" Required="true" RequiredError="PESEL jest wymagany!" />
                                     </MudItem>
-                                    <MudItem xs="6" Class="mt-1">
+                                    <MudItem xs="4" Class="mt-1">
                                         <MudSelect @bind-Value="item.TicketType" Label="Typ biletu">
                                             @foreach (TicketType ticketType in Enum.GetValues(typeof(TicketType)))
                                             {
@@ -51,8 +51,11 @@
                                             }
                                         </MudSelect>
                                     </MudItem>
-                                    <MudItem xs="6" Class="mt-1">
+                                    <MudItem xs="4" Class="mt-1">
                                         <MudCheckBox @bind-Checked="@item.IsSittingSpot" Color="Color.Primary" Label="Miejsce siedzące"></MudCheckBox>
+                                    </MudItem>
+                                    <MudItem xs="2" Class="mt-1">
+                                        <MudText Typo="Typo.body1">@item.Price PLN</MudText>
                                     </MudItem>
                                 </MudGrid>
                             }
@@ -69,6 +72,7 @@
         </MudContainer>
     </DialogContent>
     <DialogActions>
+        <MudText Typo="Typo.body2" class="mr-5">Wartość wybranych biletów: @GetSummaryPrice() PLN</MudText>
         <MudButton OnClick="Cancel">Anuluj</MudButton>
         <MudButton Color="Color.Primary" OnClick="Submit">Potwierdź zakup</MudButton>
     </DialogActions>
@@ -92,18 +96,30 @@
     protected override async Task OnInitializedAsync()
     {
         model.EventId = Id;
-        model.Tickets.Add(new BuyTicketVM());
         _eventDetailsModel = await EventService.GetEventDetailsForTicketPurchase(Id);
+        AddNewTicket();
         _isLoading = false;
     }
 
     void AddNewTicket()
     {
-        var lastItem = model.Tickets.Last();
-        if (!string.IsNullOrWhiteSpace(lastItem.OwnerFirstName) && !string.IsNullOrWhiteSpace(lastItem.OwnerLastName) && lastItem.OwnerPESEL != null)
+        BuyTicketVM lastItem = null;
+        if (model.Tickets.Any())
+            lastItem = model.Tickets.Last();
+        if (lastItem == null || (!string.IsNullOrWhiteSpace(lastItem.OwnerFirstName) && !string.IsNullOrWhiteSpace(lastItem.OwnerLastName) && lastItem.OwnerPESEL != null))
         {
-            model.Tickets.Add(new BuyTicketVM());
+            BuyTicketVM buyTicketVM = new()
+            {
+                TicketType = TicketType.Normal
+            };
+            buyTicketVM.SetPrices(_eventDetailsModel.SittingTicketPrice, _eventDetailsModel.StandingTicketPrice, _eventDetailsModel.ReducedDiscount);
+            model.Tickets.Add(buyTicketVM);
         }
+    }
+
+    double GetSummaryPrice() 
+    {
+        return model.Tickets.Sum(x => x.Price);
     }
 
     async Task Submit()
@@ -111,7 +127,7 @@
         int countSittingTickets = model.Tickets.Where(x => x.IsSittingSpot).Count();
         int countStandingTickets = model.Tickets.Where(x => !x.IsSittingSpot).Count();
 
-        if (countSittingTickets > _eventDetailsModel.AvailableSittingTickets) 
+        if (countSittingTickets > _eventDetailsModel.AvailableSittingTickets)
         {
             _noAvailableTicketsText = "Brak wystarczającej liczby miejsc siedzących.";
             return;
