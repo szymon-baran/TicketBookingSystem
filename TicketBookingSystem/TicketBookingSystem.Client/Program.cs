@@ -27,6 +27,7 @@ namespace TicketBookingSystem.Client
 
             builder.Services.AddScoped<IEventService, EventService>();
             builder.Services.AddScoped<IArtistService, ArtistService>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
 
             builder.Services.AddAuthorizationCore();
             builder.Services.AddApiAuthorization();

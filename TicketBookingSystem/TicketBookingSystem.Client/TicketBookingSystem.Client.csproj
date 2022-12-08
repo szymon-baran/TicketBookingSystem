@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="6.0.10" />
     <PackageReference Include="MudBlazor" Version="6.0.17" />
+    <PackageReference Include="PESEL" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>

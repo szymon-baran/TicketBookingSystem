@@ -25,21 +25,27 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Country = "Polska",
                     City = "Warszawa",
                     Name = "Stadion Narodowy w Warszawie",
-                    PhotoUrl = "https://ocdn.eu/pulscms-transforms/1/uNRk9kpTURBXy85YmJlZGNkZWZhYjA1MGEyY2M0ZTk0NDFiMWVjNTRiNC5qcGeTlQMAzHDNB9DNBGWTBc0EsM0CpJMJpmRlOWJkMgbeAAGhMAE/decyzja-ministra-sportu-kamila-bortniczuka-stadion-narodowy-zostanie-bezterminowo-zamkniety.jpg"
+                    PhotoUrl = "https://ocdn.eu/pulscms-transforms/1/uNRk9kpTURBXy85YmJlZGNkZWZhYjA1MGEyY2M0ZTk0NDFiMWVjNTRiNC5qcGeTlQMAzHDNB9DNBGWTBc0EsM0CpJMJpmRlOWJkMgbeAAGhMAE/decyzja-ministra-sportu-kamila-bortniczuka-stadion-narodowy-zostanie-bezterminowo-zamkniety.jpg",
+                    MaxSittingCapacity = 58580,
+                    MaxStandingCapacity = 15000
                 },
                 new Place
                 {
                     Country = "Polska",
                     City = "Kielce",
                     Name = "Amfiteatr Kadzielnia",
-                    PhotoUrl = "https://www.emkielce.pl/media/k2/items/cache/68f530690fd63d955a623f65b761e644_XL.jpg"
+                    PhotoUrl = "https://www.emkielce.pl/media/k2/items/cache/68f530690fd63d955a623f65b761e644_XL.jpg",
+                    MaxSittingCapacity = 5000,
+                    MaxStandingCapacity = 500
                 },
                 new Place
                 {
                     Country = "Polska",
                     City = "Kraków",
                     Name = "TAURON Arena",
-                    PhotoUrl = "https://www.tauronarenakrakow.pl/content/uploads/2020/03/21-810x550.jpg"
+                    PhotoUrl = "https://www.tauronarenakrakow.pl/content/uploads/2020/03/21-810x550.jpg",
+                    MaxSittingCapacity = 15030,
+                    MaxStandingCapacity = 7000
                 },
             };
 
@@ -145,6 +151,11 @@ namespace TicketBookingSystem.Server.EntityFramework
                     EventTime = new DateTime(2022, 12, 20, 21, 00, 00),
                     Description = "Koncert Kizo w Warszawie rozpoczynający jego nową trasę koncertową!",
                     PhotoUrl = "https://gfx.dlastudenta.pl/photo_new/5b1/c8e/d5a/cfb/1565355",
+                    AvailableSittingTickets = 1,
+                    AvailableStandingTickets = 6,
+                    SittingTicketPrice = 200,
+                    StandingTicketPrice = 100,
+                    ReducedDiscount = 0.5
                 },
                 new Event
                 {
@@ -155,6 +166,11 @@ namespace TicketBookingSystem.Server.EntityFramework
                     EventTime = new DateTime(2023, 3, 10, 15, 00, 00),
                     Description = "To wyjątkowy koncert, zarówno pod względem muzycznym, jak i wizualnym, podczas którego Artystce towarzyszyć będzie 10-osobowa orkiestra smyczkowa POLISH SOLOISTS oraz jeden z jej muzycznych idoli.",
                     PhotoUrl = "https://bi.im-g.pl/im/51/33/1a/z27472977IER,sanah.jpg",
+                    AvailableSittingTickets = 100,
+                    AvailableStandingTickets = 0,
+                    SittingTicketPrice = 80,
+                    StandingTicketPrice = 60.50,
+                    ReducedDiscount = 0.25
                 },
                 new Event
                 {
@@ -165,6 +181,11 @@ namespace TicketBookingSystem.Server.EntityFramework
                     EventTime = new DateTime(2023, 1, 5, 20, 00, 00),
                     Description = "Zobacz na własne oczy artystę, który po od wielu latach powraca do Polski!",
                     PhotoUrl = "https://rytmy.pl/wp-content/uploads/2022/07/kanye-west-koncert-e1657092428108.jpg",
+                    AvailableSittingTickets = 200,
+                    AvailableStandingTickets = 50,
+                    SittingTicketPrice = 2000,
+                    StandingTicketPrice = 1900,
+                    ReducedDiscount = 0
                 }
             };
 

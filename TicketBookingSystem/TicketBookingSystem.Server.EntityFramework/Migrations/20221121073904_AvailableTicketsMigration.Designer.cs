@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketBookingSystem.Server.EntityFramework;
 
 #nullable disable
 
-namespace TicketBookingSystem.Server.EntityFramework
+namespace TicketBookingSystem.Server.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221121073904_AvailableTicketsMigration")]
+    partial class AvailableTicketsMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -440,15 +442,6 @@ namespace TicketBookingSystem.Server.EntityFramework
                     b.Property<int>("PlaceId")
                         .HasColumnType("int");
 
-                    b.Property<double>("ReducedDiscount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("SittingTicketPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double>("StandingTicketPrice")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ArtistId");
@@ -497,30 +490,13 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("EventId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsSittingSpot")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("OwnerFirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerLastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("OwnerPESEL")
-                        .HasColumnType("bigint");
 
                     b.Property<int>("TicketType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("EventId");
 
@@ -599,24 +575,13 @@ namespace TicketBookingSystem.Server.EntityFramework
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Ticket", b =>
                 {
-                    b.HasOne("TicketBookingSystem.Shared.Domain.ApplicationUser", "ApplicationUser")
-                        .WithMany("Tickets")
-                        .HasForeignKey("ApplicationUserId");
-
                     b.HasOne("TicketBookingSystem.Shared.Domain.Event", "Event")
                         .WithMany("Tickets")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
-
                     b.Navigation("Event");
-                });
-
-            modelBuilder.Entity("TicketBookingSystem.Shared.Domain.ApplicationUser", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("TicketBookingSystem.Shared.Domain.Artist", b =>

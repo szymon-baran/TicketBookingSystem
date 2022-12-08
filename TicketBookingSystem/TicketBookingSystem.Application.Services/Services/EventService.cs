@@ -48,6 +48,30 @@ namespace TicketBookingSystem.Application.Services
             };
         }
 
+        public async Task<TicketPurchaseEventDetailsVM> GetEventDetailsVMForTicketPurchase(int id)
+        {
+            Event @event = await _eventRepository.GetEventDetailsForTicketPurchase(id);
+            return new TicketPurchaseEventDetailsVM()
+            {
+                Id = @event.Id,
+                Name = @event.Name,
+                Description = @event.Description,
+                EventTime = @event.EventTime,
+                PhotoUrl = @event.PhotoUrl,
+                ArtistNickName = @event.Artist.NickName,
+                PlaceName = @event.Place.Name,
+                PlaceCity = @event.Place.City,
+                PlaceCountry = @event.Place.Country,
+                AvailableSittingTickets = @event.AvailableSittingTickets,
+                AvailableStandingTickets = @event.AvailableStandingTickets,
+                MaxSittingTicketsForPlace = @event.Place.MaxSittingCapacity,
+                MaxStandingTicketsForPlace = @event.Place.MaxStandingCapacity,
+                SittingTicketPrice = @event.SittingTicketPrice,
+                StandingTicketPrice = @event.StandingTicketPrice,
+                ReducedDiscount = @event.ReducedDiscount,
+            };
+        }
+
         public async Task<Event> EditEvent(EventAddEditVM model)
         {
             Event @event = await _eventRepository.GetByIdAsync(model.Id.HasValue ? model.Id.Value : throw new Exception("Missing id value"));

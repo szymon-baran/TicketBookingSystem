@@ -10,8 +10,4 @@
     <ProjectReference Include="..\TicketBookingSystem.Server.EntityFramework\TicketBookingSystem.Server.EntityFramework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
 </Project>

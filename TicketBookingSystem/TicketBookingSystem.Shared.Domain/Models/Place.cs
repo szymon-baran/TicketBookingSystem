@@ -10,6 +10,8 @@ namespace TicketBookingSystem.Shared.Domain
         public string City { get; set; } = "";
         public string Country { get; set; } = "";
         public string PhotoUrl { get; set; } = "";
+        public int MaxSittingCapacity { get; set; }
+        public int MaxStandingCapacity { get; set; }
         public virtual ICollection<Event> Events { get; set; }
     }
 }

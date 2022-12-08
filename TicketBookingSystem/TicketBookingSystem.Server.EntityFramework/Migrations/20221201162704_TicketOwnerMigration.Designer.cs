@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketBookingSystem.Server.EntityFramework;
 
 #nullable disable
 
-namespace TicketBookingSystem.Server.EntityFramework
+namespace TicketBookingSystem.Server.EntityFramework.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221201162704_TicketOwnerMigration")]
+    partial class TicketOwnerMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -439,15 +441,6 @@ namespace TicketBookingSystem.Server.EntityFramework
 
                     b.Property<int>("PlaceId")
                         .HasColumnType("int");
-
-                    b.Property<double>("ReducedDiscount")
-                        .HasColumnType("float");
-
-                    b.Property<double>("SittingTicketPrice")
-                        .HasColumnType("float");
-
-                    b.Property<double>("StandingTicketPrice")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

@@ -1,0 +1,50 @@
+﻿@using TicketBookingSystem.Shared.Domain
+@inject ITicketService TicketService
+
+@if (TicketService.Tickets == null)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+}
+else if (TicketService.Tickets.Count == 0)
+{
+    <MudText>Brak zarezerwowanych biletów.</MudText>
+}
+else
+{
+    <MudDataGrid T="ReservedTicketVM" Items="@TicketService.Tickets">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Zarezerwowane bilety</MudText>
+        </ToolBarContent>
+
+        <Columns>
+            <Column T="ReservedTicketVM" Field="EventName" Title="Nazwa wydarzenia" />
+            <Column T="ReservedTicketVM" Field="EventTime" Title="Data wydarzenia" CellStyleFunc="@GetDateStyle" />
+            <Column T="ReservedTicketVM" Field="IsSittingSpot" Title="Miejsce siedzące" />
+            <Column T="ReservedTicketVM" Field="TicketTypeName" Title="Typ biletu" />
+            <Column T="ReservedTicketVM" Field="OwnerFirstName" Title="Imię" />
+            <Column T="ReservedTicketVM" Field="OwnerLastName" Title="Nazwisko" />
+        </Columns>
+    </MudDataGrid>
+}
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await TicketService.GetTicketsList();
+    }
+
+    private Func<ReservedTicketVM, string> GetDateStyle => x =>
+    {
+        string style = "";
+
+        if (x.EventTime < DateTime.Now)
+            style += "background: rgba(21,71,52,.5)";
+        else if (x.EventTime - DateTime.Now < TimeSpan.FromDays(7))
+            style += "background: rgba(203,96,21,.5)";
+        else if (x.EventTime - DateTime.Now < TimeSpan.FromDays(30))
+            style += "background: rgba(246,190,0,.5)";
+        else
+            style += "background: rgba(0,110,51,.5)";
+
+        return style;
+    };
+}
