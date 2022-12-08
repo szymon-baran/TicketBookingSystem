@@ -71,7 +71,7 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Description = @"Brytyjski piosenkarz, autor tekstów, gitarzysta, producent muzyczny i aktor, wykonujący muzykę z pogranicza popu, rocka, folku i hip-hopu.",
                     PhotoUrl = "https://bi.im-g.pl/im/e0/75/14/z21451232AMP,Ed-Sheeran-podczas-Brit-Awards--22-lutego-2017.jpg",
                     PrimaryMusicGenre = Shared.Dictionaries.MusicGenre.Pop,
-                    SecondaryMusicGenre = Shared.Dictionaries.MusicGenre.Other,
+                    SecondaryMusicGenre = Shared.Dictionaries.MusicGenre.RandB,
                     SpotifyUrl = "6eUKZXaKkcviH0Ku9w2n3V",
                     Events = null
                 },
@@ -97,7 +97,7 @@ namespace TicketBookingSystem.Server.EntityFramework
                     Description = @"Barbadoska piosenkarka R&B i pop, modelka, aktorka, autorka tekstów, projektantka mody i businesswoman. Realizacje z udziałem Rihanny były wielokrotnie wyróżniane i nagradzane. Artystka zebrała dziewięć nagród Grammy, pięć nagród przyznawanych corocznie dla najlepszego amerykańskiego muzyka American Music Awards, 22 nagrody Billboard Music Awards i dwie Brit Awards. Rihanna sprzedała ponad 250 milionów płyt na całym świecie, co daje jej wysokie miejsce na liście najlepiej sprzedających się artystów wszech czasów",
                     PhotoUrl = "https://www.elle.pl/media/cache/default_view/uploads/media/default/0008/90/rihanna-zwiazki-kto-byl-chlopakiem-gwiazdy-z-kim-spotyka-sie-teraz.jpeg",
                     PrimaryMusicGenre = Shared.Dictionaries.MusicGenre.Pop,
-                    SecondaryMusicGenre = Shared.Dictionaries.MusicGenre.Other,
+                    SecondaryMusicGenre = Shared.Dictionaries.MusicGenre.RandB,
                     SpotifyUrl = "5pKCCKE2ajJHZ9KAiaK11H",
                     Events = null
                 },

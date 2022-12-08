@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: #000;
+    background: #32333d;
 }
 
 .middle {
@@ -15,7 +15,7 @@
 .bar {
     width: 10px;
     height: 70px;
-    background: #fff;
+    background: #32333d;
     display: inline-block;
     transform-origin: bottom center;
     border-top-right-radius: 20px;

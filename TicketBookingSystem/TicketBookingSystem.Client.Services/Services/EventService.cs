@@ -4,6 +4,7 @@ using TicketBookingSystem.Shared.Domain;
 using TicketBookingSystem.Shared.Application;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
+using TicketBookingSystem.Shared.Dictionaries;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -24,10 +25,10 @@ namespace TicketBookingSystem.Client.Services
         public List<Event>? Events { get; set; } = null;
         public EventAddEditVM Event { get; set; }
 
-        public async Task GetEventsList()
+        public async Task GetEventsList(MusicGenre id = MusicGenre.None)
         {
             var client = _httpClientFactory.CreateClient("TicketBookingSystem.PublicServerAPI");
-            List<Event>? events = await client.GetFromJsonAsync<List<Event>>(_api);
+            List<Event>? events = await client.GetFromJsonAsync<List<Event>>($"{_api}/{(int)id}");
             if (events != null)
             {
                 Events = events;
@@ -47,7 +48,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task<EventAddEditVM> GetEventDetails(int id)
         {
-            EventAddEditVM? model = await _httpClient.GetFromJsonAsync<EventAddEditVM>($"{_api}/{id}");
+            EventAddEditVM? model = await _httpClient.GetFromJsonAsync<EventAddEditVM>($"{_api}/details/{id}");
             if (model != null)
                 return model;
             throw new Exception("Nie znaleziono wydarzenia");

@@ -1,4 +1,5 @@
 ﻿using TicketBookingSystem.Shared.Application;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Client.Abstraction
@@ -7,7 +8,7 @@ namespace TicketBookingSystem.Client.Abstraction
     {
         List<Event> Events { get; set; }
         EventAddEditVM Event { get; set; }
-        Task GetEventsList();
+        Task GetEventsList(MusicGenre id = MusicGenre.None);
         Task AddEvent(EventAddEditVM model);
         Task<EventAddEditVM> GetEventDetails(int id);
         Task<TicketPurchaseEventDetailsVM> GetEventDetailsForTicketPurchase(int id);

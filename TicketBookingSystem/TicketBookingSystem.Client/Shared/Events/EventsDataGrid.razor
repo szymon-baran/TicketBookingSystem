@@ -1,4 +1,5 @@
 ﻿@using TicketBookingSystem.Client.Shared.Tickets
+@using TicketBookingSystem.Shared.Dictionaries
 @using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
 @inject NavigationManager NavigationManager
@@ -72,9 +73,17 @@ else
         </MudDataGrid>
 }
 @code {
-    protected override async Task OnInitializedAsync()
+    [Parameter]
+    public int? Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
     {
-        await EventService.GetEventsList();
+        EventService.Events = null;
+        MusicGenre musicGenre = MusicGenre.None;
+        if (Id.HasValue)
+            musicGenre = (MusicGenre)Id;
+
+        await EventService.GetEventsList(musicGenre);
     }
 
     string GetFormattedDateTimeStringLeft(DateTime dateTime)

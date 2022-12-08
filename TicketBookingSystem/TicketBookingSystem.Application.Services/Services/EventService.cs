@@ -2,6 +2,7 @@
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Data.Abstraction;
 using TicketBookingSystem.Shared.Application;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Application.Services
@@ -15,7 +16,7 @@ namespace TicketBookingSystem.Application.Services
             _eventRepository = eventRepository;
         }
 
-        public async Task<List<Event>> GetEventsAsync() => await _eventRepository.GetEventsAsync();
+        public async Task<List<Event>> GetEventsAsync(int musicGenre) => await _eventRepository.GetEventsAsync(musicGenre);
 
         public async Task<Event> AddEvent(EventAddEditVM model)
         {

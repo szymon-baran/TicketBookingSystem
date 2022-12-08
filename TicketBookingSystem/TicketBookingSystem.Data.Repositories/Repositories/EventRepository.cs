@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketBookingSystem.Data.Abstraction;
 using TicketBookingSystem.Server.EntityFramework;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Data.Repositories
@@ -11,9 +12,11 @@ namespace TicketBookingSystem.Data.Repositories
         {
         }
 
-        public async Task<List<Event>> GetEventsAsync()
+        public async Task<List<Event>> GetEventsAsync(int musicGenreParam)
         {
+            MusicGenre musicGenre = (MusicGenre)musicGenreParam;
             List<Event> events = await _context.Events.Include(x => x.Artist)
+                                        .Where(x => musicGenre == MusicGenre.None || x.Artist.PrimaryMusicGenre == musicGenre || x.Artist.SecondaryMusicGenre == musicGenre)
                                         .Include(x => x.Place)
                                         .ToListAsync();
             return events;
