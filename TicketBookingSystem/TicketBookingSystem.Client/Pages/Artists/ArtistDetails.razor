@@ -84,7 +84,7 @@ else
                                                 <MudText Typo="Typo.body2" Class="ml-1"> @GetFormattedDateTimeStringLeft(context.Item.EventTime)</MudText>
                                             </MudItem>
                                             <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
-                                                <MudText Align="Align.Center"><MudLink Href="events">Przejdź do zakładki Wydarzenia, by kupić bilet</MudLink></MudText>
+                                                <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth @onclick="@(() => RouteToEvents((int)context.Item.Artist.PrimaryMusicGenre))">Przejdź do wydarzeń</MudButton>
                                             </MudItem>
                                         </MudGrid>
                                     </MudCardContent>
@@ -125,6 +125,11 @@ else
         int hours = timeSpan.Hours;
         int minutes = timeSpan.Minutes;
         return $"Już za {days} dni, {hours} godzin i {minutes} minut!";
+    }
+
+    void RouteToEvents(int musicGenreId) 
+    {
+        NavigationManager.NavigateTo($"/events/{musicGenreId}");
     }
 }
 

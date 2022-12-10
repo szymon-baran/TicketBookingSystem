@@ -12,13 +12,18 @@ namespace TicketBookingSystem.Data.Repositories
         {
         }
 
-        public async Task<List<Event>> GetEventsAsync(int musicGenreParam)
+        public async Task<List<Event>> GetEventsAsync(int? musicGenreParam)
         {
-            MusicGenre musicGenre = (MusicGenre)musicGenreParam;
             List<Event> events = await _context.Events.Include(x => x.Artist)
-                                        .Where(x => musicGenre == MusicGenre.None || x.Artist.PrimaryMusicGenre == musicGenre || x.Artist.SecondaryMusicGenre == musicGenre)
                                         .Include(x => x.Place)
                                         .ToListAsync();
+
+            if (musicGenreParam != null)
+            {
+                MusicGenre musicGenre = (MusicGenre)musicGenreParam;
+                events = events.Where(x => musicGenre == MusicGenre.None || x.Artist.PrimaryMusicGenre == musicGenre || x.Artist.SecondaryMusicGenre == musicGenre).ToList();
+            }
+
             return events;
         }
 
