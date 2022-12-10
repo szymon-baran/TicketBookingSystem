@@ -2,6 +2,7 @@
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Data.Abstraction;
 using TicketBookingSystem.Shared.Application;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Application.Services
@@ -15,7 +16,7 @@ namespace TicketBookingSystem.Application.Services
             _eventRepository = eventRepository;
         }
 
-        public async Task<List<Event>> GetEventsAsync() => await _eventRepository.GetEventsAsync();
+        public async Task<List<Event>> GetEventsAsync(int musicGenre) => await _eventRepository.GetEventsAsync(musicGenre);
 
         public async Task<List<Event>> GetUpcomingEventsByArtistAsync(int artistId)
         {
@@ -54,6 +55,30 @@ namespace TicketBookingSystem.Application.Services
                 PhotoUrl = @event.PhotoUrl,
                 ArtistId = @event.ArtistId,
                 PlaceId = @event.PlaceId
+            };
+        }
+
+        public async Task<TicketPurchaseEventDetailsVM> GetEventDetailsVMForTicketPurchase(int id)
+        {
+            Event @event = await _eventRepository.GetEventDetailsForTicketPurchase(id);
+            return new TicketPurchaseEventDetailsVM()
+            {
+                Id = @event.Id,
+                Name = @event.Name,
+                Description = @event.Description,
+                EventTime = @event.EventTime,
+                PhotoUrl = @event.PhotoUrl,
+                ArtistNickName = @event.Artist.NickName,
+                PlaceName = @event.Place.Name,
+                PlaceCity = @event.Place.City,
+                PlaceCountry = @event.Place.Country,
+                AvailableSittingTickets = @event.AvailableSittingTickets,
+                AvailableStandingTickets = @event.AvailableStandingTickets,
+                MaxSittingTicketsForPlace = @event.Place.MaxSittingCapacity,
+                MaxStandingTicketsForPlace = @event.Place.MaxStandingCapacity,
+                SittingTicketPrice = @event.SittingTicketPrice,
+                StandingTicketPrice = @event.StandingTicketPrice,
+                ReducedDiscount = @event.ReducedDiscount,
             };
         }
 

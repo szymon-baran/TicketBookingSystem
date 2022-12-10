@@ -1,10 +1,12 @@
-﻿@page "/events"
+﻿@page "/events/{id:int}"
 @using TicketBookingSystem.Client.Shared.Events
+@using TicketBookingSystem.Shared.Dictionaries
 @inject NavigationManager NavigationManager
 
 <PageTitle>Wydarzenia</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Wydarzenia</MudText>
+<MudText Typo="Typo.h3">Wydarzenia</MudText>
+<MudText Typo="Typo.body1" GutterBottom="true">Muzyka </MudText>
 <MudGrid>
     <MudItem xs="10">
         <MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
@@ -16,9 +18,12 @@
     </AuthorizeView>
 </MudGrid>
 
-<EventsDataGrid></EventsDataGrid>
+<EventsDataGrid Id=Id></EventsDataGrid>
 
 @code {
+    [Parameter]
+    public int? Id { get; set; }
+
     void RouteToAdd()
     {
         NavigationManager.NavigateTo($"/event/add");

@@ -26,7 +26,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await EventService.GetEventsList();
+        await EventService.GetEventsList(TicketBookingSystem.Shared.Dictionaries.MusicGenre.None);
 
         foreach (var item in EventService.Events)
         {

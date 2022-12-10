@@ -1,9 +1,26 @@
-﻿<MudNavMenu>
+﻿@using TicketBookingSystem.Shared.Dictionaries
+
+<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Strona główna</MudNavLink>
     <AuthorizeView>
         <Authorized>
-            <MudNavLink Href="events" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Wydarzenia</MudNavLink>
+            <MudNavLink Href="tickets" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.FeaturedPlayList">Moje bilety</MudNavLink>
+            <MudNavGroup Title="Wydarzenia" Expanded="false" Icon="@Icons.Material.Filled.List">
+                @foreach (var genre in ((MusicGenre[])Enum.GetValues(typeof(MusicGenre))).Select((value, i) => new { i, value }))
+                {
+                    <MudNavLink Href="@GetEventsFilteredUrl(genre.i)">@GetGenreName(genre.value)</MudNavLink>
+                }
+            </MudNavGroup>
             <MudNavLink Href="artists" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Artyści</MudNavLink>
         </Authorized>
     </AuthorizeView>
 </MudNavMenu>
+@code {
+    string GetEventsFilteredUrl(int i) {
+        return $"events/{i}";
+    }
+    string GetGenreName(MusicGenre i)
+    {
+        return i == MusicGenre.None ? "Wszystkie" : i.GetDescription();
+    }
+}

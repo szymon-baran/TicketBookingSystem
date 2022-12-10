@@ -1,0 +1,149 @@
+﻿@using TicketBookingSystem.Shared.Dictionaries
+@using TicketBookingSystem.Shared.Domain
+@inject IEventService EventService
+@inject ITicketService TicketService
+@inject NavigationManager NavigationManager
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 600px; overflow-y: scroll">
+            @if (_isLoading)
+            {
+                <MudProgressCircular Indeterminate="true"></MudProgressCircular>
+            }
+            else
+            {
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body1">@_eventDetailsModel.ArtistNickName</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body1">@_eventDetailsModel.PlaceName - @_eventDetailsModel.PlaceCity (@_eventDetailsModel.PlaceCountry)</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">@_eventDetailsModel.Description</MudText>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">Pozostało już tylko @_eventDetailsModel.AvailableSittingTickets miejsc siedzących oraz @_eventDetailsModel.AvailableStandingTickets stojących!</MudText>
+                    </MudItem>
+                    <MudItem xs="1">
+                        <MudIconButton Icon="@Icons.Filled.Add" Color="Color.Primary" aria-label="add" @onclick="AddNewTicket"></MudIconButton>
+                    </MudItem>
+                    <MudItem xs="11">
+                        <MudForm @ref="_form" @bind-IsValid="@_success">
+                            @foreach (var item in model.Tickets)
+                            {
+                                <MudGrid>
+                                    <MudItem xs="4" Class="mt-2">
+                                        <MudTextField @bind-Value="item.OwnerFirstName" Label="Imię" Variant="Variant.Text" Required="true" RequiredError="Imię jest wymagane!" />
+                                    </MudItem>
+                                    <MudItem xs="4" Class="mt-2">
+                                        <MudTextField @bind-Value="item.OwnerLastName" Label="Nazwisko" Variant="Variant.Text" Required="true" RequiredError="Nazwisko jest wymagane!" />
+                                    </MudItem>
+                                    <MudItem xs="4" Class="mt-2">
+                                        <MudNumericField HideSpinButtons="true" @bind-Value="item.OwnerPESEL" Label="PESEL" Variant="Variant.Text" Required="true" RequiredError="PESEL jest wymagany!" />
+                                    </MudItem>
+                                    <MudItem xs="4" Class="mt-1">
+                                        <MudSelect @bind-Value="item.TicketType" Label="Typ biletu">
+                                            @foreach (TicketType ticketType in Enum.GetValues(typeof(TicketType)))
+                                            {
+                                                <MudSelectItem Value="@ticketType">@ticketType.GetDescription()</MudSelectItem>
+                                            }
+                                        </MudSelect>
+                                    </MudItem>
+                                    <MudItem xs="4" Class="mt-1">
+                                        <MudCheckBox @bind-Checked="@item.IsSittingSpot" Color="Color.Primary" Label="Miejsce siedzące"></MudCheckBox>
+                                    </MudItem>
+                                    <MudItem xs="2" Class="mt-1">
+                                        <MudText Typo="Typo.body1">@item.Price PLN</MudText>
+                                    </MudItem>
+                                </MudGrid>
+                            }
+                        </MudForm>
+                    </MudItem>
+                    @if (_noAvailableTicketsText != null)
+                    {
+                        <MudItem>
+                            <MudAlert Severity="Severity.Error">@_noAvailableTicketsText</MudAlert>
+                        </MudItem>
+                    }
+                </MudGrid>
+            }
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudText Typo="Typo.body2" class="mr-5">Wartość wybranych biletów: @GetSummaryPrice() PLN</MudText>
+        <MudButton OnClick="Cancel">Anuluj</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Potwierdź zakup</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    private bool _isLoading = true;
+    private TicketPurchaseEventDetailsVM _eventDetailsModel;
+    private MudForm _form;
+    private bool _success;
+    private string _noAvailableTicketsText = null;
+    private Dictionary<int, string> _ticketTypes = new();
+    public BuyOperationVM model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        model.EventId = Id;
+        _eventDetailsModel = await EventService.GetEventDetailsForTicketPurchase(Id);
+        AddNewTicket();
+        _isLoading = false;
+    }
+
+    void AddNewTicket()
+    {
+        BuyTicketVM lastItem = null;
+        if (model.Tickets.Any())
+            lastItem = model.Tickets.Last();
+        if (lastItem == null || (!string.IsNullOrWhiteSpace(lastItem.OwnerFirstName) && !string.IsNullOrWhiteSpace(lastItem.OwnerLastName) && lastItem.OwnerPESEL != null))
+        {
+            BuyTicketVM buyTicketVM = new()
+            {
+                TicketType = TicketType.Normal
+            };
+            buyTicketVM.SetPrices(_eventDetailsModel.SittingTicketPrice, _eventDetailsModel.StandingTicketPrice, _eventDetailsModel.ReducedDiscount);
+            model.Tickets.Add(buyTicketVM);
+        }
+    }
+
+    double GetSummaryPrice() 
+    {
+        return model.Tickets.Sum(x => x.Price);
+    }
+
+    async Task Submit()
+    {
+        int countSittingTickets = model.Tickets.Where(x => x.IsSittingSpot).Count();
+        int countStandingTickets = model.Tickets.Where(x => !x.IsSittingSpot).Count();
+
+        if (countSittingTickets > _eventDetailsModel.AvailableSittingTickets)
+        {
+            _noAvailableTicketsText = "Brak wystarczającej liczby miejsc siedzących.";
+            return;
+        }
+        else if (countStandingTickets > _eventDetailsModel.AvailableStandingTickets)
+        {
+            _noAvailableTicketsText = "Brak wystarczającej liczby miejsc stojących.";
+            return;
+        }
+
+        if (_form.IsValid)
+        {
+            await TicketService.BuyTicket(model);
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
