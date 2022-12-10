@@ -34,6 +34,15 @@ namespace TicketBookingSystem.Client.Services
             }
         }
 
+        public async Task GetUpcomingEventsListByArtist(int artistId)
+        {
+            List<Event>? events = await _httpClient.GetFromJsonAsync<List<Event>>(_api + $"/getUpcomingEventsByArtist?artistId={artistId}");
+            if (events != null)
+            {
+                Events = events;
+            }
+        }
+
         public async Task AddEvent(EventAddEditVM model)
         {
             var result = await _httpClient.PostAsJsonAsync(_api, model);
@@ -71,6 +80,5 @@ namespace TicketBookingSystem.Client.Services
             await GetEventsList();
             _navigationManager.NavigateTo("events");
         }
-
     }
 }

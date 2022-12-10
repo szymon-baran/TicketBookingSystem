@@ -19,6 +19,9 @@ namespace TicketBookingSystem.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetEvents() => Ok(await _eventService.GetEventsAsync());
 
+        [HttpGet("getUpcomingEventsByArtist")]
+        public async Task<IActionResult> GetUpcomingEventsByArtist(int artistId) => Ok(await _eventService.GetUpcomingEventsByArtistAsync(artistId));
+
         [HttpPost]
         public async Task<ActionResult<Event>> AddEvent(EventAddEditVM model) => Ok(await _eventService.AddEvent(model));
 

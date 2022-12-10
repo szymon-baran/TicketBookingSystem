@@ -8,6 +8,7 @@ namespace TicketBookingSystem.Client.Abstraction
         List<Event> Events { get; set; }
         EventAddEditVM Event { get; set; }
         Task GetEventsList();
+        Task GetUpcomingEventsListByArtist(int artistId);
         Task AddEvent(EventAddEditVM model);
         Task<EventAddEditVM> GetEventDetails(int id);
         Task EditEvent(EventAddEditVM model);

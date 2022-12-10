@@ -17,6 +17,15 @@ namespace TicketBookingSystem.Application.Services
 
         public async Task<List<Event>> GetEventsAsync() => await _eventRepository.GetEventsAsync();
 
+        public async Task<List<Event>> GetUpcomingEventsByArtistAsync(int artistId)
+        {
+            List<Event> events = await _eventRepository.GetEventsAsync();
+
+            events = events.Where(x => x.ArtistId == artistId && x.EventTime >= DateTime.Now).ToList();
+
+            return events;
+        }
+
         public async Task<Event> AddEvent(EventAddEditVM model)
         {
             Event @event = new()

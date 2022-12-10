@@ -1,6 +1,7 @@
 ﻿@page "/artist/{id:int}"
 @using TicketBookingSystem.Shared.Domain
 @inject IArtistService ArtistService
+@inject IEventService EventService
 @inject NavigationManager NavigationManager
 
 <PageTitle>@artist.NickName</PageTitle>
@@ -13,25 +14,87 @@ else
 {
     <MudGrid>
         <MudItem xs="12">
-            <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+            <MudBreadcrumbs Class="no-padding" Items="_items"></MudBreadcrumbs>
         </MudItem>
-        <MudItem xs="8">
-            <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName </MudText>
-            <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
-            <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
+        <MudItem md="8" xs="12">
+            <MudPaper Class="border-solid border-2 mud-border-primary py-4 px-6 rounded-lg" Elevation="0">
+                <MudText Typo="Typo.h2" Class="ml-n1">@artist.NickName </MudText>
+                <MudText Typo="Typo.h6">@artist.FirstName @artist.LastName</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mt-1">@artist.PrimaryMusicGenre @artist.SecondaryMusicGenre</MudText>
+            </MudPaper>
         </MudItem>
-        <MudItem xs="4">
+        <MudItem md="4" xs="12">
             @if (!string.IsNullOrEmpty(artist.SpotifyUrl))
             {
-                <iframe class="rounded-lg" src="@($"https://open.spotify.com/embed/artist/{artist.SpotifyUrl}?utm_source=generator")" style="height: 80px !important;" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                <iframe class="rounded-lg" src="@($"https://open.spotify.com/embed/artist/{artist.SpotifyUrl}?utm_source=generator")" style="height: 173px !important;" height="173" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             }
         </MudItem>
-        <MudItem md="6" xs="12">
-            <MudImage Src="@artist.PhotoUrl" Alt="Zdjęcie artysty" Class="rounded-lg mt-1 image" Fluid="true"></MudImage>
-        </MudItem>
-        <MudItem md="6" xs="12">
-            <MudText Typo="Typo.body1" GutterBottom="true">@artist.Description</MudText>
-        </MudItem>
+        <MudItem md="12" xs="12">
+            <MudPaper Class="d-flex border-solid border-2 mud-border-primary py-4 px-5 rounded-lg" Elevation="0">
+                <MudItem md="6" xs="12">
+                    <MudImage Src="@artist.PhotoUrl" Alt="Zdjęcie artysty" Class="rounded-lg mt-1 image" Fluid="true"></MudImage>
+                </MudItem>
+                <MudItem md="6" xs="12">
+                    <MudText Typo="Typo.body1" GutterBottom="true" Class="ml-4">@artist.Description</MudText>
+                </MudItem>
+            </MudPaper>
+        </MudItem>
+        @if (EventService.Events.Count == 0)
+        {
+            <MudItem xs="12">
+                <MudPaper Class="border-solid border-2 mud-border-primary py-4 px-6 rounded-lg" Elevation="0">
+                    <MudText Align="Align.Center">Brak nadchodzących wydarzeń.</MudText>
+                </MudPaper>
+            </MudItem>
+        }
+        else
+        {
+            <MudItem xs="12">
+                <MudPaper Class="border-solid border-2 mud-border-primary py-4 px-6 rounded-lg" Elevation="0">
+                    <MudDataGrid T="Event" Items="@EventService.Events" Elevation="0">
+                        <ToolBarContent>
+                            <MudText Typo="Typo.h6">Nadchodzące wydarzenia artysty</MudText>
+                        </ToolBarContent>
+
+                        <Columns>
+                            <HierarchyColumn T="Event" />
+                            <Column T="Event" Field="Name" Title="Nazwa" />
+                            <Column T="Event" Field="EventTime" Title="Data" />
+
+                        </Columns>
+                        <ChildRowContent>
+                            <MudCard>
+                                <MudCardContent Class="mt-3">
+                                    <MudGrid Class="d-flex flex-grow-1 gap-4">
+                                        <MudItem xs="4" Class="align-self-center py-4 flex-1">
+                                            <MudText Typo="Typo.h6">@context.Item.Name</MudText>
+                                            @if (!string.IsNullOrEmpty(context.Item.PhotoUrl))
+                                            {
+                                                <MudImage Src="@context.Item.PhotoUrl" Alt="@context.Item.Name" Height="230" Elevation="50" Fluid="true" Class="rounded-lg mt-2" />
+                                            }
+                                        </MudItem>
+                                        <MudItem xs="5" Class="align-self-center py-4 flex-1">
+                                            <MudText Typo="Typo.h6">@context.Item.Artist.NickName</MudText>
+                                            <MudText Typo="Typo.body1" Class="mb-2">(@context.Item.Artist.FirstName @context.Item.Artist.LastName)</MudText>
+                                            <MudIcon Icon="@Icons.Filled.LocationCity" Title="Lokalizacja" />
+                                            <MudText Typo="Typo.body2" Class="ml-1"> @context.Item.Place.Name - @context.Item.Place.City (@context.Item.Place.Country)</MudText>
+                                            <MudIcon Icon="@Icons.Filled.Description" Title="Opis" Class="mt-2" />
+                                            <MudText Typo="Typo.body2" Class="ml-1"> @(string.IsNullOrEmpty(context.Item.Description) ? "Brak informacji o koncercie, ale z pewnością jest interesujący!" : context.Item.Description)</MudText>
+                                                <MudIcon Icon="@Icons.Filled.AccessTime" Title="Już za" Class="mt-2" />
+                                                <MudText Typo="Typo.body2" Class="ml-1"> @GetFormattedDateTimeStringLeft(context.Item.EventTime)</MudText>
+                                            </MudItem>
+                                            <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
+                                                <MudText Align="Align.Center"><MudLink Href="events">Przejdź do zakładki Wydarzenia, by kupić bilet</MudLink></MudText>
+                                            </MudItem>
+                                        </MudGrid>
+                                    </MudCardContent>
+                                </MudCard>
+                            </ChildRowContent>
+                        </MudDataGrid>
+                    </MudPaper>
+                </MudItem>
+        }
+
     </MudGrid>
 }
 
@@ -50,14 +113,27 @@ else
     protected override async Task OnParametersSetAsync()
     {
         artist = await ArtistService.GetArtistById(Id);
-
-
         _items.Add(new BreadcrumbItem($"{artist.NickName}", href: null, disabled: true));
+
+        await EventService.GetUpcomingEventsListByArtist(Id);
+    }
+
+    string GetFormattedDateTimeStringLeft(DateTime dateTime)
+    {
+        TimeSpan timeSpan = dateTime - DateTime.Now;
+        int days = timeSpan.Days;
+        int hours = timeSpan.Hours;
+        int minutes = timeSpan.Minutes;
+        return $"Już za {days} dni, {hours} godzin i {minutes} minut!";
     }
 }
 
 <style>
     .image {
         max-height: 32em;
+    }
+
+    .no-padding {
+        padding: 0;
     }
 </style>
