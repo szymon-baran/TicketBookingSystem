@@ -53,8 +53,10 @@ else
                             <MudText Typo="Typo.body2" Class="ml-1"> @context.Item.Place.Name - @context.Item.Place.City (@context.Item.Place.Country)</MudText>
                             <MudIcon Icon="@Icons.Filled.Description" Title="Opis" Class="mt-2" />
                             <MudText Typo="Typo.body2" Class="ml-1"> @(string.IsNullOrEmpty(context.Item.Description) ? "Brak informacji o koncercie, ale z pewnością jest interesujący!" : context.Item.Description)</MudText>
-                                <MudIcon Icon="@Icons.Filled.AccessTime" Title="Już za" Class="mt-2" />
-                                <MudText Typo="Typo.body2" Class="ml-1"> @GetFormattedDateTimeStringLeft(context.Item.EventTime)</MudText>
+                            <MudIcon Icon="@Icons.Filled.AccessTime" Title="Już za" Class="mt-2" />
+                            <MudText Typo="Typo.body2" Class="ml-1"> @GetFormattedDateTimeStringLeft(context.Item.EventTime)</MudText>
+                            <MudIcon Icon="@Icons.Filled.Chair" Title="Dostępne miejsca" Class="mt-2" />
+                            <MudText Typo="Typo.body2" Class="ml-1"> Pozostało @context.Item.AvailableStandingTickets miejsc stojących i @context.Item.AvailableSittingTickets siedzących.</MudText>
                             </MudItem>
                             <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
                                 <div>
@@ -92,7 +94,9 @@ else
         int days = timeSpan.Days;
         int hours = timeSpan.Hours;
         int minutes = timeSpan.Minutes;
-        return $"Już za {days} dni, {hours} godzin i {minutes} minut!";
+        if (timeSpan.Ticks < 0)
+            return $"Wydarzenie miało miejsce {(days != 0 ? $"{Math.Abs(days)} dni," : "")}{(hours != 0 ? $" {Math.Abs(hours)} godzin," : "")}{(minutes != 0 ? $" {Math.Abs(minutes)} minut" : "")} temu.";
+        return $"Już za {(days != 0 ? $"{Math.Abs(days)} dni," : "")}{(hours != 0 ? $" {Math.Abs(hours)} godzin, " : "")}{(minutes != 0 ? $" {Math.Abs(minutes)} minut" : "")}!";
     }
 
     async Task OpenBuyTicketPopup(int id, string name)

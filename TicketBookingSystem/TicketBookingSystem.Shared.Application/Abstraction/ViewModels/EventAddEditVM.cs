@@ -10,5 +10,10 @@
         public string PhotoUrl { get; set; } = "";
         public int ArtistId { get; set; }
         public int PlaceId { get; set; }
+        public int AvailableSittingTickets { get; set; }
+        public int AvailableStandingTickets { get; set; }
+        public double SittingTicketPrice { get; set; }
+        public double StandingTicketPrice { get; set; }
+        public double ReducedDiscount { get; set; } = 0.5;
     }
 }

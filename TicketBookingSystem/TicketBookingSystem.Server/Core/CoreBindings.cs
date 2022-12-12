@@ -15,6 +15,8 @@ namespace TicketBookingSystem.Server
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IPlaceService, PlaceService>();
+            services.AddScoped<IPlaceRepository, PlaceRepository>();
 
             return services;
         }

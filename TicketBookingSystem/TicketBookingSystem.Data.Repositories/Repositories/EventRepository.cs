@@ -14,7 +14,8 @@ namespace TicketBookingSystem.Data.Repositories
 
         public async Task<List<Event>> GetEventsAsync(int? musicGenreParam)
         {
-            List<Event> events = await _context.Events.Include(x => x.Artist)
+            List<Event> events = await _context.Events.Where(x => x.EventTime > DateTime.Now.AddHours(-24))
+                                        .Include(x => x.Artist)
                                         .Include(x => x.Place)
                                         .ToListAsync();
 

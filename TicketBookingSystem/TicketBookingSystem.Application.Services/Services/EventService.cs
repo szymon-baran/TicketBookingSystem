@@ -36,7 +36,12 @@ namespace TicketBookingSystem.Application.Services
                 EventTime = model.EventTime,
                 PhotoUrl = model.PhotoUrl,
                 ArtistId = model.ArtistId,
-                PlaceId = 1
+                PlaceId = model.PlaceId,
+                AvailableStandingTickets = model.AvailableStandingTickets,
+                AvailableSittingTickets = model.AvailableSittingTickets,
+                SittingTicketPrice = model.SittingTicketPrice,
+                StandingTicketPrice = model.StandingTicketPrice,
+                ReducedDiscount = model.ReducedDiscount
             };
             _eventRepository.Add(@event);
             await _eventRepository.SaveAsync();
@@ -91,6 +96,12 @@ namespace TicketBookingSystem.Application.Services
             @event.PhotoUrl = model.PhotoUrl;
             @event.ArtistId = model.ArtistId;
             @event.PlaceId = model.PlaceId;
+            @event.AvailableStandingTickets = model.AvailableStandingTickets;
+            @event.AvailableSittingTickets = model.AvailableSittingTickets;
+            @event.SittingTicketPrice = model.SittingTicketPrice;
+            @event.StandingTicketPrice = model.StandingTicketPrice;
+            @event.ReducedDiscount = model.ReducedDiscount;
+
             _eventRepository.Edit(@event);
             await _eventRepository.SaveAsync();
             return @event;
