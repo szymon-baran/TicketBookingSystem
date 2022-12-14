@@ -1,7 +1,13 @@
 ﻿@using TicketBookingSystem.Shared.Domain
 @using TicketBookingSystem.Shared
+@using TicketBookingSystem.Shared.Dictionaries
 @inject IArtistService ArtistService
 @inject NavigationManager NavigationManager
+
+@if (_artists.Count == 0)
+{
+    <MudText>Brak artystów.</MudText>
+}
 
 <MudGrid>
     @foreach (Artist artist in _artists)
@@ -32,14 +38,21 @@
 
 
 @code {
+    [Parameter]
+    public int? Id { get; set; }
+
     private PaginationParameters _paginationParameters = new();
     private List<Artist> _artists = new();
     private bool _shouldRender;
     private int _pageCount;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        var response = await ArtistService.GetArtistsList(_paginationParameters);
+        MusicGenre musicGenre = MusicGenre.None;
+        if (Id.HasValue)
+            musicGenre = (MusicGenre)Id;
+
+        var response = await ArtistService.GetArtistsList(_paginationParameters, musicGenre);
         _artists = response.Items;
         _pageCount = response.MetaData.TotalPages;
         _shouldRender = true;
@@ -47,8 +60,12 @@
 
     private async Task GetArtists(int page)
     {
+        MusicGenre musicGenre = MusicGenre.None;
+        if (Id.HasValue)
+            musicGenre = (MusicGenre)Id;
+
         _paginationParameters.PageNumber = page;
-        var response = await ArtistService.GetArtistsList(_paginationParameters);
+        var response = await ArtistService.GetArtistsList(_paginationParameters, musicGenre);
         _artists = response.Items;
     }
 

@@ -6,6 +6,7 @@ using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared;
 using TicketBookingSystem.Client.Abstraction.Helpers;
 using System.Text.Json;
+using TicketBookingSystem.Shared.Dictionaries;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -25,9 +26,9 @@ namespace TicketBookingSystem.Client.Services
 
         public Artist Artist = new();
 
-        public async Task<PagingResponse<Artist>> GetArtistsList(PaginationParameters paginationParameters)
+        public async Task<PagingResponse<Artist>> GetArtistsList(PaginationParameters paginationParameters, MusicGenre id = MusicGenre.None)
         {
-            var response = await _httpClient.GetAsync(_api + $"/getArtists?pageNumber={paginationParameters.PageNumber}");
+            var response = await _httpClient.GetAsync(_api + $"/getArtists?pageNumber={paginationParameters.PageNumber}&id={(int)id}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -89,7 +90,7 @@ namespace TicketBookingSystem.Client.Services
 
             if (response != null)
             {
-                await GetArtistsList(new PaginationParameters());
+                await GetArtistsList(new PaginationParameters(), MusicGenre.None);
                 _navigationManager.NavigateTo("artists");
             }
 

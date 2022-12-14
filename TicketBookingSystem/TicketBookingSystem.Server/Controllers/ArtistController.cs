@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Shared;
 using TicketBookingSystem.Shared.Application;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Server.Controllers
@@ -32,9 +33,9 @@ namespace TicketBookingSystem.Server.Controllers
         }
 
         [HttpGet("getArtists")]
-        public async Task<IActionResult> GetArtists([FromQuery] PaginationParameters paginationParameters)
+        public async Task<IActionResult> GetArtists([FromQuery] PaginationParameters paginationParameters, int id)
         {
-            var artists = await _artistService.GetArtists(paginationParameters);
+            var artists = await _artistService.GetArtists(paginationParameters, id);
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(artists.MetaData));
 

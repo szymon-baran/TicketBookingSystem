@@ -4,5 +4,6 @@ namespace TicketBookingSystem.Data.Abstraction
 {
     public interface IArtistRepository : IRepository<Artist>
     {
+        Task<List<Artist>> GetArtistsAsync(int? musicGenreParam);
     }
 }

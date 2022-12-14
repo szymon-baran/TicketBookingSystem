@@ -1,6 +1,7 @@
 ﻿using TicketBookingSystem.Application.Abstraction;
 using TicketBookingSystem.Data.Abstraction;
 using TicketBookingSystem.Shared;
+using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Application.Services
@@ -21,9 +22,9 @@ namespace TicketBookingSystem.Application.Services
             return artist;
         }
 
-        public async Task<PagedList<Artist>> GetArtists(PaginationParameters paginationParameters)
+        public async Task<PagedList<Artist>> GetArtists(PaginationParameters paginationParameters, int musicGenreParam)
         {
-            IEnumerable<Artist> artists = await _artistRepository.GetAllAsync();
+            List<Artist> artists = await _artistRepository.GetArtistsAsync(musicGenreParam);
 
             return PagedList<Artist>.ToPagedList(artists, paginationParameters.PageNumber, paginationParameters.PageSize);
         }

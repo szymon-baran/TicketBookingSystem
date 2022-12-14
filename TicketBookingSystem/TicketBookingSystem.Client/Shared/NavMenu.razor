@@ -11,13 +11,22 @@
                     <MudNavLink Href="@GetEventsFilteredUrl(genre.i)">@GetGenreName(genre.value)</MudNavLink>
                 }
             </MudNavGroup>
-            <MudNavLink Href="artists" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.People">Artyści</MudNavLink>
+            <MudNavGroup Title="Artyści" Expanded="false" Icon="@Icons.Material.Filled.List">
+                @foreach (var genre in ((MusicGenre[])Enum.GetValues(typeof(MusicGenre))).Select((value, i) => new { i, value }))
+                {
+                    <MudNavLink Href="@GetArtistsFilteredUrl(genre.i)">@GetGenreName(genre.value)</MudNavLink>
+                }
+            </MudNavGroup>
         </Authorized>
     </AuthorizeView>
 </MudNavMenu>
 @code {
     string GetEventsFilteredUrl(int i) {
         return $"events/{i}";
+    }
+    string GetArtistsFilteredUrl(int i)
+    {
+        return $"artists/{i}";
     }
     string GetGenreName(MusicGenre i)
     {

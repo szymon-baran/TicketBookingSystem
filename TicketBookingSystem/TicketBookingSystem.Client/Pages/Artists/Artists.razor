@@ -1,13 +1,15 @@
 ﻿@page "/artists"
+@page "/artists/{id:int}"
 @using TicketBookingSystem.Client.Shared.Artists
 @inject NavigationManager NavigationManager
-@using System.Security.Claims
+@using TicketBookingSystem.Shared.Dictionaries
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Artyści</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Artyści</MudText>
+<MudText Typo="Typo.h3">Artyści</MudText>
+<MudText Typo="Typo.h4" GutterBottom="true">(@GetSecondaryHeader())</MudText>
 <MudGrid>
         <MudItem xs="10">
             <MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej!</MudText>
@@ -19,14 +21,30 @@
     </AuthorizeView>
 </MudGrid>
 
-<ArtistsDataGrid></ArtistsDataGrid>
+<ArtistsDataGrid Id=Id></ArtistsDataGrid>
 
 @code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Id ??= 0;
+    }
+
     void RouteToAdd()
     {
         NavigationManager.NavigateTo($"/artist/add");
     }
 
+    string GetSecondaryHeader()
+    {
+        MusicGenre musicGenre = (MusicGenre)Id;
+        if (musicGenre == MusicGenre.None)
+            return "Wszystkie gatunki muzyczne";
+        else
+            return $"Muzyka {musicGenre.GetDescription()}";
+    }
 }
 
 <style>
