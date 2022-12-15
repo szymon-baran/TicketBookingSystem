@@ -1,0 +1,80 @@
+﻿@using TicketBookingSystem.Client.Shared.Tickets
+@using TicketBookingSystem.Shared.Dictionaries
+@using TicketBookingSystem.Shared.Domain
+@using BlazorScheduler
+@inject IEventService EventService
+@inject NavigationManager NavigationManager
+@inject IDialogService Dialog
+
+<Scheduler EnableDragging="false"
+           EnableRescheduling="false"
+           EnableAppointmentsCreationFromScheduler="true"
+           StartDayOfWeek="DayOfWeek.Monday"
+           OnAddingNewAppointment="RouteToAdd"
+           ThemeColor="#776be7ff"
+           NewAppointmentText="Nowe zdarzenie"
+           TodayButtonText="Dzisiaj">
+        <Appointments>
+            @foreach (var item in EventService.Events)
+            {
+                <Appointment Start="@item.EventTime" End="@item.EventTime" OnClick="() => OpenBuyTicketPopup(item.Id, item.Name)">
+                    <span class="pointer-cursor">
+                        @item.Name
+                    </span>
+                </Appointment>
+            }
+        </Appointments>
+    </Scheduler>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    async Task OpenBuyTicketPopup(int id, string name)
+    {
+        DialogOptions options = new()
+            {
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true
+            };
+        DialogParameters parameters = new();
+        parameters.Add("Id", id);
+        var dialog = Dialog.Show<BuyTicket>($"Kup bilet na {name}", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+
+        }
+    }
+
+    Task RouteToAdd(DateTime start, DateTime end)
+    {
+        NavigationManager.NavigateTo($"/event/add/{start.ToString("yyyy-MM-dd")}");
+        return Task.CompletedTask;
+    }
+}
+<style lang="scss">
+    .pointer-cursor {
+        cursor: pointer;
+    }
+    .scheduler > .header > .actions {
+        background-color: var(--mud-palette-primary) !important;
+    }
+    .scheduler > .header > .actions .btn {
+        background-color: var(--mud-palette-primary) !important;
+    }
+    .scheduler {
+        background-color: var(--mud-palette-dark) !important;
+    }
+    .scheduler > .month > .week > .days > .day {
+        background-color: var(--mud-palette-dark) !important;
+    }
+    .scheduler > .month > .week > .appointments > .appointment {
+        background-color: var(--mud-palette-primary) !important;
+    }
+    .scheduler > .month > .week.header > .day-of-month {
+        background-color: var(--mud-palette-dark-darken) !important;
+    }
+
+</style>

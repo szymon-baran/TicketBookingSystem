@@ -3,6 +3,7 @@
 @using TicketBookingSystem.Client.Shared.Events
 @using TicketBookingSystem.Shared.Dictionaries
 @inject NavigationManager NavigationManager
+@inject IEventService EventService
 
 <PageTitle>Wydarzenia</PageTitle>
 
@@ -12,22 +13,55 @@
     <MudItem xs="10">
         <MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
     </MudItem>
-    <AuthorizeView Roles="Administrator">
-    <MudItem xs="2" Class="right-align mb-2">
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>
+    <MudItem xs="2" Class="right-align mb-1">
+        <MudSwitch @bind-Checked="_isSchedulerChosen" Color="Color.Primary">@(_isSchedulerChosen ? "Kalendarz" : "Tabela")</MudSwitch>
     </MudItem>
-    </AuthorizeView>
+    <MudItem xs="12" Class="right-align mb-2">
+        <AuthorizeView Roles="Administrator">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>
+        </AuthorizeView>
+    </MudItem>
 </MudGrid>
 
-<EventsDataGrid Id=Id></EventsDataGrid>
+@if (EventService.Events == null)
+{
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+}
+else if (EventService.Events.Count == 0)
+{
+    <MudText>Brak wydarzeń.</MudText>
+}
+else
+{
+    @if (_isSchedulerChosen)
+    {
+        <EventsScheduler Id=Id></EventsScheduler>
+    }
+    else
+    {
+        <EventsDataGrid Id=Id></EventsDataGrid>
+    }
+}
 
 @code {
     [Parameter]
     public int? Id { get; set; }
 
+    private bool _isSchedulerChosen { get; set; } = false;
+
     protected override async Task OnInitializedAsync()
     {
-        Id ??= 0; 
+        Id ??= 0;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        EventService.Events = null;
+        MusicGenre musicGenre = MusicGenre.None;
+        if (Id.HasValue)
+            musicGenre = (MusicGenre)Id;
+
+        await EventService.GetEventsList(musicGenre);
     }
 
     void RouteToAdd()

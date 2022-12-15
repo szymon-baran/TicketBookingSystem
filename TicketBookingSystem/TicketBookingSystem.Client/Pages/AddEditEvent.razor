@@ -1,4 +1,5 @@
 ﻿@page "/event/add"
+@page "/event/add/{start:datetime}"
 @page "/event/edit/{id:int}"
 @using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
@@ -60,6 +61,8 @@ else
 @code {
     [Parameter]
     public int? Id { get; set; }
+    [Parameter]
+    public DateTime? Start { get; set; }
 
     string submitBtnText = "";
 
@@ -88,6 +91,10 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        if (Start.HasValue) 
+        {
+            dateTime = Start.Value;
+        }
         submitBtnText = Id == null ? "Dodaj" : "Edytuj";
         await ArtistService.GetArtistsToSelectList();
         selectedEvent.ArtistId = ArtistService.ArtistsToSelectList.FirstOrDefault().Key;
