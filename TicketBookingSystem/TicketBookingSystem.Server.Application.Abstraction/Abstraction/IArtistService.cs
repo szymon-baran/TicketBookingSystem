@@ -2,7 +2,7 @@
 using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
-namespace TicketBookingSystem.Application.Abstraction
+namespace TicketBookingSystem.Server.Application.Abstraction
 {
     public interface IArtistService
     {

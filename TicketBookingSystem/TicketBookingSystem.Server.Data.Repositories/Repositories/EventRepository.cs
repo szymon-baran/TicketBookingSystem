@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TicketBookingSystem.Data.Abstraction;
+using TicketBookingSystem.Server.Data.Abstraction;
 using TicketBookingSystem.Server.EntityFramework;
 using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
-namespace TicketBookingSystem.Data.Repositories
+namespace TicketBookingSystem.Server.Data.Repositories
 {
     public class EventRepository : Repository<Event>, IEventRepository
     {

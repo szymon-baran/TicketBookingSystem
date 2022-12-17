@@ -1,8 +1,8 @@
-﻿using TicketBookingSystem.Data.Abstraction;
+﻿using TicketBookingSystem.Server.Data.Abstraction;
 using TicketBookingSystem.Server.EntityFramework;
 using TicketBookingSystem.Shared.Domain;
 
-namespace TicketBookingSystem.Data.Repositories
+namespace TicketBookingSystem.Server.Data.Repositories
 {
     public class PlaceRepository : Repository<Place>, IPlaceRepository
     {

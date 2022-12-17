@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Server.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 

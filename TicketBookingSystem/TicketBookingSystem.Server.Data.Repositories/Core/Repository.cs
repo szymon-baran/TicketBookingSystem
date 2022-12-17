@@ -1,10 +1,10 @@
 ﻿using IdentityModel;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using TicketBookingSystem.Data.Abstraction;
+using TicketBookingSystem.Server.Data.Abstraction;
 using TicketBookingSystem.Server.EntityFramework;
 
-namespace TicketBookingSystem.Data.Repositories
+namespace TicketBookingSystem.Server.Data.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {

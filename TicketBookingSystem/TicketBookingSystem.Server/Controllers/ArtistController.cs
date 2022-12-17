@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Server.Application.Abstraction;
 using TicketBookingSystem.Shared;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Dictionaries;

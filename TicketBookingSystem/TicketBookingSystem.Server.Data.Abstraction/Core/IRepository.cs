@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TicketBookingSystem.Data.Abstraction
+namespace TicketBookingSystem.Server.Data.Abstraction
 {
     public interface IRepository<T> where T : class
     {

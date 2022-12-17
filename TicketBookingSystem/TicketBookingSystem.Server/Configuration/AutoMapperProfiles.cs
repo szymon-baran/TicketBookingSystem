@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Server.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Domain;
 

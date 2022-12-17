@@ -1,11 +1,11 @@
 ﻿using System.Xml.Linq;
-using TicketBookingSystem.Application.Abstraction;
-using TicketBookingSystem.Data.Abstraction;
+using TicketBookingSystem.Server.Application.Abstraction;
+using TicketBookingSystem.Server.Data.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
-namespace TicketBookingSystem.Application.Services
+namespace TicketBookingSystem.Server.Application.Services
 {
     public class EventService : IEventService
     {

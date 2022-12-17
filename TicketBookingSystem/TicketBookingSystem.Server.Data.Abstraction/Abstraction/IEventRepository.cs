@@ -1,7 +1,7 @@
 ﻿using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
-namespace TicketBookingSystem.Data.Abstraction
+namespace TicketBookingSystem.Server.Data.Abstraction
 {
     public interface IEventRepository : IRepository<Event>
     {

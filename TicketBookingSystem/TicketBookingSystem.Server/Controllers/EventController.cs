@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TicketBookingSystem.Application.Abstraction;
+using TicketBookingSystem.Server.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
 using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;

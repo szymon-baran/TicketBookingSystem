@@ -1,7 +1,7 @@
-﻿using TicketBookingSystem.Application.Abstraction;
-using TicketBookingSystem.Application.Services;
-using TicketBookingSystem.Data.Abstraction;
-using TicketBookingSystem.Data.Repositories;
+﻿using TicketBookingSystem.Server.Application.Abstraction;
+using TicketBookingSystem.Server.Application.Services;
+using TicketBookingSystem.Server.Data.Abstraction;
+using TicketBookingSystem.Server.Data.Repositories;
 
 namespace TicketBookingSystem.Server
 {
