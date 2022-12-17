@@ -1,4 +1,5 @@
 ﻿@page
+@using TicketBookingSystem.Shared.Dictionaries
 @model RegisterModel
 @{
     ViewData["Title"] = "Rejestracja";
@@ -23,6 +24,18 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
                 <label asp-for="Input.ConfirmPassword"></label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <input asp-for="Input.Age" class="form-control" autocomplete="age" aria-required="true" />
+                <label asp-for="Input.Age"></label>
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+            <div class="form-floating mt-3">
+                <select asp-for="Input.FavouriteMusicGenre" class="form-control" autocomplete="music-genre" aria-required="true" asp-items="@(new SelectList(Enum.GetValues(typeof(MusicGenre)).Cast<MusicGenre>()))">
+                    <option>Wybierz gatunek...</option>
+                </select>
+                <label asp-for="Input.FavouriteMusicGenre"></label>
+                <span asp-validation-for="Input.FavouriteMusicGenre" class="text-danger"></span>
             </div>
             <div class="row my-2">
                 <button id="registerSubmit" type="submit" class="mt-2 w-100 btn btn-lg btn-primary">Zarejestruj się</button>
