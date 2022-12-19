@@ -12,7 +12,7 @@
 <MudGrid>
     @foreach (Artist artist in _artists)
     {
-        <MudItem md="3" xs="12">
+        <MudItem md="3" xs="6">
             <MudCard Class="rounded-lg">
                 <MudCardMedia Image="@(artist.PhotoUrl == "" ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" : artist.PhotoUrl)" Height="200" />
                 <MudCardContent>

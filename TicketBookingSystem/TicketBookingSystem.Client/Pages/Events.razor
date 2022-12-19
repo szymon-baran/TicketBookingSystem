@@ -13,9 +13,11 @@
     <MudItem xs="10">
         <MudText Class="mb-4">Jesteś zainteresowany wydarzeniem muzycznym? Sprawdź dostępną listę poniżej!</MudText>
     </MudItem>
-    <MudItem xs="2" Class="right-align mb-1">
-        <MudSwitch @bind-Checked="_isSchedulerChosen" Color="Color.Primary">@(_isSchedulerChosen ? "Kalendarz" : "Tabela")</MudSwitch>
-    </MudItem>
+    <AuthorizeView Context="authorizeContext">
+        <MudItem xs="2" Class="right-align mb-1">
+            <MudSwitch @bind-Checked="_isSchedulerChosen" Color="Color.Primary">@(_isSchedulerChosen ? "Kalendarz" : "Tabela")</MudSwitch>
+        </MudItem>
+    </AuthorizeView>
     <MudItem xs="12" Class="right-align mb-2">
         <AuthorizeView Roles="Administrator">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>

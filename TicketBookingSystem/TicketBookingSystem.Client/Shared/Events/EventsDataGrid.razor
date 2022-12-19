@@ -39,9 +39,11 @@
                             <MudText Typo="Typo.body2" Class="ml-1"> Pozostało @context.Item.AvailableStandingTickets miejsc stojących i @context.Item.AvailableSittingTickets siedzących.</MudText>
                         </MudItem>
                         <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
-                            <div>
-                                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth @onclick="@(() => OpenBuyTicketPopup(context.Item.Id, context.Item.Name))">Kup bilet</MudButton>
-                            </div>
+                            <AuthorizeView Context="authorizeContext">
+                                <div>
+                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth @onclick="@(() => OpenBuyTicketPopup(context.Item.Id, context.Item.Name))">Kup bilet</MudButton>
+                                </div>
+                            </AuthorizeView>
                             <AuthorizeView Context="authorizeContext" Roles="Administrator">
                                 <div>
                                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" Class="py-4 mt-4" FullWidth @onclick="@(() => RouteToEdit(context.Item.Id))">Edytuj</MudButton>

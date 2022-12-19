@@ -4,16 +4,15 @@
 @inject NavigationManager NavigationManager
 @using TicketBookingSystem.Shared.Dictionaries
 @using Microsoft.AspNetCore.Components.Authorization
-@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Artyści</PageTitle>
 
 <MudText Typo="Typo.h3">Artyści</MudText>
 <MudText Typo="Typo.h4" GutterBottom="true">(@GetSecondaryHeader())</MudText>
 <MudGrid>
-        <MudItem xs="10">
-            <MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej!</MudText>
-        </MudItem>
+    <MudItem xs="10">
+        <MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej!</MudText>
+    </MudItem>
     <AuthorizeView Roles="Administrator">
         <MudItem xs="2" Class="right-align mb-2">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => RouteToAdd())">Dodaj</MudButton>

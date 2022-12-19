@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using MudBlazor.Services;
 using TicketBookingSystem.Client.Abstraction;
+using TicketBookingSystem.Client.Abstraction.Utils;
 using TicketBookingSystem.Client.Services;
 
 namespace TicketBookingSystem.Client
@@ -20,7 +21,8 @@ namespace TicketBookingSystem.Client
 
             builder.Services.AddHttpClient("TicketBookingSystem.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
                 .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
-            builder.Services.AddHttpClient("TicketBookingSystem.PublicServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            //builder.Services.AddHttpClient("TicketBookingSystem.PublicServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services.AddHttpClient<PublicClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
             // Supply HttpClient instances that include access tokens when making requests to the server project
             builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("TicketBookingSystem.ServerAPI"));

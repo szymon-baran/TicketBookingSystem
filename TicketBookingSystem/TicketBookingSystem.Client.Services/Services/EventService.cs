@@ -5,6 +5,7 @@ using TicketBookingSystem.Shared.Application;
 using Microsoft.AspNetCore.Components;
 using System.Net.Http;
 using TicketBookingSystem.Shared.Dictionaries;
+using TicketBookingSystem.Client.Abstraction.Utils;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -13,13 +14,13 @@ namespace TicketBookingSystem.Client.Services
         private readonly HttpClient _httpClient;
         private readonly string _api = "api/event";
         private readonly NavigationManager _navigationManager;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly PublicClient _publicClient;
 
-        public EventService(HttpClient httpClient, NavigationManager navigationManager, IHttpClientFactory httpClientFactory)
+        public EventService(HttpClient httpClient, NavigationManager navigationManager, PublicClient publicClient)
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
-            _httpClientFactory = httpClientFactory;
+            _publicClient = publicClient;
         }
 
         public List<Event>? Events { get; set; } = null;
@@ -27,8 +28,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task GetEventsList(MusicGenre id = MusicGenre.None)
         {
-            var client = _httpClientFactory.CreateClient("TicketBookingSystem.PublicServerAPI");
-            List<Event>? events = await client.GetFromJsonAsync<List<Event>>($"{_api}/{(int)id}");
+            List<Event>? events = await _publicClient.Client.GetFromJsonAsync<List<Event>>($"{_api}/{(int)id}");
             if (events != null)
             {
                 Events = events;
@@ -37,7 +37,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task GetUpcomingEventsListByArtist(int artistId)
         {
-            List<Event>? events = await _httpClient.GetFromJsonAsync<List<Event>>(_api + $"/getUpcomingEventsByArtist?artistId={artistId}");
+            List<Event>? events = await _publicClient.Client.GetFromJsonAsync<List<Event>>(_api + $"/getUpcomingEventsByArtist?artistId={artistId}");
             if (events != null)
             {
                 Events = events;

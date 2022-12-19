@@ -7,6 +7,8 @@ using TicketBookingSystem.Shared;
 using TicketBookingSystem.Client.Abstraction.Helpers;
 using System.Text.Json;
 using TicketBookingSystem.Shared.Dictionaries;
+using System.Net.Http;
+using TicketBookingSystem.Client.Abstraction.Utils;
 
 namespace TicketBookingSystem.Client.Services
 {
@@ -15,11 +17,13 @@ namespace TicketBookingSystem.Client.Services
         private readonly HttpClient _httpClient;
         private readonly NavigationManager _navigationManager;
         private readonly string _api = "api/artist";
+        private readonly PublicClient _publicClient;
 
-        public ArtistService(HttpClient httpClient, NavigationManager navigationManager)
+        public ArtistService(HttpClient httpClient, NavigationManager navigationManager, PublicClient publicClient)
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
+            _publicClient = publicClient;
         }
 
         public Dictionary<int, string>? ArtistsToSelectList { get; set; } = new();
@@ -28,7 +32,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task<PagingResponse<Artist>> GetArtistsList(PaginationParameters paginationParameters, MusicGenre id = MusicGenre.None)
         {
-            var response = await _httpClient.GetAsync(_api + $"/getArtists?pageNumber={paginationParameters.PageNumber}&id={(int)id}");
+            var response = await _publicClient.Client.GetAsync(_api + $"/getArtists?pageNumber={paginationParameters.PageNumber}&id={(int)id}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
             {
@@ -47,7 +51,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task<Artist?> GetArtistById(int id)
         {
-            Artist? artist = await _httpClient.GetFromJsonAsync<Artist?>(_api + $"/getArtistById?id={id}");
+            Artist? artist = await _publicClient.Client.GetFromJsonAsync<Artist?>(_api + $"/getArtistById?id={id}");
             if (artist != null)
             {
                 return artist;

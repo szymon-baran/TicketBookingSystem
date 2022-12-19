@@ -6,29 +6,52 @@
 @inject NavigationManager NavigationManager
 @inject IDialogService Dialog
 
-<Scheduler EnableDragging="false"
-           EnableRescheduling="false"
-           EnableAppointmentsCreationFromScheduler="true"
-           StartDayOfWeek="DayOfWeek.Monday"
-           OnAddingNewAppointment="RouteToAdd"
-           ThemeColor="#776be7ff"
-           NewAppointmentText="Nowe zdarzenie"
-           TodayButtonText="Dzisiaj">
-        <Appointments>
-            @foreach (var item in EventService.Events)
-            {
-                <Appointment Start="@item.EventTime" End="@item.EventTime" OnClick="() => OpenBuyTicketPopup(item.Id, item.Name)">
-                    <span class="pointer-cursor">
-                        @item.Name
-                    </span>
-                </Appointment>
-            }
-        </Appointments>
-    </Scheduler>
+<AuthorizeView Context="authorizeContext" Roles="Administrator">
+        <Scheduler EnableDragging="false"
+                   EnableRescheduling="false"
+                   EnableAppointmentsCreationFromScheduler="true"
+                   StartDayOfWeek="DayOfWeek.Monday"
+                   OnAddingNewAppointment="RouteToAdd"
+                   ThemeColor="#776be7ff"
+                   NewAppointmentText="Nowe zdarzenie"
+                   TodayButtonText="Dzisiaj">
+            <Appointments>
+                @foreach (var item in EventService.Events)
+                {
+                    <Appointment Start="@item.EventTime" End="@item.EventTime" OnClick="() => OpenBuyTicketPopup(item.Id, item.Name)">
+                        <span class="pointer-cursor">
+                            @item.Name
+                        </span>
+                    </Appointment>
+                }
+            </Appointments>
+        </Scheduler>
+</AuthorizeView>
+<AuthorizeView Context="authorizeContext" Roles="User">
+        <Scheduler EnableDragging="false"
+               EnableRescheduling="false"
+               EnableAppointmentsCreationFromScheduler="true"
+               StartDayOfWeek="DayOfWeek.Monday"
+               ThemeColor="#776be7ff"
+               NewAppointmentText=""
+               TodayButtonText="Dzisiaj">
+            <Appointments>
+                @foreach (var item in EventService.Events)
+                {
+                    <Appointment Start="@item.EventTime" End="@item.EventTime" OnClick="() => OpenBuyTicketPopup(item.Id, item.Name)">
+                        <span class="pointer-cursor">
+                            @item.Name
+                        </span>
+                    </Appointment>
+                }
+            </Appointments>
+        </Scheduler>
+</AuthorizeView>
 
 @code {
     [Parameter]
     public int? Id { get; set; }
+    private bool _isAdmin;
 
     async Task OpenBuyTicketPopup(int id, string name)
     {
