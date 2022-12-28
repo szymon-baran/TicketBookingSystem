@@ -28,6 +28,46 @@ namespace TicketBookingSystem.Server.Data.Repositories
             return events;
         }
 
+        public async Task<List<Event>> GetEventsInNextMonthByPrimaryMusicGenre(MusicGenre musicGenre)
+        {
+            List<Event> events = await _context.Events.Include(x => x.Artist)
+                                                .Include(x => x.Place)
+                                                .Where(x => x.EventTime > DateTime.Now
+                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.Artist.PrimaryMusicGenre == musicGenre)
+                                                .OrderBy(x => x.EventTime)
+                                                .ToListAsync();
+
+            return events;
+        }
+
+        public async Task<List<Event>> GetEventsInNextMonthBySecondaryMusicGenre(MusicGenre musicGenre)
+        {
+            List<Event> events = await _context.Events.Include(x => x.Artist)
+                                                .Include(x => x.Place)
+                                                .Where(x => x.EventTime > DateTime.Now
+                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.Artist.SecondaryMusicGenre == musicGenre)
+                                                .OrderBy(x => x.EventTime)
+                                                .ToListAsync();
+
+            return events;
+        }
+
+        public async Task<List<Event>> GetEventsInNextMonthByUserAge(int userAge)
+        {
+            List<Event> events = await _context.Events.Include(x => x.Artist)
+                                                .Include(x => x.Place)
+                                                .Where(x => x.EventTime > DateTime.Now
+                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.Artist.AverageFanbaseAge > ((int)Math.Floor(0.8 * userAge))
+                                                            && x.Artist.AverageFanbaseAge < ((int)Math.Floor(1.2 * userAge)))
+                                                .OrderBy(x => x.EventTime)
+                                                .ToListAsync();
+
+            return events;
+        }
+
         public async Task<Event> GetEventDetailsForTicketPurchase(int id)
         {
             Event @event = await _context.Events.Where(x => x.Id == id)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TicketBookingSystem.Server.Application.Abstraction;
 using TicketBookingSystem.Shared.Application;
-using TicketBookingSystem.Shared.Dictionaries;
 using TicketBookingSystem.Shared.Domain;
 
 namespace TicketBookingSystem.Server.Controllers
@@ -19,6 +19,13 @@ namespace TicketBookingSystem.Server.Controllers
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEvents(int id) => Ok(await _eventService.GetEventsAsync(id));
+
+        [HttpGet("getEventsForUserRecommendation")]
+        public async Task<IActionResult> GetEventsForUserRecommendation()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            return Ok(await _eventService.GetEventsForUserRecommendation(userId));
+        }
 
         [HttpGet("getUpcomingEventsByArtist")]
         public async Task<IActionResult> GetUpcomingEventsByArtist(int artistId) => Ok(await _eventService.GetUpcomingEventsByArtistAsync(artistId));

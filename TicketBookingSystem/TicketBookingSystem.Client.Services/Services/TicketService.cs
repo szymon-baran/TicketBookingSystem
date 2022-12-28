@@ -30,14 +30,16 @@ namespace TicketBookingSystem.Client.Services
             }
         }
 
-        public async Task BuyTicket(BuyOperationVM model)
+        public async Task<bool> BuyTicket(BuyOperationVM model)
         {
             var result = await _httpClient.PostAsJsonAsync(_api, model);
             var response = await result.Content.ReadFromJsonAsync<int>();
             if (response != null)
             {
-                _navigationManager.NavigateTo("events");
+                return result.IsSuccessStatusCode;
             }
+
+            return false;
         }
     }
 }

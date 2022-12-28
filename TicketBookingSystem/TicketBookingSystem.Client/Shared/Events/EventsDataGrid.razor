@@ -82,7 +82,6 @@
         parameters.Add("Id", id);
         var dialog = Dialog.Show<BuyTicket>($"Kup bilet na {name}", parameters, options);
         var result = await dialog.Result;
-
         if (!result.Cancelled)
         {
 

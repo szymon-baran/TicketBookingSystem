@@ -1,0 +1,42 @@
+﻿@using TicketBookingSystem.Client.Shared.Tickets
+@using TicketBookingSystem.Shared.Dictionaries
+@using TicketBookingSystem.Shared.Domain
+@inject IEventService EventService
+@inject NavigationManager NavigationManager
+@inject IDialogService Dialog
+
+<MudText Class="mb-4">Może zainteresuje Cię również jedno z poniższych wydarzeń?</MudText>
+<MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@EventService.EventsForUserRecommendation" @bind-SelectedIndex="_selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+    <ItemTemplate>
+        <div class="d-flex flex-column flex-column pointer" style="height:100%">
+            <MudText Align="Align.Center" Style="font-size:20px;">@EventService.EventsForUserRecommendation[_selectedIndex].Name</MudText>
+            <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" @onclick="(() => OpenBuyTicketPopup(EventService.EventsForUserRecommendation[_selectedIndex].Id, EventService.EventsForUserRecommendation[_selectedIndex].Name))" Src="@EventService.EventsForUserRecommendation[_selectedIndex].PhotoUrl" Fluid="true"></MudImage>
+        </div>
+    </ItemTemplate>
+</MudCarousel>
+
+@code {
+    private int _selectedIndex = 0;
+    async Task OpenBuyTicketPopup(int id, string name)
+    {
+        DialogOptions options = new()
+            {
+                MaxWidth = MaxWidth.Medium,
+                FullWidth = true
+            };
+        DialogParameters parameters = new();
+        parameters.Add("Id", id);
+        var dialog = Dialog.Show<BuyTicket>($"Kup bilet na {name}", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+
+        }
+    }
+}
+<style>
+    .pointer {
+        cursor: pointer;
+    }
+</style>

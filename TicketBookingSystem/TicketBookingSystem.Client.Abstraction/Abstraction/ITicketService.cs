@@ -8,6 +8,6 @@ namespace TicketBookingSystem.Client.Abstraction
     {
         List<ReservedTicketVM> Tickets { get; set; }
         Task GetTicketsList();
-        Task BuyTicket(BuyOperationVM model);
+        Task<bool> BuyTicket(BuyOperationVM model);
     }
 }

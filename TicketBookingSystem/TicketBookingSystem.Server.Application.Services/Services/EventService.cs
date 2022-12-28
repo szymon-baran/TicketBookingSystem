@@ -10,10 +10,12 @@ namespace TicketBookingSystem.Server.Application.Services
     public class EventService : IEventService
     {
         private readonly IEventRepository _eventRepository;
+        private readonly IApplicationUserRepository _userRepository;
 
-        public EventService(IEventRepository eventRepository)
+        public EventService(IEventRepository eventRepository, IApplicationUserRepository userRepository)
         {
             _eventRepository = eventRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<List<Event>> GetEventsAsync(int musicGenre) => await _eventRepository.GetEventsAsync(musicGenre);
@@ -113,6 +115,35 @@ namespace TicketBookingSystem.Server.Application.Services
             _eventRepository.Remove(@event);
             await _eventRepository.SaveAsync();
             return id;
+        }
+
+        public async Task<List<Event>> GetEventsForUserRecommendation(string userId)
+        {
+            ApplicationUser user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId);
+            List<Event> events = await _eventRepository.GetEventsInNextMonthByPrimaryMusicGenre(user.FavouriteMusicGenre);
+
+            // If not enough events by primary genre, fill with secondary ones
+            if (events.Count < 4)
+            {
+                events.AddRange(await _eventRepository.GetEventsInNextMonthBySecondaryMusicGenre(user.FavouriteMusicGenre));
+            }
+            events = events.Take(4).ToList();
+
+            // Value not nullable then check for 0
+            if (user.Age != 0)
+            {
+                IEnumerable<Event> eventsByAge = await _eventRepository.GetEventsInNextMonthByUserAge(user.Age);
+                events.AddRange(eventsByAge.Take(2));
+            }
+
+            // If still not enough events, add with random upcoming ones
+            if (events.Count < 6)
+            {
+                IEnumerable<Event> upcomingEvents = await _eventRepository.GetAllAsync();
+                events.AddRange(upcomingEvents.OrderBy(x => x.EventTime).Take(6 - events.Count));
+            }
+
+            return events;
         }
     }
 }

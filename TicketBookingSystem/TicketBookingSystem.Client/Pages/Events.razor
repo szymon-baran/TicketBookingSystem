@@ -73,7 +73,7 @@ else
 
     string GetSecondaryHeader()
     {
-        MusicGenre musicGenre = (MusicGenre)Id;
+        MusicGenre musicGenre = Id.HasValue ? (MusicGenre)Id : MusicGenre.None;
         if (musicGenre == MusicGenre.None)
             return "Wszystkie gatunki muzyczne";
         else

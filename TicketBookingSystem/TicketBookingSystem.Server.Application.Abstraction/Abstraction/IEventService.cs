@@ -13,5 +13,6 @@ namespace TicketBookingSystem.Server.Application.Abstraction
         Task<TicketPurchaseEventDetailsVM> GetEventDetailsVMForTicketPurchase(int id);
         Task<Event> EditEvent(EventAddEditVM model);
         Task<int> DeleteEvent(int id);
+        Task<List<Event>> GetEventsForUserRecommendation(string userId);
     }
 }
