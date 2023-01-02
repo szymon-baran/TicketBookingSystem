@@ -5,58 +5,70 @@
 @inject IEventService EventService
 @inject IArtistService ArtistService
 @inject IPlaceService PlaceService
+@inject ISnackbar Snackbar
 
-@if (Id == null)
-{
-    <PageTitle>Dodaj wydarzenie</PageTitle>
-    <MudText Typo="Typo.h3" GutterBottom="true">Dodaj wydarzenie</MudText>
-}
-else
-{
-    <PageTitle>Edytuj @selectedEvent.Name</PageTitle>
-    <MudText Typo="Typo.h3" GutterBottom="true">Edytuj @selectedEvent.Name</MudText>
-}
-<MudPaper Class="pa-4">
-    <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
-        <MudGrid>
-            <MudItem xs="12" sm="6" Class="py-2">
-                <MudTextField @bind-Value="selectedEvent.Name" T="string" Label="Nazwa zdarzenia" Required="true" RequiredError="Nazwa zdarzenia jest wymagana!" />
-                <MudDatePicker @bind-Date="dateTime" Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
-                <MudSelect @bind-Value="_chosenPlaceId" T="int" Label="Lokalizacja" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Lokalizacja jest wymagana!">
-                    @foreach (var place in PlaceService.PlacesToSelectList)
-                    {
-                        <MudSelectItem Value="@place.Id">@place.Name</MudSelectItem>
-                    }
-                </MudSelect>
-                <MudNumericField @bind-Value="selectedEvent.AvailableSittingTickets" Label="Liczba miejsc siedzących" Max="_availableSittingSeats" />
-                <MudNumericField @bind-Value="selectedEvent.SittingTicketPrice" Label="Cena miejsca siedzącego [PLN]" />
-                <MudNumericField @bind-Value="selectedEvent.ReducedDiscount" Label="Obniżka dla biletu ulgowego" Min="0" Max="1" />
-            </MudItem>
-            <MudItem xs="12" sm="6" Class="py-2">
-                <MudTextField @bind-Value="selectedEvent.PhotoUrl" T="string" Label="Link do zdjęcia" />
-                <MudTimePicker @bind-Time="timeSpan" Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
-                <MudSelect @bind-Value="selectedEvent.ArtistId" T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
-                    @foreach (var artist in ArtistService.ArtistsToSelectList)
-                    {
-                        <MudSelectItem Value="@artist.Key">@artist.Value</MudSelectItem>
-                    }
-                </MudSelect>
-                <MudNumericField @bind-Value="selectedEvent.AvailableStandingTickets" Label="Liczba miejsc stojących" Max="_availableStandingSeats" />
-                <MudNumericField @bind-Value="selectedEvent.StandingTicketPrice" Label="Cena miejsca stojącego [PLN]" />
-            </MudItem>
-            <MudItem sm="12">
-                <MudTextField @bind-Value="selectedEvent.Description" T="string" Label="Opis" Lines="2" />
-                <div class="d-flex align-center justify-space-between mt-5">
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-1" @onclick="(() => Submit())">@submitBtnText</MudButton>
-                    @if (Id != null)
-                    {
-                        <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="(() => DeleteEvent())" Class="mt-1">Usuń</MudButton>
-                    }
-                </div>
-            </MudItem>
-        </MudGrid>
-    </MudForm>
-</MudPaper>
+<MudGrid>
+    <MudItem xs="12">
+        <MudBreadcrumbs Class="pa-0" Items="_items"></MudBreadcrumbs>
+    </MudItem>
+    @if (Id == null)
+    {
+        <PageTitle>Dodaj wydarzenie</PageTitle>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h3" GutterBottom="true">Dodaj wydarzenie</MudText>
+        </MudItem>
+    }
+    else
+    {
+        <PageTitle>Edytuj @selectedEvent.Name</PageTitle>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h3" GutterBottom="true">Edytuj @selectedEvent.Name</MudText>
+        </MudItem>
+    }
+    <MudItem xs="12">
+        <MudPaper Class="pa-4">
+            <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                <MudGrid>
+                    <MudItem xs="12" sm="6" Class="py-2">
+                        <MudTextField @bind-Value="selectedEvent.Name" T="string" Label="Nazwa zdarzenia" Required="true" RequiredError="Nazwa zdarzenia jest wymagana!" />
+                        <MudDatePicker @bind-Date="dateTime" Label="Data zdarzenia" Required="true" RequiredError="Data jest wymagana!" />
+                        <MudSelect @bind-Value="_chosenPlaceId" T="int" Label="Lokalizacja" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Lokalizacja jest wymagana!">
+                            @foreach (var place in PlaceService.PlacesToSelectList)
+                            {
+                                <MudSelectItem Value="@place.Id">@place.Name</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudNumericField @bind-Value="selectedEvent.AvailableSittingTickets" Label="Liczba miejsc siedzących" Max="_availableSittingSeats" />
+                        <MudNumericField @bind-Value="selectedEvent.SittingTicketPrice" Label="Cena miejsca siedzącego [PLN]" />
+                        <MudNumericField @bind-Value="selectedEvent.ReducedDiscount" Label="Obniżka dla biletu ulgowego" Min="0" Max="1" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6" Class="py-2">
+                        <MudTextField @bind-Value="selectedEvent.PhotoUrl" T="string" Label="Link do zdjęcia" />
+                        <MudTimePicker @bind-Time="timeSpan" Label="Godzina zdarzenia" Required="true" RequiredError="Godzina jest wymagana!" />
+                        <MudSelect @bind-Value="selectedEvent.ArtistId" T="int" Label="Artysta" AnchorOrigin="Origin.BottomCenter" Required="true" RequiredError="Artysta jest wymagany!">
+                            @foreach (var artist in ArtistService.ArtistsToSelectList)
+                            {
+                                <MudSelectItem Value="@artist.Key">@artist.Value</MudSelectItem>
+                            }
+                        </MudSelect>
+                        <MudNumericField @bind-Value="selectedEvent.AvailableStandingTickets" Label="Liczba miejsc stojących" Max="_availableStandingSeats" />
+                        <MudNumericField @bind-Value="selectedEvent.StandingTicketPrice" Label="Cena miejsca stojącego [PLN]" />
+                    </MudItem>
+                    <MudItem sm="12">
+                        <MudTextField @bind-Value="selectedEvent.Description" T="string" Label="Opis" Lines="2" />
+                        <div class="d-flex align-center justify-space-between mt-5">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto mt-1" @onclick="(() => Submit())">@submitBtnText</MudButton>
+                            @if (Id != null)
+                            {
+                                <MudButton Variant="Variant.Filled" Color="Color.Secondary" @onclick="(() => DeleteEvent())" Class="mt-1">Usuń</MudButton>
+                            }
+                        </div>
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 
 @code {
     [Parameter]
@@ -65,6 +77,12 @@ else
     public DateTime? Start { get; set; }
 
     string submitBtnText = "";
+
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Wydarzenia", href: "/events"),
+    };
 
     bool success;
     string[] errors = { };
@@ -91,7 +109,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        if (Start.HasValue) 
+        if (Start.HasValue)
         {
             dateTime = Start.Value;
         }
@@ -113,8 +131,13 @@ else
             if (Id.HasValue)
             {
                 selectedEvent = await EventService.GetEventDetails(Id.Value);
+                _items.Add(new BreadcrumbItem($"{selectedEvent.Name}", href: null, disabled: true));
                 dateTime = selectedEvent.EventTime.Date;
                 timeSpan = selectedEvent.EventTime.TimeOfDay;
+            }
+            else 
+            {
+                _items.Add(new BreadcrumbItem("Nowe wydarzenie", href: null, disabled: true));
             }
         }
     }
@@ -129,10 +152,12 @@ else
             if (Id == null)
             {
                 await EventService.AddEvent(selectedEvent);
+                Snackbar.Add("Zdarzenie zostało dodane pomyślnie!", Severity.Success);
             }
             else
             {
                 await EventService.EditEvent(selectedEvent);
+                Snackbar.Add("Zdarzenie zostało edytowane pomyślnie!", Severity.Success);
             }
         }
     }

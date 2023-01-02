@@ -3,7 +3,24 @@
 
 <PageTitle>Zarezerwowane bilety</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Zarezerwowane bilety</MudText>
-<MudText Class="mb-4">Poniżej znajduje się lista Twoich biletów.</MudText>
+<MudGrid>
+    <MudItem xs="12">
+        <MudBreadcrumbs Class="pa-0" Items="_items"></MudBreadcrumbs>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" GutterBottom="true">Zarezerwowane bilety</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Class="mb-4">Poniżej znajduje się lista Twoich biletów.</MudText>
+    </MudItem>
+</MudGrid>
 
-<TicketsDataGrid/>
+<TicketsDataGrid />
+
+@code {
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Bilety", href: null, disabled: true),
+    };
+}

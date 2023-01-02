@@ -7,9 +7,16 @@
 
 <PageTitle>Artyści</PageTitle>
 
-<MudText Typo="Typo.h3">Artyści</MudText>
-<MudText Typo="Typo.h4" GutterBottom="true">(@GetSecondaryHeader())</MudText>
 <MudGrid>
+    <MudItem xs="12">
+        <MudBreadcrumbs Class="pa-0" Items="_items"></MudBreadcrumbs>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3">Artyści</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h4" GutterBottom="true">(@GetSecondaryHeader())</MudText>
+    </MudItem>
     <MudItem xs="10">
         <MudText Class="mb-4">Znajdź swoich ulubionych artystów poniżej!</MudText>
     </MudItem>
@@ -25,6 +32,12 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Artyści", href: null, disabled: true),
+    };
 
     protected override async Task OnInitializedAsync()
     {

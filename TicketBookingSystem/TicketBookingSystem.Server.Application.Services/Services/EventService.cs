@@ -127,7 +127,7 @@ namespace TicketBookingSystem.Server.Application.Services
             {
                 events.AddRange(await _eventRepository.GetEventsInNextMonthBySecondaryMusicGenre(user.FavouriteMusicGenre));
             }
-            events = events.Take(4).ToList();
+            events = events.OrderBy(x => x.EventTime).Take(4).ToList();
 
             // Value not nullable then check for 0
             if (user.Age != 0)
@@ -136,11 +136,11 @@ namespace TicketBookingSystem.Server.Application.Services
                 events.AddRange(eventsByAge.Take(2));
             }
 
-            // If still not enough events, add with random upcoming ones
-            if (events.Count < 6)
+            // If still not enough events, fill with random upcoming ones
+            if (events.Count < 4)
             {
-                IEnumerable<Event> upcomingEvents = await _eventRepository.GetAllAsync();
-                events.AddRange(upcomingEvents.OrderBy(x => x.EventTime).Take(6 - events.Count));
+                IEnumerable<Event> upcomingEvents = await _eventRepository.GetEventsAsync(null);
+                events.AddRange(upcomingEvents.OrderBy(x => x.EventTime).Take(4 - events.Count));
             }
 
             return events;

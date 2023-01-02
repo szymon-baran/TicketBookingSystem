@@ -4,11 +4,17 @@
 @using TicketBookingSystem.Shared.Application
 @inject IArtistService ArtistService
 @inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
 
 <PageTitle>Dodaj artystę</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Dodaj artystę</MudText>
 <MudGrid>
+    <MudItem xs="12">
+        <MudBreadcrumbs Class="no-padding" Items="_items"></MudBreadcrumbs>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" GutterBottom="true">Dodaj artystę</MudText>
+    </MudItem>
     <MudItem xs="12" sm="7">
         <MudPaper Class="pa-4">
             <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
@@ -53,6 +59,12 @@
     private ArtistAddEditVM? artistToAdd = new();
     private int secondaryMusicGenreValue;
 
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Artyści", href: "/artists"),
+        new BreadcrumbItem("Nowy artysta", href: null, disabled: true),
+    };
 
     private async Task Submit()
     {
@@ -69,6 +81,7 @@
                 artistToAdd.SecondaryMusicGenre = (MusicGenre)secondaryMusicGenreValue;
             }
             await ArtistService.AddArtist(artistToAdd);
+            Snackbar.Add("Artysta został dodany pomyślnie!", Severity.Success);
         }
     }
 

@@ -4,6 +4,7 @@
 @using TicketBookingSystem.Shared.Application
 @inject IArtistService ArtistService
 @inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
 
 <PageTitle>Artyści - @artistToEdit.NickName</PageTitle>
 
@@ -14,8 +15,13 @@
 else
 {
     <PageTitle>Edytuj artystę</PageTitle>
-    <MudText Typo="Typo.h3" GutterBottom="true">Edytuj artystę</MudText>
     <MudGrid>
+        <MudItem xs="12">
+            <MudBreadcrumbs Class="no-padding" Items="_items"></MudBreadcrumbs>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h3" GutterBottom="true">Edytuj artystę</MudText>
+        </MudItem>
         <MudItem xs="12" sm="7">
             <MudPaper Class="pa-4">
                 <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
@@ -53,21 +59,28 @@ else
     [Parameter]
     public int Id { get; set; }
 
-    private bool success; 
+    private bool success;
     private string[] errors = { };
     private MudForm form;
     private ArtistAddEditVM? artistToEdit = new();
     private int secondaryMusicGenreValue;
 
+    private List<BreadcrumbItem> _items = new()
+    {
+        new BreadcrumbItem("Strona główna", href: "#"),
+        new BreadcrumbItem("Artyści", href: "/artists"),
+    };
+
     protected override async Task OnParametersSetAsync()
     {
         artistToEdit = await ArtistService.GetArtistToEdit(Id);
+        _items.Add(new BreadcrumbItem($"{artistToEdit.NickName}", href: null, disabled: true));
 
         if (artistToEdit.SecondaryMusicGenre.HasValue)
         {
             secondaryMusicGenreValue = (int)artistToEdit.SecondaryMusicGenre.Value;
         }
-        else 
+        else
         {
             secondaryMusicGenreValue = -1;
         }
@@ -88,6 +101,7 @@ else
                 artistToEdit.SecondaryMusicGenre = (MusicGenre)secondaryMusicGenreValue;
             }
             await ArtistService.EditArtist(artistToEdit);
+            Snackbar.Add("Artysta został edytowany pomyślnie!", Severity.Success);
         }
     }
 
