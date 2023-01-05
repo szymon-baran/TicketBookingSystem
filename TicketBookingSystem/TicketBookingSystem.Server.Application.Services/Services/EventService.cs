@@ -122,33 +122,93 @@ namespace TicketBookingSystem.Server.Application.Services
             return id;
         }
 
-        public async Task<List<Event>> GetEventsForUserRecommendation(string userId)
+        #region UserRecommendation
+
+        public async Task<List<RecommendedEventVM>> GetEventsForUserRecommendation(string userId)
         {
-            ApplicationUser user = await _userRepository.FirstOrDefaultAsync(x => x.Id == userId);
-            List<Event> events = await _eventRepository.GetEventsInNextMonthByPrimaryMusicGenre(user.FavouriteMusicGenre);
+            ApplicationUser user = await _userRepository.GetUserDetailsById(userId);
+            List<RecommendedEventVM> eventsWithReason = new();
+            List<Event> events = await _eventRepository.GetEventsInNextYearByPrimaryMusicGenre(user.FavouriteMusicGenre);
 
             // If not enough events by primary genre, fill with secondary ones
             if (events.Count < 4)
             {
-                events.AddRange(await _eventRepository.GetEventsInNextMonthBySecondaryMusicGenre(user.FavouriteMusicGenre));
+                events.AddRange(await _eventRepository.GetEventsInNextYearBySecondaryMusicGenre(user.FavouriteMusicGenre));
             }
-            events = events.OrderBy(x => x.EventTime).Take(4).ToList();
+            eventsWithReason.AddRange(events.OrderBy(x => x.EventTime).Take(4).Select(x => new RecommendedEventVM()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                PhotoUrl = x.PhotoUrl,
+                RecommendationReason = RecommendationReason.FavouriteMusicGenre
+            }));
 
             // Value not nullable then check for 0
             if (user.Age != 0)
             {
-                IEnumerable<Event> eventsByAge = await _eventRepository.GetEventsInNextMonthByUserAge(user.Age);
-                events.AddRange(eventsByAge.Take(2));
+                IEnumerable<Event> eventsByAge = await _eventRepository.GetEventsInNextYearByUserAge(user.Age);
+                eventsByAge = eventsByAge.Where(x => !events.Contains(x));
+                eventsWithReason.AddRange(eventsByAge.Take(2).Select(x => new RecommendedEventVM()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    PhotoUrl = x.PhotoUrl,
+                    RecommendationReason = RecommendationReason.Age
+                }));
+            }
+
+            Event eventByPreviouslyPurchasedMusicGenre = await GetEventByPreviouslyPurchasedMusicGenre(user);
+            if (eventByPreviouslyPurchasedMusicGenre != null)
+            {
+                eventsWithReason.Add(new()
+                {
+                    Id = eventByPreviouslyPurchasedMusicGenre.Id,
+                    Name = eventByPreviouslyPurchasedMusicGenre.Name,
+                    PhotoUrl = eventByPreviouslyPurchasedMusicGenre.PhotoUrl,
+                    RecommendationReason = RecommendationReason.PreviouslyPurchasedTicketGenre
+                });
             }
 
             // If still not enough events, fill with random upcoming ones
             if (events.Count < 4)
             {
                 IEnumerable<Event> upcomingEvents = await _eventRepository.GetEventsAsync(null);
-                events.AddRange(upcomingEvents.OrderBy(x => x.EventTime).Take(4 - events.Count));
+                upcomingEvents = upcomingEvents.Where(x => !events.Contains(x));
+                eventsWithReason.AddRange(upcomingEvents.OrderBy(x => x.EventTime).Take(4 - events.Count).Select(x => new RecommendedEventVM()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    PhotoUrl = x.PhotoUrl,
+                    RecommendationReason = RecommendationReason.Age
+                }));
             }
 
-            return events;
+            return eventsWithReason;
         }
+
+        private async Task<Event> GetEventByPreviouslyPurchasedMusicGenre(ApplicationUser user)
+        {
+            if (user.Tickets.Any())
+            {
+                MusicGenre? musicGenre = user.Tickets.AsEnumerable().FirstOrDefault(x => x.Event.Artist.PrimaryMusicGenre != user.FavouriteMusicGenre
+                                                                                        || x.Event.Artist.SecondaryMusicGenre != user.FavouriteMusicGenre)?.Event.Artist.PrimaryMusicGenre;
+                if (musicGenre.HasValue)
+                {
+                    List<Event> eventsByPreviouslyPurchasedMusicGenre = await _eventRepository.GetEventsInNextYearByPrimaryMusicGenre(musicGenre.Value);
+                    if (eventsByPreviouslyPurchasedMusicGenre.Count > 0)
+                    {
+                        return eventsByPreviouslyPurchasedMusicGenre.First();
+                    }
+                    eventsByPreviouslyPurchasedMusicGenre = await _eventRepository.GetEventsInNextYearBySecondaryMusicGenre(musicGenre.Value);
+                    if (eventsByPreviouslyPurchasedMusicGenre.Count > 0)
+                    {
+                        return eventsByPreviouslyPurchasedMusicGenre.First();
+                    }
+                }
+            }
+            return null;
+        }
+
+        #endregion
     }
 }

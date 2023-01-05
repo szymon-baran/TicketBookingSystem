@@ -140,6 +140,8 @@ namespace TicketBookingSystem
                 administrator.Email = email;
                 administrator.UserName = "admin@admin.com";
                 administrator.EmailConfirmed = true;
+                administrator.FavouriteMusicGenre = Shared.Dictionaries.MusicGenre.Rock;
+                administrator.Age = 20;
 
                 Task<IdentityResult> newUser = userManager.CreateAsync(administrator, "Admin1!");
                 newUser.Wait();

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using TicketBookingSystem.Client.Shared.Events
 @using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
 
@@ -6,32 +7,55 @@
 
 <MudText Typo="Typo.h3" GutterBottom="true">System rezerwacji biletów</MudText>
 <MudText Class="mb-8">Sposób na wyszukanie biletów na wydarzenia muzyczne w najlepszych cenach!</MudText>
-<AuthorizeView>
+<AuthorizeView Context="authorizeViewContext">
     <NotAuthorized>
         <MudAlert Severity="Severity.Info">Aby uzyskać dostęp do pełnej wersji serwisu, zaloguj się <MudLink href="authentication/login" Typo="Typo.subtitle2" Color="Color.Inherit">tutaj</MudLink>.</MudAlert>
+        <MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+            <ItemTemplate>
+                <div class="d-flex flex-column flex-column" style="height:100%">
+                    <MudText Align="Align.Center" Style="font-size:20px;">@eventNames[selectedIndex]</MudText>
+                    <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" Src="@eventPhotoUrls[selectedIndex]" Fluid="true"></MudImage>
+                </div>
+            </ItemTemplate>
+        </MudCarousel>
     </NotAuthorized>
 </AuthorizeView>
-<MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
-    <ItemTemplate>
-        <div class="d-flex flex-column flex-column" style="height:100%">
-            <MudText Align="Align.Center" Style="font-size:20px;">@eventNames[selectedIndex]</MudText>
-            <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" Src="@eventPhotoUrls[selectedIndex]" Fluid="true"></MudImage>
-        </div>
-    </ItemTemplate>
-</MudCarousel>
+<AuthorizeView>
+    <Authorized>
+        @if (EventService.EventsForUserRecommendation != null && EventService.EventsForUserRecommendation.Count > 0)
+        {
+            <RecommendedEventsCarousel></RecommendedEventsCarousel>
+        }
+    </Authorized>
+</AuthorizeView>
 @code {
     private int selectedIndex = 0;
     List<string> eventPhotoUrls = new();
     List<string> eventNames = new();
 
+    [CascadingParameter]
+    private Task<AuthenticationState> _authStateTask { get; set; }
+
+
     protected override async Task OnInitializedAsync()
     {
-        await EventService.GetEventsList(TicketBookingSystem.Shared.Dictionaries.MusicGenre.None);
+        var authState = await _authStateTask;
+        var user = authState.User;
+        var isAuthenticated = user.Identity?.IsAuthenticated ?? false;
 
-        foreach (var item in EventService.Events)
+        if (isAuthenticated)
         {
-            eventPhotoUrls.Add(item.PhotoUrl);
-            eventNames.Add(item.Name);
+            await EventService.GetEventsForUserRecommendation();
         }
+        else
+        {
+            await EventService.GetEventsList(TicketBookingSystem.Shared.Dictionaries.MusicGenre.None);
+            foreach (var item in EventService.Events)
+            {
+                eventPhotoUrls.Add(item.PhotoUrl);
+                eventNames.Add(item.Name);
+            }
+        }
+
     }
 }

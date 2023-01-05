@@ -24,7 +24,7 @@ namespace TicketBookingSystem.Client.Services
         }
 
         public List<Event>? Events { get; set; } = null;
-        public List<Event>? EventsForUserRecommendation { get; set; } = null;
+        public List<RecommendedEventVM>? EventsForUserRecommendation { get; set; } = null;
         public EventAddEditVM Event { get; set; }
 
         public async Task GetEventsList(MusicGenre id = MusicGenre.None)
@@ -38,7 +38,7 @@ namespace TicketBookingSystem.Client.Services
 
         public async Task GetEventsForUserRecommendation()
         {
-            List<Event>? events = await _httpClient.GetFromJsonAsync<List<Event>>($"{_api}/getEventsForUserRecommendation");
+            List<RecommendedEventVM>? events = await _httpClient.GetFromJsonAsync<List<RecommendedEventVM>>($"{_api}/getEventsForUserRecommendation");
             if (events != null)
             {
                 EventsForUserRecommendation = events;

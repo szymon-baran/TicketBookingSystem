@@ -14,26 +14,25 @@ namespace TicketBookingSystem.Server.Data.Repositories
 
         public async Task<List<Event>> GetEventsAsync(int? musicGenreParam)
         {
-            List<Event> events = await _context.Events.Where(x => x.EventTime > DateTime.Now.AddHours(-24))
+            MusicGenre musicGenre = musicGenreParam.HasValue ? (MusicGenre)musicGenreParam : MusicGenre.None;
+            List<Event> events = await _context.Events.Where(x => x.EventTime > DateTime.Now.AddHours(-24) &&
+                                        (musicGenre == MusicGenre.None ||
+                                        x.Artist.PrimaryMusicGenre == musicGenre ||
+                                        x.Artist.SecondaryMusicGenre == musicGenre))
                                         .Include(x => x.Artist)
                                         .Include(x => x.Place)
+                                        .OrderBy(x => x.EventTime)
                                         .ToListAsync();
-
-            if (musicGenreParam != null)
-            {
-                MusicGenre musicGenre = (MusicGenre)musicGenreParam;
-                events = events.Where(x => musicGenre == MusicGenre.None || x.Artist.PrimaryMusicGenre == musicGenre || x.Artist.SecondaryMusicGenre == musicGenre).ToList();
-            }
 
             return events;
         }
 
-        public async Task<List<Event>> GetEventsInNextMonthByPrimaryMusicGenre(MusicGenre musicGenre)
+        public async Task<List<Event>> GetEventsInNextYearByPrimaryMusicGenre(MusicGenre musicGenre)
         {
             List<Event> events = await _context.Events.Include(x => x.Artist)
                                                 .Include(x => x.Place)
                                                 .Where(x => x.EventTime > DateTime.Now
-                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.EventTime < DateTime.Now.AddYears(1)
                                                             && x.Artist.PrimaryMusicGenre == musicGenre)
                                                 .OrderBy(x => x.EventTime)
                                                 .ToListAsync();
@@ -41,12 +40,12 @@ namespace TicketBookingSystem.Server.Data.Repositories
             return events;
         }
 
-        public async Task<List<Event>> GetEventsInNextMonthBySecondaryMusicGenre(MusicGenre musicGenre)
+        public async Task<List<Event>> GetEventsInNextYearBySecondaryMusicGenre(MusicGenre musicGenre)
         {
             List<Event> events = await _context.Events.Include(x => x.Artist)
                                                 .Include(x => x.Place)
                                                 .Where(x => x.EventTime > DateTime.Now
-                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.EventTime < DateTime.Now.AddYears(1)
                                                             && x.Artist.SecondaryMusicGenre == musicGenre)
                                                 .OrderBy(x => x.EventTime)
                                                 .ToListAsync();
@@ -54,12 +53,12 @@ namespace TicketBookingSystem.Server.Data.Repositories
             return events;
         }
 
-        public async Task<List<Event>> GetEventsInNextMonthByUserAge(int userAge)
+        public async Task<List<Event>> GetEventsInNextYearByUserAge(int userAge)
         {
             List<Event> events = await _context.Events.Include(x => x.Artist)
                                                 .Include(x => x.Place)
                                                 .Where(x => x.EventTime > DateTime.Now
-                                                            && x.EventTime < DateTime.Now.AddMonths(1)
+                                                            && x.EventTime < DateTime.Now.AddYears(1)
                                                             && x.Artist.AverageFanbaseAge > ((int)Math.Floor(0.8 * userAge))
                                                             && x.Artist.AverageFanbaseAge < ((int)Math.Floor(1.2 * userAge)))
                                                 .OrderBy(x => x.EventTime)

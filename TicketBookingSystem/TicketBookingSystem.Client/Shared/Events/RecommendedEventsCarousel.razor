@@ -5,11 +5,11 @@
 @inject NavigationManager NavigationManager
 @inject IDialogService Dialog
 
-<MudText Class="mb-4">Może zainteresuje Cię również jedno z poniższych wydarzeń?</MudText>
 <MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@EventService.EventsForUserRecommendation" @bind-SelectedIndex="_selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
     <ItemTemplate>
         <div class="d-flex flex-column flex-column pointer" style="height:100%">
             <MudText Align="Align.Center" Style="font-size:20px;">@EventService.EventsForUserRecommendation[_selectedIndex].Name</MudText>
+            <MudText Align="Align.Center" Style="font-size:12px;" Class="mb-2">@GetReasonText(@EventService.EventsForUserRecommendation[_selectedIndex].RecommendationReason)</MudText>
             <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" @onclick="(() => OpenBuyTicketPopup(EventService.EventsForUserRecommendation[_selectedIndex].Id, EventService.EventsForUserRecommendation[_selectedIndex].Name))" Src="@EventService.EventsForUserRecommendation[_selectedIndex].PhotoUrl" Fluid="true"></MudImage>
         </div>
     </ItemTemplate>
@@ -33,6 +33,17 @@
         {
 
         }
+    }
+    private string GetReasonText(RecommendationReason recommendationReason)
+    {
+        return recommendationReason switch
+        {
+            RecommendationReason.FavouriteMusicGenre => "Wybraliśmy to, ponieważ wskazałeś, że to Twój ulubiony gatunek muzyczny.",
+            RecommendationReason.Age => "Wybraliśmy to, ponieważ ludzie w Twoim wieku lubią tego artystę.",
+            RecommendationReason.Location => "Wybraliśmy to, ponieważ ta lokalizacja jest Ci dobrze znana.",
+            RecommendationReason.PreviouslyPurchasedTicketGenre => "Wybraliśmy to, ponieważ niedawno zakupiłeś bilet na wydarzenie z tego gatunku.",
+            _ => "Wybraliśmy to, ponieważ mamy nadzieję, że Ci się spodoba.",
+        };
     }
 }
 <style>

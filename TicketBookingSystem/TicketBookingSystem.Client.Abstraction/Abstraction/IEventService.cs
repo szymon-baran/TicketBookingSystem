@@ -7,7 +7,7 @@ namespace TicketBookingSystem.Client.Abstraction
     public interface IEventService
     {
         List<Event> Events { get; set; }
-        List<Event> EventsForUserRecommendation { get; set; }
+        List<RecommendedEventVM> EventsForUserRecommendation { get; set; }
         EventAddEditVM Event { get; set; }
         Task GetEventsList(MusicGenre id = MusicGenre.None);
         Task GetEventsForUserRecommendation();

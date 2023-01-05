@@ -75,13 +75,15 @@
                 }
                 else
                 {
+                    <MudText>Dziękujemy za zakupy!</MudText>
+                    <MudText Class="mb-4">Może zainteresuje Cię również jedno z poniższych wydarzeń?</MudText>
                     <RecommendedEventsCarousel></RecommendedEventsCarousel>
                 }
             }
         </MudContainer>
     </DialogContent>
     <DialogActions>
-        @if (!_isLoading) 
+        @if (!_isLoading)
         {
             @if (!_isOperationSuccess)
             {
@@ -89,7 +91,7 @@
                 <MudButton OnClick="Cancel">Anuluj</MudButton>
                 <MudButton Color="Color.Primary" OnClick="Submit">Potwierdź zakup</MudButton>
             }
-            else 
+            else
             {
                 <MudButton OnClick="Cancel">Zamknij</MudButton>
             }
