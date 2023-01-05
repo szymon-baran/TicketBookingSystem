@@ -40,9 +40,11 @@
                         </MudItem>
                         <MudItem xs="3" Class="align-self-center flex-1 text-align px-12">
                             <AuthorizeView Context="authorizeContext">
-                                <div>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth @onclick="@(() => OpenBuyTicketPopup(context.Item.Id, context.Item.Name))">Kup bilet</MudButton>
-                                </div>
+                                @if (context.Item.EventTime > DateTime.Now.AddHours(1) && (context.Item.AvailableSittingTickets > 0 || context.Item.AvailableStandingTickets > 0)) {
+                                    <div>
+                                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="py-4" FullWidth @onclick="@(() => OpenBuyTicketPopup(context.Item.Id, context.Item.Name))">Kup bilet</MudButton>
+                                    </div>
+                                }
                             </AuthorizeView>
                             <AuthorizeView Context="authorizeContext" Roles="Administrator">
                                 <div>

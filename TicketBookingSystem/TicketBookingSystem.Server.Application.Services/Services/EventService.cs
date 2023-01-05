@@ -61,7 +61,12 @@ namespace TicketBookingSystem.Server.Application.Services
                 EventTime = @event.EventTime,
                 PhotoUrl = @event.PhotoUrl,
                 ArtistId = @event.ArtistId,
-                PlaceId = @event.PlaceId
+                PlaceId = @event.PlaceId,
+                AvailableSittingTickets = @event.AvailableSittingTickets,
+                AvailableStandingTickets = @event.AvailableStandingTickets,
+                SittingTicketPrice = @event.SittingTicketPrice,
+                StandingTicketPrice = @event.StandingTicketPrice,
+                ReducedDiscount = @event.ReducedDiscount
             };
         }
 
