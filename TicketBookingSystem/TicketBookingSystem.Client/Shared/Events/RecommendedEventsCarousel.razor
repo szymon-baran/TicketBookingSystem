@@ -5,10 +5,10 @@
 @inject NavigationManager NavigationManager
 @inject IDialogService Dialog
 
-<MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@EventService.EventsForUserRecommendation" @bind-SelectedIndex="_selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+<MudCarousel Class="mud-width-full rounded-lg border-solid border-2 mud-border-primary" Style="height:60vh; width:100%;" ItemsSource="@EventService.EventsForUserRecommendation" @bind-SelectedIndex="_selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
     <ItemTemplate>
-        <div class="d-flex flex-column flex-column pointer" style="height:100%">
-            <MudText Align="Align.Center" Style="font-size:20px;">@EventService.EventsForUserRecommendation[_selectedIndex].Name</MudText>
+        <div class="d-flex flex-column flex-column pointer" style="height:100%; background-color: rgba(0, 0, 0, 0.15)">
+            <MudText Align="Align.Center" Style="font-size:20px;" Class="mt-2">@EventService.EventsForUserRecommendation[_selectedIndex].Name</MudText>
             <MudText Align="Align.Center" Style="font-size:12px;" Class="mb-2">@GetReasonText(@EventService.EventsForUserRecommendation[_selectedIndex].RecommendationReason)</MudText>
             <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" @onclick="(() => OpenBuyTicketPopup(EventService.EventsForUserRecommendation[_selectedIndex].Id, EventService.EventsForUserRecommendation[_selectedIndex].Name))" Src="@EventService.EventsForUserRecommendation[_selectedIndex].PhotoUrl" Fluid="true"></MudImage>
         </div>

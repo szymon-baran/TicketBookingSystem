@@ -9,11 +9,11 @@
 <MudText Class="mb-8">Sposób na wyszukanie biletów na wydarzenia muzyczne w najlepszych cenach!</MudText>
 <AuthorizeView Context="authorizeViewContext">
     <NotAuthorized>
-        <MudAlert Severity="Severity.Info">Aby uzyskać dostęp do pełnej wersji serwisu, zaloguj się <MudLink href="authentication/login" Typo="Typo.subtitle2" Color="Color.Inherit">tutaj</MudLink>.</MudAlert>
-        <MudCarousel Class="mud-width-full" Style="height:500px; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
+        <MudAlert Severity="Severity.Info">Aby uzyskać dostęp do pełnej wersji serwisu i otrzymać rekomendacje dobrane do Twojego profilu, zaloguj się <MudLink href="authentication/login" Typo="Typo.subtitle2" Color="Color.Inherit">tutaj</MudLink>.</MudAlert>
+        <MudCarousel Class="mud-width-full rounded-lg border-solid border-2 mud-border-primary mt-4" Style="height:50vh; width:100%;" ItemsSource="@eventPhotoUrls" @bind-SelectedIndex="selectedIndex" ShowArrows="true" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true">
             <ItemTemplate>
-                <div class="d-flex flex-column flex-column" style="height:100%">
-                    <MudText Align="Align.Center" Style="font-size:20px;">@eventNames[selectedIndex]</MudText>
+                <div class="d-flex flex-column flex-column pointer" style="height:100%; background-color: rgba(0, 0, 0, 0.15)">
+                    <MudText Align="Align.Center" Style="font-size:20px;" Class="mt-2 mb-2">@eventNames[selectedIndex]</MudText>
                     <MudImage ObjectPosition="ObjectPosition.Top" Style="width:100%;" Src="@eventPhotoUrls[selectedIndex]" Fluid="true"></MudImage>
                 </div>
             </ItemTemplate>
