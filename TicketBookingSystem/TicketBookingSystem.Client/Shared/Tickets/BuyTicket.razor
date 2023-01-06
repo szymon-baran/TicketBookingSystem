@@ -1,4 +1,7 @@
-﻿@using TicketBookingSystem.Client.Shared.Events
+﻿@using PESEL.Models
+@using PESEL.ValidationResults.Impl
+@using PESEL.Validators.Impl
+@using TicketBookingSystem.Client.Shared.Events
 @using TicketBookingSystem.Shared.Dictionaries
 @using TicketBookingSystem.Shared.Domain
 @inject IEventService EventService
@@ -8,7 +11,7 @@
 
 <MudDialog>
     <DialogContent>
-        <MudContainer Style="max-height: 600px; overflow-y: scroll">
+        <MudContainer Style="max-height: 650px; overflow-y: scroll">
             @if (_isLoading)
             {
                 <MudProgressCircular Indeterminate="true"></MudProgressCircular>
@@ -45,7 +48,7 @@
                                             <MudTextField @bind-Value="item.OwnerLastName" Label="Nazwisko" Variant="Variant.Text" Required="true" RequiredError="Nazwisko jest wymagane!" />
                                         </MudItem>
                                         <MudItem xs="4" Class="mt-2">
-                                            <MudNumericField HideSpinButtons="true" @bind-Value="item.OwnerPESEL" Label="PESEL" Variant="Variant.Text" Required="true" RequiredError="PESEL jest wymagany!" />
+                                            <MudNumericField HideSpinButtons="true" @bind-Value="item.OwnerPESEL" Label="PESEL" Variant="Variant.Text" Required="true" RequiredError="PESEL jest wymagany!" Validation="@(new Func<long, string>(ValidatePESEL))" />
                                         </MudItem>
                                         <MudItem xs="4" Class="mt-1">
                                             <MudSelect @bind-Value="item.TicketType" Label="Typ biletu">
@@ -114,6 +117,7 @@
     private bool _success;
     private string _noAvailableTicketsText = null;
     private Dictionary<int, string> _ticketTypes = new();
+    private PeselValidator validator = new();
     public BuyOperationVM model = new();
 
     protected override async Task OnInitializedAsync()
@@ -143,6 +147,13 @@
     double GetSummaryPrice()
     {
         return model.Tickets.Sum(x => x.Price);
+    }
+
+    private string ValidatePESEL(long pesel)
+    {
+        Entity entity = new(pesel.ToString());
+        ValidationResult validationResult = validator.Validate(entity);
+        return validationResult.Message;
     }
 
     async Task Submit()
