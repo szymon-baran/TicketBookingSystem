@@ -330,7 +330,7 @@ namespace TicketBookingSystem.Server.EntityFramework
                 new Event
                 {
                     Name = "Ozzy Osbourne No More Tours 2 (Kraków)",
-                    ArtistId = context.Artists.FirstOrDefault(x => x.NickName == "Post Malone").Id,
+                    ArtistId = context.Artists.FirstOrDefault(x => x.NickName == "Ozzy Osbourne").Id,
                     PlaceId = context.Places.FirstOrDefault(x => x.Name == "Stadion Narodowy w Warszawie").Id,
                     CreatedTime = DateTime.Now,
                     EventTime = new DateTime(2023, 3, 19, 20, 00, 00),

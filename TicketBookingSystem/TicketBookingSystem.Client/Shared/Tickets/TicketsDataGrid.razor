@@ -19,7 +19,18 @@ else
         <Columns>
             <Column T="ReservedTicketVM" Field="EventName" Title="Nazwa wydarzenia" />
             <Column T="ReservedTicketVM" Field="EventTime" Title="Data wydarzenia" CellStyleFunc="@GetDateStyle" />
-            <Column T="ReservedTicketVM" Field="IsSittingSpot" Title="Miejsce siedzące" />
+            <Column T="ReservedTicketVM" Field="IsSittingSpot" Title="Miejsce siedzące">
+                <CellTemplate>
+                    @if(@context.Item.IsSittingSpot)
+                    {
+                       <MudIcon Icon="@Icons.Material.Filled.CheckBox" />
+                    }
+                    else
+                    {
+                        <MudIcon Icon="@Icons.Material.Filled.CheckBoxOutlineBlank" />
+                    }
+                </CellTemplate>
+            </Column>
             <Column T="ReservedTicketVM" Field="TicketTypeName" Title="Typ biletu" />
             <Column T="ReservedTicketVM" Field="OwnerFirstName" Title="Imię" />
             <Column T="ReservedTicketVM" Field="OwnerLastName" Title="Nazwisko" />
